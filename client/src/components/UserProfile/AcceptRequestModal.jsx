@@ -34,7 +34,7 @@ function AcceptRequestModal({ request, onClose }) {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
-    : 'https://be-v50-tier3-team-28.onrender.com/api';
+    : 'https://the-bee-saving-project-api.onrender.com/api';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -125,21 +125,21 @@ function AcceptRequestModal({ request, onClose }) {
     customInputStyles,
     errorMessage,
   }) => (
-    <div className="flex items-center text-gray-700 mb-1 text-left">
-      <span className="font-bold text-base mr-2">{label}:</span>
+    <div className='flex items-center text-gray-700 mb-1 text-left'>
+      <span className='font-bold text-base mr-2'>{label}:</span>
       {isEditable ? (
         <input
-          type="text"
+          type='text'
           name={name}
           value={value}
           onChange={onChange}
           className={customInputStyles}
         />
       ) : (
-        <span className="text-sm">{value}</span>
+        <span className='text-sm'>{value}</span>
       )}
       {error && (
-        <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+        <p className='text-red-500 text-sm text-center'>{errorMessage}</p>
       )}
     </div>
   );
@@ -167,23 +167,23 @@ function AcceptRequestModal({ request, onClose }) {
   // 	}
   // };
   return (
-    <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-gray-500 bg-opacity-75 transition-opacity">
-      <div className="p-8 w-full max-w-lg max-h-full">
-        <div className="border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none">
-          <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
-            <h3 className="text-xl font-semibold">Request Details</h3>
+    <div className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-gray-500 bg-opacity-75 transition-opacity'>
+      <div className='p-8 w-full max-w-lg max-h-full'>
+        <div className='border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none'>
+          <div className='flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t'>
+            <h3 className='text-xl font-semibold'>Request Details</h3>
             <button
-              className="bg-transparent border-0 text-black float-right"
+              className='bg-transparent border-0 text-black float-right'
               onClick={onClose}
             >
-              <span className="text-black h-6 w-6 block bg-gray-400 rounded-full">
+              <span className='text-black h-6 w-6 block bg-gray-400 rounded-full'>
                 X
               </span>
             </button>
           </div>
 
-          <div className="p-8 flex flex-col ">
-            <div className="text-gray-700 mb-6 text-left">
+          <div className='p-8 flex flex-col '>
+            <div className='text-gray-700 mb-6 text-left'>
               {renderField({
                 label: 'Title',
                 name: 'title',
@@ -204,18 +204,18 @@ function AcceptRequestModal({ request, onClose }) {
                 errorMessage: 'errors.location',
                 customInputStyles: customInputStyles,
               })}
-              <div className=" text-gray-700 mb-1 text-left">
-                <span className="font-bold text-base mr-2">Description: </span>
+              <div className=' text-gray-700 mb-1 text-left'>
+                <span className='font-bold text-base mr-2'>Description: </span>
                 {isEditable ? (
                   <textarea
-                    name="description"
+                    name='description'
                     value={formData.description}
                     onChange={handleInputChange}
                     className={customInputStyles + ' w-full h-28'}
                   />
                 ) : (
                   <>
-                    <span className="text-sm">
+                    <span className='text-sm'>
                       {isDescriptionExpanded
                         ? acceptedRequest?.description
                         : `${acceptedRequest?.description?.slice(0, 200)}${
@@ -227,7 +227,7 @@ function AcceptRequestModal({ request, onClose }) {
                     {acceptedRequest?.description?.length > 200 && (
                       <button
                         onClick={toggleDescription}
-                        className="text-blue-500 underline ml-2 text-xs"
+                        className='text-blue-500 underline ml-2 text-xs'
                       >
                         {isDescriptionExpanded ? 'Show Less' : 'Show More'}
                       </button>
@@ -257,17 +257,17 @@ function AcceptRequestModal({ request, onClose }) {
                 customInputStyles: customInputStyles,
               })}
 
-              <div className="flex text-gray-700 mb-1 text-left">
-                <span className="font-bold text-base mr-2">
+              <div className='flex text-gray-700 mb-1 text-left'>
+                <span className='font-bold text-base mr-2'>
                   Contact Number :
                 </span>
-                <span className="text-sm grow">
+                <span className='text-sm grow'>
                   {isRequestAccepted ? (
                     <>
                       {isEditable ? (
                         <input
-                          type="text"
-                          name="contactNumber"
+                          type='text'
+                          name='contactNumber'
                           value={formData.contactNumber}
                           onChange={handleInputChange}
                           className={customInputStyles}
@@ -282,9 +282,9 @@ function AcceptRequestModal({ request, onClose }) {
                   )}
                 </span>
               </div>
-              <div className="text-gray-700 mb-1 text-left">
-                <span className="font-bold text-base mr-2">Email :</span>
-                <span className="text-sm">
+              <div className='text-gray-700 mb-1 text-left'>
+                <span className='font-bold text-base mr-2'>Email :</span>
+                <span className='text-sm'>
                   {isRequestAccepted ? (
                     <>
                       {acceptedRequest?.beefinder?.email ||
@@ -296,7 +296,7 @@ function AcceptRequestModal({ request, onClose }) {
                 </span>
               </div>
             </div>
-            <div className="flex justify-between w-full mb-4">
+            <div className='flex justify-between w-full mb-4'>
               {!acceptedRequest?.isCompleted ? (
                 <>
                   <AcceptRequestCall
@@ -319,16 +319,16 @@ function AcceptRequestModal({ request, onClose }) {
                         onComplete={handleCompleteRequest}
                       />
                     )}
-                  <div className="flex space-x-4">
+                  <div className='flex space-x-4'>
                     {isRequestPostedByUser && (
                       <button
-                        className="border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
-                        type="button"
+                        className='border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150'
+                        type='button'
                         onClick={handleSubmit}
                       >
                         {!isEditable ? (
                           <>
-                            <i className="fas fa-edit mr-2"></i> Edit
+                            <i className='fas fa-edit mr-2'></i> Edit
                           </>
                         ) : (
                           'Save'
@@ -338,13 +338,13 @@ function AcceptRequestModal({ request, onClose }) {
                   </div>
                 </>
               ) : (
-                <div className="flex w-full">
-                  <span className="text-green-500 font-bold grow">
+                <div className='flex w-full'>
+                  <span className='text-green-500 font-bold grow'>
                     Completed ✅
                   </span>
                   <button
-                    className="border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
-                    type="button"
+                    className='border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150'
+                    type='button'
                     onClick={onClose}
                   >
                     Close

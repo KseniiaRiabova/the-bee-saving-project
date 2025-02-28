@@ -6,7 +6,7 @@ This API provides endpoints to manage requests and user information. Users can c
 
 ## Base URL
 
-- **Main branch (Deployment)**: `https://be-v50-tier3-team-28.onrender.com/api`
+- **Main branch (Deployment)**: `https://the-bee-saving-project-api.onrender.com/api`
 - **Development branch (Local)**: `http://localhost:3003/api`
 
 ## Requests API

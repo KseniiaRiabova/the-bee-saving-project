@@ -6,7 +6,7 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
-    : 'https://be-v50-tier3-team-28.onrender.com/api';
+    : 'https://the-bee-saving-project-api.onrender.com/api';
 
   const handleAcceptRequest = async () => {
     try {
@@ -17,11 +17,11 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            beekeeperId: user.sub
-          })
+            beekeeperId: user.sub,
+          }),
         }
       );
 
@@ -42,12 +42,13 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
   return (
     <div>
       {selectedRequest?.isAccepted ? (
-        <span className="text-green-500 font-bold">Accepted ✅</span>
+        <span className='text-green-500 font-bold'>Accepted ✅</span>
       ) : (
         <button
           className={`font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 bg-[#F4743B] text-white`}
-          type="button"
-          onClick={handleAcceptRequest}>
+          type='button'
+          onClick={handleAcceptRequest}
+        >
           Accept
         </button>
       )}
@@ -57,7 +58,7 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
 
 AcceptRequestCall.propTypes = {
   selectedRequest: PropTypes.object.isRequired,
-  onSuccess: PropTypes.func.isRequired
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default AcceptRequestCall;

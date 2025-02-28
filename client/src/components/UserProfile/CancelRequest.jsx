@@ -7,7 +7,7 @@ const CancelRequest = ({ request, onCancel }) => {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
-    : 'https://be-v50-tier3-team-28.onrender.com/api';
+    : 'https://the-bee-saving-project-api.onrender.com/api';
   const handleCancelRequest = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
@@ -32,7 +32,7 @@ const CancelRequest = ({ request, onCancel }) => {
   return (
     <button
       onClick={handleCancelRequest}
-      className="border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+      className='border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150'
     >
       Cancel
     </button>

@@ -25,7 +25,7 @@ export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
-    : 'https://be-v50-tier3-team-28.onrender.com/api';
+    : 'https://the-bee-saving-project-api.onrender.com/api';
 
   const fetchUserData = useCallback(async () => {
     try {
