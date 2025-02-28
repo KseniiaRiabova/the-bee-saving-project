@@ -32,7 +32,7 @@ app.use(express.json());
 
 const determineOrigin = (origin, callback) => {
   const allowedOrigins = [
-    'https://v50-tier3-team-28.onrender.com',
+    'https://the-bee-saving-project.onrender.com',
     'http://localhost:5173',
   ];
   if (allowedOrigins.includes(origin) || !origin) {
