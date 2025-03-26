@@ -15,14 +15,16 @@ const tableCustomStyles = {
   },
 };
 
-export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
+export const RequestComponent = ({ fixedHeader }) => {
+  // export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
   const { getAccessTokenSilently, user } = useAuth0();
   const [requestData, setRequestData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
+  // const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
     : 'https://the-bee-saving-project-api.onrender.com/api';
@@ -103,5 +105,5 @@ export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
 };
 RequestComponent.propTypes = {
   fixedHeader: PropTypes.bool,
-  fixedHeaderScrollHeight: PropTypes.string,
+  // fixedHeaderScrollHeight: PropTypes.string,
 };

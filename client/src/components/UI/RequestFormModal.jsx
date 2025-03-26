@@ -24,7 +24,8 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     isAccepted: false,
   });
 
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
+  // const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
     : 'https://the-bee-saving-project-api.onrender.com/api';
