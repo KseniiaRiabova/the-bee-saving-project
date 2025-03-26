@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import PropTypes from 'prop-types';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import AcceptRequestModal from './AcceptRequestModal';
 
 import columns from './requestTableColumns';
@@ -32,19 +32,45 @@ export const RequestComponent = ({ fixedHeader }) => {
   const fetchUserData = useCallback(async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await axios.get(`${apiUrl}/requests`, {
+      const response = await fetch(`${apiUrl}/requests`, {
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const data = response.data.requests;
-      setRequestData(data);
-      setLoading(false);
-    } catch (e) {
-      console.error(e);
+
+      if (!response.ok) {
+        throw new Error('Failed to cancel the request');
+      }
+
+      if (response.ok) {
+        const data = response.data.requests;
+        setRequestData(data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Failed to cancel the request:', error);
+      console.error(error);
       setLoading(false);
     }
   }, [getAccessTokenSilently, apiUrl]);
+
+  // const fetchUserData = useCallback(async () => {
+  //   try {
+  //     const accessToken = await getAccessTokenSilently();
+  //     const response = await axios.get(`${apiUrl}/requests`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     const data = response.data.requests;
+  //     setRequestData(data);
+  //     setLoading(false);
+  //   } catch (e) {
+  //     console.error(e);
+  //     setLoading(false);
+  //   }
+  // }, [getAccessTokenSilently, apiUrl]);
 
   useEffect(() => {
     fetchUserData();

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
+// import axios from 'axios';
 import CancelRequest from './CancelRequest';
 import AcceptRequestCall from './AcceptRequestCall';
 import CompleteRequest from './CompleteRequest';
@@ -54,16 +54,23 @@ function AcceptRequestModal({ request, onClose }) {
         },
       };
       const accessToken = await getAccessTokenSilently();
-      const response = await axios.put(
-        `${apiUrl}/requests/${request.id}`,
-        validationData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log('response', response.data.request);
+
+      const response = await fetch(`${apiUrl}/requests/${request.id}`, validationData, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to cancel the request');
+      }
+
+      if (response.ok) {
+        const data = response.data.requests;
+        console.log('response - data', data);
+        console.log('response', response.data.request);
+      }
     } catch (error) {
       let validationErrors = {};
       if (error) {
@@ -73,6 +80,46 @@ function AcceptRequestModal({ request, onClose }) {
       setErrors(validationErrors);
     }
   };
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsEditable(!isEditable);
+  //   setErrors({});
+  //   try {
+  //     const { longitude, latitude, location, ...restFormData } = formData;
+  //     const validationData = {
+  //       ...restFormData,
+  //       contactNumber: formData.contactNumber,
+  //       location: {
+  //         type: 'Point',
+  //         coordinates: [parseFloat(latitude), parseFloat(longitude)],
+  //         city: location,
+  //         country: request?.location?.country,
+  //       },
+  //     };
+  //     const accessToken = await getAccessTokenSilently();
+  //     const response = await axios.put(
+  //       `${apiUrl}/requests/${request.id}`,
+  //       validationData,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     console.log('response', response.data.request);
+  //   } catch (error) {
+  //     let validationErrors = {};
+  //     if (error) {
+  //       validationErrors = error.response.data.error.details;
+  //       setIsEditable(isEditable);
+  //     }
+  //     setErrors(validationErrors);
+  //   }
+  // };
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
