@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export const RequestFormModal = ({ showModal, setShowModal }) => {
@@ -24,7 +24,8 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     isAccepted: false,
   });
 
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
+  // const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
     : 'https://the-bee-saving-project-api.onrender.com/api';
@@ -33,16 +34,25 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     const fetchUserData = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
-        const response = await axios.get(`${apiUrl}/dashboard`, {
+
+        const response = await fetch(`${apiUrl}/dashboard`, {
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        const data = response.data;
-        setFormData((prevData) => ({
-          ...prevData,
-          contactNumber: data.user.metadata?.contactNumber || '',
-        }));
+
+        if (!response.ok) {
+          throw new Error('Failed to get RESPONSE');
+        }
+
+        if (response.ok) {
+          const data = response.data;
+          setFormData((prevData) => ({
+            ...prevData,
+            contactNumber: data.user.metadata?.contactNumber || '',
+          }));
+        }
       } catch (e) {
         console.log(e);
       }
@@ -51,6 +61,30 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
       fetchUserData();
     }
   }, [getAccessTokenSilently, showModal, apiUrl]);
+
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const accessToken = await getAccessTokenSilently();
+  //       const response = await axios.get(`${apiUrl}/dashboard`, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       const data = response.data;
+  //       setFormData((prevData) => ({
+  //         ...prevData,
+  //         contactNumber: data.user.metadata?.contactNumber || '',
+  //       }));
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   if (showModal) {
+  //     fetchUserData();
+  //   }
+  // }, [getAccessTokenSilently, showModal, apiUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,13 +110,22 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
 
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await axios.post(`${apiUrl}/requests`, validationData, {
+
+      const response = await fetch(`${apiUrl}/requests`, validationData, {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log('response', response);
-      setShowModal(false);
+
+      if (!response.ok) {
+        throw new Error('Failed to post REQUESTS');
+      }
+
+      if (response.ok) {
+        console.log('response', response);
+        setShowModal(false);
+      }
     } catch (error) {
       let validationErrors = {};
       if (error) {
@@ -91,6 +134,38 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
       setErrors(validationErrors);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const { longitude, latitude, city, country, ...restFormData } = formData;
+
+  //   const validationData = {
+  //     ...restFormData,
+  //     location: {
+  //       type: 'Point',
+  //       coordinates: [parseFloat(latitude), parseFloat(longitude)],
+  //       city: city,
+  //       country: country,
+  //     },
+  //   };
+
+  //   try {
+  //     const accessToken = await getAccessTokenSilently();
+  //     const response = await axios.post(`${apiUrl}/requests`, validationData, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     console.log('response', response);
+  //     setShowModal(false);
+  //   } catch (error) {
+  //     let validationErrors = {};
+  //     if (error) {
+  //       validationErrors = error.response.data.error.details;
+  //     }
+  //     setErrors(validationErrors);
+  //   }
+  // };
 
   return (
     <>
