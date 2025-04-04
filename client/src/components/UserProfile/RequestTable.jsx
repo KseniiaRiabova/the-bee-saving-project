@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import PropTypes from 'prop-types';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect, useCallback } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import AcceptRequestModal from './AcceptRequestModal';
 
 import columns from './requestTableColumns';
@@ -15,16 +15,14 @@ const tableCustomStyles = {
   },
 };
 
-export const RequestComponent = ({ fixedHeader }) => {
-  // export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
+export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
   const { getAccessTokenSilently, user } = useAuth0();
   const [requestData, setRequestData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
-  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
-  // const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = process.env.NODE_ENV === 'development';
   const apiUrl = isDevelopment
     ? 'http://localhost:3003/api'
     : 'https://the-bee-saving-project-api.onrender.com/api';
@@ -32,45 +30,19 @@ export const RequestComponent = ({ fixedHeader }) => {
   const fetchUserData = useCallback(async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`${apiUrl}/requests`, {
-        method: 'GET',
+      const response = await axios.get(`${apiUrl}/requests`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to cancel the request');
-      }
-
-      if (response.ok) {
-        const data = response.data.requests;
-        setRequestData(data);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error('Failed to cancel the request:', error);
-      console.error(error);
+      const data = response.data.requests;
+      setRequestData(data);
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
       setLoading(false);
     }
   }, [getAccessTokenSilently, apiUrl]);
-
-  // const fetchUserData = useCallback(async () => {
-  //   try {
-  //     const accessToken = await getAccessTokenSilently();
-  //     const response = await axios.get(`${apiUrl}/requests`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     const data = response.data.requests;
-  //     setRequestData(data);
-  //     setLoading(false);
-  //   } catch (e) {
-  //     console.error(e);
-  //     setLoading(false);
-  //   }
-  // }, [getAccessTokenSilently, apiUrl]);
 
   useEffect(() => {
     fetchUserData();
@@ -131,5 +103,5 @@ export const RequestComponent = ({ fixedHeader }) => {
 };
 RequestComponent.propTypes = {
   fixedHeader: PropTypes.bool,
-  // fixedHeaderScrollHeight: PropTypes.string,
+  fixedHeaderScrollHeight: PropTypes.string,
 };
