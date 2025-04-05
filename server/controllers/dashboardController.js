@@ -2,8 +2,8 @@ const userService = require('../services/userService');
 
 exports.getUserDashboardInfo = async (req, res) => {
   const userId = req.auth.sub;
-  // console.log(`ID: ${userId}`);
-  const token = process.env.VITE_AUTH0_TOKEN;
+  console.log(`ID: ${userId}`);
+  const token = process.env.AUTH0_TOKEN;
 
   try {
     const userInfo = await userService.getUserInfo(userId, token);
