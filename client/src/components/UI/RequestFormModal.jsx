@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
+import { BACKEND_URL } from '../configs/envConfig';
 
 export const RequestFormModal = ({ showModal, setShowModal }) => {
   const customLabelStyles =
@@ -24,18 +25,12 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     isAccepted: false,
   });
 
-  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
-  // const isDevelopment = process.env.NODE_ENV === 'development';
-  const apiUrl = isDevelopment
-    ? 'http://localhost:3003/api'
-    : 'https://the-bee-saving-project-api.onrender.com/api';
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
 
-        const response = await fetch(`${apiUrl}/dashboard`, {
+        const response = await fetch(`${BACKEND_URL}/dashboard`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -60,8 +55,7 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     if (showModal) {
       fetchUserData();
     }
-  }, [getAccessTokenSilently, showModal, apiUrl]);
-
+  }, [getAccessTokenSilently, showModal, BACKEND_URL]);
 
   // useEffect(() => {
   //   const fetchUserData = async () => {
@@ -111,7 +105,7 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     try {
       const accessToken = await getAccessTokenSilently();
 
-      const response = await fetch(`${apiUrl}/requests`, validationData, {
+      const response = await fetch(`${BACKEND_URL}/requests`, validationData, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,

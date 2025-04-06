@@ -7,6 +7,8 @@ import { useState, useEffect, useCallback } from 'react';
 import AcceptRequestModal from './AcceptRequestModal';
 
 import columns from './requestTableColumns';
+import { BACKEND_URL } from '../configs/envConfig';
+
 const tableCustomStyles = {
   headRow: {
     style: {
@@ -23,16 +25,10 @@ export const RequestComponent = ({ fixedHeader }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
-  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
-  // const isDevelopment = process.env.NODE_ENV === 'development';
-  const apiUrl = isDevelopment
-    ? 'http://localhost:3003/api'
-    : 'https://the-bee-saving-project-api.onrender.com/api';
-
   const fetchUserData = useCallback(async () => {
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await fetch(`${apiUrl}/requests`, {
+      const response = await fetch(`${BACKEND_URL}/requests`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -53,7 +49,7 @@ export const RequestComponent = ({ fixedHeader }) => {
       console.error(error);
       setLoading(false);
     }
-  }, [getAccessTokenSilently, apiUrl]);
+  }, [getAccessTokenSilently, BACKEND_URL]);
 
   // const fetchUserData = useCallback(async () => {
   //   try {
