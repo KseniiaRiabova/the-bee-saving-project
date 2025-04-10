@@ -5,6 +5,7 @@ import { Header } from '../../components/UI/Header';
 import { Map } from '../../components/Map';
 import Footer from '../../components/Footer/Footer';
 import { UserProfileNew } from '../../components/UserProfile/UserProfileNew';
+import { BACKEND_URL } from '../../components/configs/envConfig';
 
 const Dashboard = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -24,12 +25,6 @@ const Dashboard = () => {
   const { logout } = useAuth0();
 
   const [action, setAction] = useState('');
-
-  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
-
-  const apiUrl = isDevelopment
-    ? 'http://localhost:3003/api'
-    : 'https://the-bee-saving-project-api.onrender.com/api';
 
   const onClickHandler = () => {
     logout({ logoutParams: { returnTo: window.location.origin } });
@@ -61,7 +56,7 @@ const Dashboard = () => {
         typeof updateUserContactNumber
       );
 
-      const response = await fetch(`${apiUrl}/user/metadata`, {
+      const response = await fetch(`${BACKEND_URL}/user/metadata`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -87,7 +82,7 @@ const Dashboard = () => {
   const handleDeleteUserContactNumber = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await fetch(`${apiUrl}/user/metadata`, {
+      const response = await fetch(`${BACKEND_URL}/user/metadata`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -123,15 +118,11 @@ const Dashboard = () => {
     const fetchProtectedData = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
-        const response = await fetch(
-          // 'https://be-v50-tier3-team-28.onrender.com/api/dashboard',
-          `${apiUrl}/dashboard`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await fetch(`${BACKEND_URL}/dashboard`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         const data = await response.json();
         console.log('DATA: ', data);
         console.log('DATA: user -  ', data?.user);
@@ -142,7 +133,7 @@ const Dashboard = () => {
     };
 
     fetchProtectedData();
-  }, [apiUrl, getAccessTokenSilently]);
+  }, [BACKEND_URL, getAccessTokenSilently]);
 
   return (
     <section>

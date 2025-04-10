@@ -5,11 +5,11 @@ const {
 const { validateMetadata } = require('../validators/metadataValidator');
 const User = require('../models/User');
 const Request = require('../models/Request');
-
+require('dotenv').config();
 exports.updateOrDeleteMetadata = async (req, res) => {
   const userId = req.auth.sub;
   const { metadata = {} } = req.body;
-  const token = process.env.VITE_AUTH0_TOKEN;
+  const token = process.env.AUTH0_TOKEN;
   // const token = req.headers.authorization.split(' ')[1];
 
   if (!token) {

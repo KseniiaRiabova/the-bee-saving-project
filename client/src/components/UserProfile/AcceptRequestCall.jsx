@@ -1,19 +1,15 @@
 import PropTypes from 'prop-types';
 import { useAuth0 } from '@auth0/auth0-react';
+import { BACKEND_URL } from '../configs/envConfig';
 
 function AcceptRequestCall({ selectedRequest, onSuccess }) {
   const { getAccessTokenSilently, user } = useAuth0();
-  const isDevelopment = import.meta.env.VITE_NODE_ENV === 'development';
-  // const isDevelopment = process.env.NODE_ENV === 'development';
-  const apiUrl = isDevelopment
-    ? 'http://localhost:3003/api'
-    : 'https://the-bee-saving-project-api.onrender.com/api';
 
   const handleAcceptRequest = async () => {
     try {
       const accessToken = await getAccessTokenSilently();
       const response = await fetch(
-        `${apiUrl}/requests/${selectedRequest._id}/accept`,
+        `${BACKEND_URL}/requests/${selectedRequest._id}/accept`,
         {
           method: 'POST',
           headers: {

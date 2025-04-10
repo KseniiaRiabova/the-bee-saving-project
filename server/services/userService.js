@@ -1,8 +1,10 @@
 // const axios = require('axios');
 const User = require('../models/User');
+require('dotenv').config();
 
 exports.getUserInfo = async (userId, token) => {
-  const url = `https://${process.env.VITE_AUTH0_DOMAIN}/api/v2/users/${userId}`;
+  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
+  console.log('Auth0 URL:', url); // Debugging log
   try {
     const response = await fetch(url, {
       headers: {
@@ -10,9 +12,12 @@ exports.getUserInfo = async (userId, token) => {
       },
     });
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json();
+      console.error('Error response from Auth0:', errorData);
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`
+      );
     }
-
     const userInfo = await response.json();
     await User.findOneAndUpdate(
       { userId: userInfo.user_id },
@@ -30,7 +35,7 @@ exports.getUserInfo = async (userId, token) => {
   }
 };
 exports.updateOrDeleteUserMetadata = async (userId, token, metadata) => {
-  const url = `https://${process.env.VITE_AUTH0_DOMAIN}/api/v2/users/${userId}`;
+  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
   // Set fields to null to delete them if they are explicitly set to null in the request
   const updatedMetadata = {};
   for (const key in metadata) {
@@ -63,7 +68,7 @@ exports.updateOrDeleteUserMetadata = async (userId, token, metadata) => {
 };
 
 exports.deleteUser = async (userId, token) => {
-  const url = `https://${process.env.VITE_AUTH0_DOMAIN}/api/v2/users/${userId}`;
+  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
   try {
     const response = await fetch(url, {
       method: 'DELETE',
