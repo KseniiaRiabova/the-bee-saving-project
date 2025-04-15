@@ -132,3 +132,5 @@ dist
 .pnp.*
 
 *.env
+.env.development
+.env.production

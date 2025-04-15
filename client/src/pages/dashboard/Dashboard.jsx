@@ -7,20 +7,11 @@ import Footer from '../../components/Footer/Footer';
 import { UserProfileNew } from '../../components/UserProfile/UserProfileNew';
 import { BACKEND_URL } from '../../components/configs/envConfig';
 
+// TODO: DELETE log messages
 const Dashboard = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [protectedData, setProtectedData] = useState({});
-  // const [protectedData, setProtectedData] = useState('');
-
-  // const [action, setAction] = useState('Sign Up');
-  // const navigate = useNavigate();
-
-  // IMP: Pass data from child component to parent (this) component
   const [updateUserContactNumber, setupdateUserContactNumber] = useState('');
-  const [
-    requestToDeleteUserContactNumber,
-    setRequestToDeleteUserContactNumber,
-  ] = useState('');
 
   const { logout } = useAuth0();
 
@@ -30,31 +21,33 @@ const Dashboard = () => {
     logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
+  const {
+    name,
+    email,
+    userId,
+    gravatar
+  } = protectedData || {};
+  // IMP: set default value, since userName and contactNumber are null/undefined
+  // const { metadata: { userName } = {} } = data;
+  const { metadata: { contactNumber } = {} } = protectedData;
+
   function handleUpdateUserContactNumber(data) {
     setupdateUserContactNumber(data);
     console.log(
       'updateUserContactNumber:',
       updateUserContactNumber,
-      typeof updateUserContactNumber
+      typeof updateUserContactNumber, data, typeof data
     );
-    handleAddOrUpdateUserContactNumber();
+    handleAddOrUpdateUserContactNumber(data);
   }
 
   function handleRequestToDeleteUserContactNumber(data) {
-    setRequestToDeleteUserContactNumber(data);
-    handleDeleteUserContactNumber();
+    handleDeleteUserContactNumber(data);
   }
 
-  const handleAddOrUpdateUserContactNumber = async () => {
+  const handleAddOrUpdateUserContactNumber = async (data) => {
     try {
       const token = await getAccessTokenSilently();
-
-      // TODO: Remove following console.log once BE update works properly
-      console.log(
-        'TEST - updateUserContactNumber:',
-        updateUserContactNumber,
-        typeof updateUserContactNumber
-      );
 
       const response = await fetch(`${BACKEND_URL}/user/metadata`, {
         method: 'PATCH',
@@ -63,25 +56,27 @@ const Dashboard = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // metadata: { contactNumber: tempContactNumber },
-          metadata: { contactNumber: updateUserContactNumber },
+          metadata: { contactNumber: data },
         }),
       });
 
       if (response.ok) {
-        console.log('Contact number added/updated successfully');
+        console.log('Contact number updated successfully:', data);
+        const responseData = await response.json();
+        console.log('Updated user data:', responseData?.user);
       } else {
         const errorData = await response.json();
         console.error('Failed to add/update contact number', errorData);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error updating contact number:', error);
     }
   };
 
-  const handleDeleteUserContactNumber = async () => {
+  const handleDeleteUserContactNumber = async (data) => {
     try {
       const token = await getAccessTokenSilently();
+
       const response = await fetch(`${BACKEND_URL}/user/metadata`, {
         method: 'PATCH',
         headers: {
@@ -89,8 +84,7 @@ const Dashboard = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          metadata: { contactNumber: '' }, // Setting to an empty string to delete
-          // metadata: { contactNumber: requestToDeleteUserContactNumber }, // Setting to an empty string to delete
+          metadata: { contactNumber: null },
         }),
       });
 
@@ -98,10 +92,10 @@ const Dashboard = () => {
         console.log('Contact number deleted successfully');
       } else {
         const errorData = await response.json();
-        console.error('Failed to delete contact number', errorData);
+        console.error('Failed to delete contact number:', errorData);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error deleting contact number:', error);
     }
   };
 
@@ -118,11 +112,15 @@ const Dashboard = () => {
     const fetchProtectedData = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
-        const response = await fetch(`${BACKEND_URL}/dashboard`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          // 'https://be-v50-tier3-team-28.onrender.com/api/dashboard',
+          `${BACKEND_URL}/dashboard`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         const data = await response.json();
         console.log('DATA: ', data);
         console.log('DATA: user -  ', data?.user);
@@ -133,7 +131,8 @@ const Dashboard = () => {
     };
 
     fetchProtectedData();
-  }, [BACKEND_URL, getAccessTokenSilently]);
+  }, [getAccessTokenSilently]);
+
 
   return (
     <section>
@@ -157,8 +156,12 @@ const Dashboard = () => {
         {/* TODO: Following section will be deleted once BE logic is fixed */}
         <section>
           <p>
-            User contact number from UserProfileNew COMPONENT :{' '}
+            Updated user contact number from UserProfileNew COMPONENT (updateUserContactNumber):{' '}
             {updateUserContactNumber}{' '}
+          </p>
+          <p>
+            User contactNumber from DB (contactNumber):{' '}
+            {contactNumber}{' '}
           </p>
           {/* <p> {JSON.stringify(protectedData)} </p> */}
         </section>
