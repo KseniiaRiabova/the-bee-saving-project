@@ -20,13 +20,11 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
   const [isEditable, setIsEditable] = useState(false);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
   const [userContactNumber, setUserContactNumber] = useState(contactNumber);
-  const [updateUserContactNumber, setUpdateUserContactNumber] = useState('');
+  const [updateUserContactNumber, setUpdateUserContactNumber] = useState("");
 
   const onChangeToggleUserInfoModalHandler = (updateState) => {
     setIsUserInfoModalOpen(updateState);
-    // setUserContactNumber(updateUserContactNumber);
     setUserContactNumber(userContactNumber);
-    // setIsEditable(false);
   };
 
   const onChangeUserContactNumberHandler = (e) => {
@@ -40,9 +38,9 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
       return;
     }
 
-    if (confirm('Are you sure you want to delete your contact number?')) {
+    if (confirm("Are you sure you want to delete your contact number?")) {
       console.log(
-        'User confirmed deletion of contact number.',
+        "User confirmed deletion of contact number.",
         contactNumber,
         userContactNumber,
         updateUserContactNumber
@@ -52,11 +50,11 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
       sendDeleteRequestOfUserContactNumber(userContactNumber);
 
       // Clear the local state
-      setUserContactNumber('');
-      setUpdateUserContactNumber('');
+      setUserContactNumber("");
+      setUpdateUserContactNumber("");
     } else {
       console.log(
-        'User canceled deletion of contact number.',
+        "User canceled deletion of contact number.",
         contactNumber,
         userContactNumber,
         updateUserContactNumber
@@ -66,6 +64,11 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
 
   const onClickEditUserContactNumber = () => {
     setIsEditable(true);
+  };
+
+  const onClickCancelUpdateContactNumber = () => {
+    setUpdateUserContactNumber(userContactNumber);
+    setIsEditable(false);
   };
 
   const onClickUpdateUserContactNumber = () => {
@@ -79,8 +82,6 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
     setUserContactNumber(updateUserContactNumber);
     setIsEditable(false);
   };
-
-  console.log("userContactNumber -- ", userContactNumber);
 
   useEffect(() => {
   }, [data]);
@@ -117,8 +118,7 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
 
               <section>
                 <p>Email: {email} </p>
-                <p>Old Contact number from DB: {contactNumber}</p>
-                <p>Updated Contact number from DB: {userContactNumber}</p>
+                <p>Previously Registered Contact number: {contactNumber}</p>
 
                 {isEditable ? (
                   <Input
@@ -150,19 +150,27 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
                       onClickHandler={onClickEditUserContactNumber}
                     />
                     <Button
-                      className="font-normal text-black bg-red-500 md:w-56 hover:bg-red-600 focus:bg-red-600 rounded-lg p-2 -mt-4 dark:hover:bg-red-700 dark:focus:bg-red-700 dark:text-white"
+                      className="font-normal text-white bg-red-600 md:w-56 hover:bg-red-800 focus:bg-red-800 rounded-lg p-2 -mt-4 dark:hover:bg-red-800 dark:focus:bg-red-800 dark:text-white"
                       type="button"
                       text="Delete Contact Number"
                       onClickHandler={onClickDeleteUserContactNumber}
                     />
                   </>
                 ) : (
-                  <Button
-                    className="font-normal text-black bg-navSignupButton md:w-56 hover:bg-green-300 focus:bg-green-300 rounded-lg p-2 -mt-4 dark:hover:bg-green-600 dark:focus:bg-green-600 dark:text-white"
-                    type="button"
-                    text="Update Contact Number"
-                    onClickHandler={onClickUpdateUserContactNumber}
-                  />
+                  <>
+                    <Button
+                      className="font-normal text-black bg-navSignupButton md:w-56 hover:bg-green-300 focus:bg-green-300 rounded-lg p-2 -mt-4 dark:hover:bg-green-600 dark:focus:bg-green-600 dark:text-white"
+                      type="button"
+                      text="Update Contact Number"
+                      onClickHandler={onClickUpdateUserContactNumber}
+                    />
+                    <Button
+                      className="font-normal text-white bg-gray-500 md:w-56 hover:bg-gray-600 focus:bg-gray-700 rounded-lg p-2 -mt-4 dark:hover:bg-gray-700 dark:focus:bg-gray-800 dark:text-white"
+                      type="button"
+                      text="Cancel"
+                      onClickHandler={onClickCancelUpdateContactNumber}
+                    />
+                  </>
                 )}
               </section>
             </section>
