@@ -34,6 +34,12 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
   };
 
   const onClickDeleteUserContactNumber = () => {
+    // Check if there is a contact number to delete
+    if (!userContactNumber) {
+      alert("No contact number to delete.");
+      return;
+    }
+
     if (confirm('Are you sure you want to delete your contact number?')) {
       console.log(
         'User confirmed deletion of contact number.',
