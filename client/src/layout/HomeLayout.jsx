@@ -20,11 +20,11 @@ const HomeLayout = () => {
   // const [action, setAction] = useState("Sign Up");
   const [action, setAction] = useState('');
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate("/dashboard");
-  //   }
-  // }, [isAuthenticated, navigate]);
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
   const onClickHandler = () => {
     if (!isAuthenticated) {
