@@ -7,28 +7,27 @@ import { AnchorLink } from "../UI/AnchorLink";
 import { UserRequest } from "./UserRequest";
 
 export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRequestOfUserContactNumber }) => {
-  const {
-    name,
-    email,
-    userId,
-    gravatar
-  } = data || {};
-  // IMP: set default value, since userName and contactNumber are null/undefined
-  // const { metadata: { userName } = {} } = data;
-  const { metadata: { contactNumber } = {} } = data;
+  const { email, gravatar } = data || {};
+  const initialContactNumber = data?.metadata?.contactNumber || "";
 
   const [isEditable, setIsEditable] = useState(false);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
-  const [userContactNumber, setUserContactNumber] = useState(contactNumber);
-  const [updateUserContactNumber, setUpdateUserContactNumber] = useState("");
+  const [userContactNumber, setUserContactNumber] = useState(initialContactNumber);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (data) {
+      setUserContactNumber(data?.metadata?.contactNumber || "");
+      setIsLoading(false);
+    }
+  }, [data]);
 
   const onChangeToggleUserInfoModalHandler = (updateState) => {
     setIsUserInfoModalOpen(updateState);
-    setUserContactNumber(userContactNumber);
   };
 
   const onChangeUserContactNumberHandler = (e) => {
-    setUpdateUserContactNumber(e.target.value);
+    setUserContactNumber(e.target.value);
   };
 
   const onClickDeleteUserContactNumber = () => {
@@ -38,26 +37,18 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
       return;
     }
 
-    if (confirm("Are you sure you want to delete your contact number?")) {
+    if (confirm(`Are you sure you want to delete your contact number - ${userContactNumber} ?`)) {
       console.log(
         "User confirmed deletion of contact number.",
-        contactNumber,
-        userContactNumber,
-        updateUserContactNumber
+        userContactNumber
       );
 
-      // Notify the backend to delete the contact number
       sendDeleteRequestOfUserContactNumber(userContactNumber);
-
-      // Clear the local state
       setUserContactNumber("");
-      setUpdateUserContactNumber("");
     } else {
       console.log(
         "User canceled deletion of contact number.",
-        contactNumber,
-        userContactNumber,
-        updateUserContactNumber
+        userContactNumber
       );
     }
   };
@@ -67,19 +58,18 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
   };
 
   const onClickCancelUpdateContactNumber = () => {
-    setUpdateUserContactNumber(userContactNumber);
+    setUserContactNumber(userContactNumber);
     setIsEditable(false);
   };
 
   const onClickUpdateUserContactNumber = () => {
-    if (!updateUserContactNumber || isNaN(updateUserContactNumber)) {
+    if (!userContactNumber || isNaN(userContactNumber)) {
       alert("Please enter a valid contact number.");
-      setUpdateUserContactNumber("");
+      setUserContactNumber(userContactNumber);
       return;
     }
 
-    sendUpdateUserContactNumber(updateUserContactNumber);
-    setUserContactNumber(updateUserContactNumber);
+    sendUpdateUserContactNumber(userContactNumber);
     setIsEditable(false);
   };
 
@@ -118,19 +108,18 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
 
               <section>
                 <p>Email: {email} </p>
-                <p>Previously Registered Contact number: {contactNumber}</p>
 
                 {isEditable ? (
                   <Input
                     className="border-2 border-blue-300 md:w-56 pl-1"
                     type="text"
                     label="Contact number: "
-                    placeholder={contactNumber || "Please enter a contact number..."}
-                    value={updateUserContactNumber}
+                    placeholder={initialContactNumber || "Please enter a contact number..."}
+                    value={userContactNumber}
                     onChange={onChangeUserContactNumberHandler}
                   />
                 ) : (
-                  <p>Edited/updated Contact number: {userContactNumber || "Not provided"}</p>
+                  <p>Contact number: {userContactNumber || "Not provided"}</p>
                 )}
               </section>
 
@@ -149,12 +138,17 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
                       text="Edit Contact Number"
                       onClickHandler={onClickEditUserContactNumber}
                     />
-                    <Button
-                      className="font-normal text-white bg-red-600 md:w-56 hover:bg-red-800 focus:bg-red-800 rounded-lg p-2 -mt-4 dark:hover:bg-red-800 dark:focus:bg-red-800 dark:text-white"
-                      type="button"
-                      text="Delete Contact Number"
-                      onClickHandler={onClickDeleteUserContactNumber}
-                    />
+
+                    {!isLoading && (
+                      <Button
+                        className={`font-normal text-white bg-red-600 md:w-56 hover:bg-red-800 focus:bg-red-800 rounded-lg p-2 -mt-4 dark:hover:bg-red-800 dark:focus:bg-red-800 dark:text-white ${!userContactNumber ? "opacity-50 cursor-not-allowed" : ""
+                          }`}
+                        type="button"
+                        text="Delete Contact Number"
+                        onClickHandler={onClickDeleteUserContactNumber}
+                        disabled={!userContactNumber}
+                      />
+                    )}
                   </>
                 ) : (
                   <>
