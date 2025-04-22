@@ -122,13 +122,13 @@ const Dashboard = () => {
 
       <main className="dark:bg-black dark:text-white border-2 border-transparent">
         <section className="max-w-7xl mx-auto">
-          <UserProfileNew
-            data={protectedData}
-            sendUpdateUserContactNumber={handleUpdateUserContactNumber}
-            sendDeleteRequestOfUserContactNumber={
-              handleRequestToDeleteUserContactNumber
-            }
-          />
+          {protectedData && (
+            <UserProfileNew
+              data={protectedData}
+              sendUpdateUserContactNumber={handleUpdateUserContactNumber}
+              sendDeleteRequestOfUserContactNumber={handleRequestToDeleteUserContactNumber}
+            />
+          )}
         </section>
 
         <section className="flex justify-center p-2">
