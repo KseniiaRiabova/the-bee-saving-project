@@ -153,16 +153,16 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
                 ) : (
                   <>
                     <Button
-                      className="font-normal text-black bg-navSignupButton md:w-56 hover:bg-green-300 focus:bg-green-300 rounded-lg p-2 -mt-4 dark:hover:bg-green-600 dark:focus:bg-green-600 dark:text-white"
-                      type="button"
-                      text="Update Contact Number"
-                      onClickHandler={onClickUpdateUserContactNumber}
-                    />
-                    <Button
                       className="font-normal text-white bg-gray-500 md:w-56 hover:bg-gray-600 focus:bg-gray-700 rounded-lg p-2 -mt-4 dark:hover:bg-gray-700 dark:focus:bg-gray-800 dark:text-white"
                       type="button"
                       text="Cancel"
                       onClickHandler={onClickCancelUpdateContactNumber}
+                    />
+                    <Button
+                      className="font-normal text-black bg-navSignupButton md:w-56 hover:bg-green-300 focus:bg-green-300 rounded-lg p-2 -mt-4 dark:hover:bg-green-600 dark:focus:bg-green-600 dark:text-white"
+                      type="button"
+                      text="Update Contact Number"
+                      onClickHandler={onClickUpdateUserContactNumber}
                     />
                   </>
                 )}
