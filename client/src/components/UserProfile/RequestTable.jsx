@@ -17,7 +17,8 @@ const tableCustomStyles = {
   },
 };
 
-export const RequestComponent = ({ fixedHeader }) => {
+export const RequestComponent = ({ fixedHeader ,requests}) => {
+   
   // export const RequestComponent = ({ fixedHeader, fixedHeaderScrollHeight }) => {
   const { getAccessTokenSilently, user } = useAuth0();
   const [requestData, setRequestData] = useState([]);
@@ -32,15 +33,23 @@ export const RequestComponent = ({ fixedHeader }) => {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         },
       });
+
 
       if (!response.ok) {
         throw new Error('Failed to cancel the request');
       }
 
       if (response.ok) {
-        const data = response.data.requests;
+        const parsedResponse=await response.json()
+        
+        
+       
+       
+        const data = parsedResponse.requests
+         
         setRequestData(data);
         setLoading(false);
       }
@@ -50,27 +59,16 @@ export const RequestComponent = ({ fixedHeader }) => {
       setLoading(false);
     }
   }, [getAccessTokenSilently, BACKEND_URL]);
+   
 
-  // const fetchUserData = useCallback(async () => {
-  //   try {
-  //     const accessToken = await getAccessTokenSilently();
-  //     const response = await axios.get(`${apiUrl}/requests`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     const data = response.data.requests;
-  //     setRequestData(data);
-  //     setLoading(false);
-  //   } catch (e) {
-  //     console.error(e);
-  //     setLoading(false);
-  //   }
-  // }, [getAccessTokenSilently, apiUrl]);
+   
+
+
 
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
+
 
   const handleDetailsClick = (row) => {
     setSelectedRequest(row);
@@ -94,7 +92,6 @@ export const RequestComponent = ({ fixedHeader }) => {
           : request
       )
     );
-    // fetchUserData(); // Fetch the latest data after accepting a request
   };
 
   return (
@@ -106,7 +103,7 @@ export const RequestComponent = ({ fixedHeader }) => {
           selectedRequest,
           user,
         })}
-        data={requestData}
+        data={requests}
         fixedHeader={fixedHeader}
         // fixedHeaderScrollHeight={fixedHeaderScrollHeight}
         highlightOnHover

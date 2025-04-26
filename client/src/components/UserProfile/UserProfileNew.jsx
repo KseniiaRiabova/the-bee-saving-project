@@ -6,7 +6,7 @@ import { Input } from "../UI/Input";
 import { AnchorLink } from "../UI/AnchorLink";
 import { UserRequest } from "./UserRequest";
 
-export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRequestOfUserContactNumber }) => {
+export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRequestOfUserContactNumber,showModal,setShowModal,setRequests,requests }) => {
   const { email, gravatar } = data || {};
   const initialContactNumber = data?.metadata?.contactNumber || "";
 
@@ -173,7 +173,11 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
       </section>
 
       <section className="flex flex-col gap-4 md:flex-row">
-        <UserRequest />
+        <UserRequest showModal={showModal}
+        requests={requests}
+            setShowModal={setShowModal}
+            setRequests={setRequests}
+             />
       </section>
     </section>
   );

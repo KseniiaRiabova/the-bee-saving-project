@@ -53,9 +53,9 @@ const HomeLayout = () => {
           <ProblemContainter />
           <SolutionsHeader />
         </section>
-        <section className='flex justify-center p-2'>
+        {/* <section className='flex justify-center p-2'>
           <Map />
-        </section>
+        </section> */}
         <section className='md:max-w-7xl md:mx-auto'>
           <SolutionsContainer />
         </section>
