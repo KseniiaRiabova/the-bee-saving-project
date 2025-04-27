@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-// import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/UI/Header";
 import { Map } from "../../components/Map";
 import Footer from "../../components/Footer/Footer";
@@ -12,19 +11,29 @@ const Dashboard = () => {
   const { logout } = useAuth0();
   const [protectedData, setProtectedData] = useState({});
   const [action, setAction] = useState("");
-  // const navigate = useNavigate();
+  const [activeRequest, setActiveRequest] = useState();
+  const [completedRequest, setCompletedRequest] = useState();
 
   const onClickHandler = () => {
     logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
-  function handleUpdateUserContactNumber(data) {
+  const handleUpdateUserContactNumber = (data) => {
     handleAddOrUpdateUserContactNumber(data);
-  }
+  };
 
-  function handleRequestToDeleteUserContactNumber() {
+  const handleRequestToDeleteUserContactNumber = () => {
     handleDeleteUserContactNumber();
-  }
+  };
+
+  const filterUserRequestData = (data) => {
+    const activeRequest = data?.requests.filter((request) => request.isActive === true);
+    const completedRequest = data?.requests.filter((request) => request.isCompleted === true);
+    const numberOfActiveRequest = activeRequest.length;
+    const numberOfCompletedRequest = completedRequest.length;
+    setActiveRequest(numberOfActiveRequest);
+    setCompletedRequest(numberOfCompletedRequest);
+  };
 
   const handleAddOrUpdateUserContactNumber = async (data) => {
     try {
@@ -85,11 +94,6 @@ const Dashboard = () => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    // if (!isAuthenticated) {
-    //   navigate("/");
-    //   return;
-    // }
-
     const fetchProtectedData = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
@@ -108,9 +112,27 @@ const Dashboard = () => {
       }
     };
 
-    fetchProtectedData();
-  }, [getAccessTokenSilently]);
+    const fetchProtectedUserRequestData = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently();
+        const response = await fetch(
+          `${BACKEND_URL}/requests`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        filterUserRequestData(data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
+    fetchProtectedData();
+    fetchProtectedUserRequestData();
+  }, [getAccessTokenSilently]);
 
   return (
     <section>
@@ -127,6 +149,8 @@ const Dashboard = () => {
               data={protectedData}
               sendUpdateUserContactNumber={handleUpdateUserContactNumber}
               sendDeleteRequestOfUserContactNumber={handleRequestToDeleteUserContactNumber}
+              activeBeeHivesFound={activeRequest}
+              completedBeeHivesSaved={completedRequest}
             />
           )}
         </section>

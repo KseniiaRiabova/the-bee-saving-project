@@ -6,7 +6,7 @@ import { Input } from "../UI/Input";
 import { AnchorLink } from "../UI/AnchorLink";
 import { UserRequest } from "./UserRequest";
 
-export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRequestOfUserContactNumber }) => {
+export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRequestOfUserContactNumber, activeBeeHivesFound, completedBeeHivesSaved }) => {
   const { email, gravatar } = data || {};
   const initialContactNumber = data?.metadata?.contactNumber || "";
 
@@ -124,9 +124,8 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
               </section>
 
               <section>
-                {/* TODO: Fix with endpoint to display dynamic data (stastical data) */}
-                <p>Bee Hives Found - 500</p>
-                <p>Bee Hives Saved - 500</p>
+                <p>Bee Hives Found - {activeBeeHivesFound} </p>
+                <p>Bee Hives Saved - {completedBeeHivesSaved} </p>
               </section>
 
               <section className="flex self-center gap-4 md:gap-6 md:justify-around">
@@ -183,4 +182,6 @@ UserProfileNew.propTypes = {
   data: PropTypes.object,
   sendUpdateUserContactNumber: PropTypes.func.isRequired,
   sendDeleteRequestOfUserContactNumber: PropTypes.func,
+  activeBeeHivesFound: PropTypes.number,
+  completedBeeHivesSaved: PropTypes.number,
 };
