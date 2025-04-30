@@ -11,6 +11,8 @@ const Dashboard = () => {
   const { logout } = useAuth0();
   const [protectedData, setProtectedData] = useState({});
   const [action, setAction] = useState("");
+  const [requests, setRequests] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [activeRequest, setActiveRequest] = useState();
   const [completedRequest, setCompletedRequest] = useState();
 
@@ -146,6 +148,10 @@ const Dashboard = () => {
         <section className="max-w-7xl mx-auto">
           {protectedData && (
             <UserProfileNew
+              showModal={showModal}
+              setShowModal={setShowModal}
+              setRequests={setRequests}
+              requests={requests}
               data={protectedData}
               sendUpdateUserContactNumber={handleUpdateUserContactNumber}
               sendDeleteRequestOfUserContactNumber={handleRequestToDeleteUserContactNumber}
@@ -156,7 +162,7 @@ const Dashboard = () => {
         </section>
 
         <section className="flex justify-center p-2">
-          <Map />
+          <Map requests={requests} setRequests={setRequests} />
         </section>
       </main>
 

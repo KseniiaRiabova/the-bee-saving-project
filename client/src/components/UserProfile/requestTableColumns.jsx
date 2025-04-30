@@ -71,9 +71,9 @@ export default function requestColumns({
       id: 'delete',
       width: '50px',
       cell: (row) =>
-        row.beefinder?.email === user.email ? (
+        row.beefinderId === user.sub ? (
           <DeleteRequest requestId={row.id} onDelete={handleDeleteRequest} />
-        ) : null,
+        ) : "",
     },
   ];
 }
