@@ -69,26 +69,7 @@ exports.deleteUserfromDb = async (req, res) => {
     });
   }
 };
-//   if (!token) {
-//     return res.status(401).json({ message: 'Authorization token is required' });
-//   }
-//   if (!userId) {
-//     return res.status(400).json({ message: 'User ID is required' });
-//   }
-//   try {
-//     const deletedUser = await deleteUser(userId, token);
-//     res.json({
-//       message: 'User deleted successfully',
-//       user: deletedUser,
-//     });
-//   } catch (error) {
-//     if (error.message === 'User not found') {
-//       return res.status(404).json({ message: error.message });
-//     }
-//     console.error('Unexpected error:', error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// };
+
 exports.getUserRequestCounts = async (req, res) => {
   try {
     const userId = req.auth.sub;
