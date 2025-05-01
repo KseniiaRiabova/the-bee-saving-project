@@ -1,24 +1,14 @@
-// const axios = require('axios');
+const auth0 = require('../config/auth0Client');
 const User = require('../models/User');
-require('dotenv').config();
 
-exports.getUserInfo = async (userId, token) => {
-  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
-  // console.log('Auth0 URL:', url); // Debugging log
+exports.getUserInfo = async (userId) => {
   try {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Error response from Auth0:', errorData);
-      throw new Error(
-        errorData.message || `HTTP error! status: ${response.status}`
-      );
-    }
-    const userInfo = await response.json();
+    console.log('Fetching user info for ID:', userId);
+    const userInfoResponse = await auth0.users.get({ id: userId });
+    const userInfo = userInfoResponse.data;
+
+    console.log('User Info from Auth0:', userInfo);
+
     await User.findOneAndUpdate(
       { userId: userInfo.user_id },
       {
