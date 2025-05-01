@@ -28,27 +28,6 @@ app.use(
   })
 );
 
-// const determineOrigin = (origin, callback) => {
-//   const allowedOrigins = [
-//     'https://the-bee-saving-project.onrender.com',
-//     'http://localhost:5173',
-//   ];
-//   if (allowedOrigins.includes(origin) || !origin) {
-//     callback(null, origin);
-//   } else {
-//     callback(new Error('Not allowed by CORS'));
-//   }
-// };
-
-// app.use(
-//   cors({
-//     origin: determineOrigin,
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true,
-//     allowedHeaders:
-//       'Origin,X-Requested-With,Content-Type,Accept,Authorization, Set-Cookie, Cookie',
-//   })
-// );
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/requests', requestRoutes);

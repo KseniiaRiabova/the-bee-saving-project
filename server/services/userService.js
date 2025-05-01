@@ -4,7 +4,7 @@ require('dotenv').config();
 
 exports.getUserInfo = async (userId, token) => {
   const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
-  console.log('Auth0 URL:', url); // Debugging log
+  // console.log('Auth0 URL:', url); // Debugging log
   try {
     const response = await fetch(url, {
       headers: {

@@ -6,6 +6,7 @@ const { validateMetadata } = require('../validators/metadataValidator');
 const User = require('../models/User');
 const Request = require('../models/Request');
 require('dotenv').config();
+
 exports.updateOrDeleteMetadata = async (req, res) => {
   const userId = req.auth.sub;
   const { metadata = {} } = req.body;
