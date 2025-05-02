@@ -1,24 +1,14 @@
-// const axios = require('axios');
+const auth0 = require('../config/auth0Client');
 const User = require('../models/User');
-require('dotenv').config();
 
-exports.getUserInfo = async (userId, token) => {
-  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
-  console.log('Auth0 URL:', url); // Debugging log
+exports.getUserInfo = async (userId) => {
   try {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Error response from Auth0:', errorData);
-      throw new Error(
-        errorData.message || `HTTP error! status: ${response.status}`
-      );
-    }
-    const userInfo = await response.json();
+    console.log('Fetching user info for ID:', userId);
+    const userInfoResponse = await auth0.users.get({ id: userId });
+    const userInfo = userInfoResponse.data;
+
+    console.log('User Info from Auth0:', userInfo);
+
     await User.findOneAndUpdate(
       { userId: userInfo.user_id },
       {
@@ -34,55 +24,62 @@ exports.getUserInfo = async (userId, token) => {
     throw error;
   }
 };
-exports.updateOrDeleteUserMetadata = async (userId, token, metadata) => {
-  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
-  // Set fields to null to delete them if they are explicitly set to null in the request
-  const updatedMetadata = {};
-  for (const key in metadata) {
-    if (metadata[key] === null) {
-      updatedMetadata[key] = null;
-    } else {
-      updatedMetadata[key] = metadata[key];
-    }
-  }
+
+exports.updateOrDeleteUserMetadata = async (userId, metadata) => {
   try {
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user_metadata: updatedMetadata }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.message || `HTTP error! status: ${response.status}`
-      );
+    const updatedMetadata = {};
+    for (const key in metadata) {
+      updatedMetadata[key] = metadata[key] === null ? null : metadata[key];
     }
-    return await response.json();
+
+    const updatedUserResponse = await auth0.users.update(
+      { id: userId },
+      { user_metadata: updatedMetadata }
+    );
+    const updatedUser = updatedUserResponse;
+
+    await User.findOneAndUpdate(
+      { userId },
+      { contactNumber: updatedMetadata.contactNumber || null },
+      { new: true }
+    );
+
+    return updatedUser;
   } catch (error) {
     console.error('Error updating/deleting user metadata:', error);
     throw error;
   }
 };
 
-exports.deleteUser = async (userId, token) => {
-  const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
-  try {
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    await User.findOneAndDelete({ userId: userId });
-    return await response.json();
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    throw error;
-  }
-};
+// exports.deleteUser = async (userId, token) => {
+//   const url = `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`;
+//   try {
+//     const response = await fetch(url, {
+//       method: 'DELETE',
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     await User.findOneAndDelete({ userId: userId });
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Error deleting user:', error);
+//     throw error;
+//   }
+// };
+
+// exports.deleteUser = async (userId) => {
+//   try {
+//     await auth0.deleteUser({ id: userId });
+
+//     await User.findOneAndDelete({ userId });
+
+//     return { message: 'User deleted successfully from Auth0 and database' };
+//   } catch (error) {
+//     console.error('Error deleting user:', error);
+//     throw error;
+//   }
+// };

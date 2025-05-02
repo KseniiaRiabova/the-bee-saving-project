@@ -2,14 +2,16 @@ const userService = require('../services/userService');
 
 exports.getUserDashboardInfo = async (req, res) => {
   const userId = req.auth.sub;
+
   console.log(`ID: ${userId}`);
-  const token = process.env.AUTH0_TOKEN;
+  console.log('req.auth:', req.auth);
 
   try {
-    const userInfo = await userService.getUserInfo(userId, token);
+    const userInfo = await userService.getUserInfo(userId);
     if (!userInfo.email_verified) {
       return res.status(403).json({ message: 'Email not verified' });
     }
+
     res.json({
       user: {
         name: userInfo.name,
@@ -23,6 +25,7 @@ exports.getUserDashboardInfo = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error('Error fetching user dashboard info:', error);
     res.status(500).json({ message: 'Error fetching user data' });
   }
 };

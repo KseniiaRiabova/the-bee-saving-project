@@ -6,37 +6,26 @@ const { validateMetadata } = require('../validators/metadataValidator');
 const User = require('../models/User');
 const Request = require('../models/Request');
 require('dotenv').config();
+
 exports.updateOrDeleteMetadata = async (req, res) => {
   const userId = req.auth.sub;
   const { metadata = {} } = req.body;
-  const token = process.env.AUTH0_TOKEN;
-  // const token = req.headers.authorization.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ message: 'Authorization token is required' });
-  }
-
-  if (!userId) {
-    return res.status(400).json({ message: 'User ID is required' });
-  }
-
   try {
     const validMetadata = validateMetadata(metadata);
-    const updatedUser = await updateOrDeleteUserMetadata(
-      userId,
-      token,
-      validMetadata // metadata || {}
-    );
+
+    const updatedUser = await updateOrDeleteUserMetadata(userId, validMetadata);
+
     res.json({
       message: 'Metadata updated successfully',
       user: updatedUser,
     });
   } catch (error) {
+    console.error('Error in updateOrDeleteMetadata:', error);
+
     if (error.status === 400) {
-      // Joi validation error
       return res.status(error.status).json({ message: error.message });
     }
-    console.error('Unexpected error:', error);
+
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -68,26 +57,7 @@ exports.deleteUserfromDb = async (req, res) => {
     });
   }
 };
-//   if (!token) {
-//     return res.status(401).json({ message: 'Authorization token is required' });
-//   }
-//   if (!userId) {
-//     return res.status(400).json({ message: 'User ID is required' });
-//   }
-//   try {
-//     const deletedUser = await deleteUser(userId, token);
-//     res.json({
-//       message: 'User deleted successfully',
-//       user: deletedUser,
-//     });
-//   } catch (error) {
-//     if (error.message === 'User not found') {
-//       return res.status(404).json({ message: error.message });
-//     }
-//     console.error('Unexpected error:', error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// };
+
 exports.getUserRequestCounts = async (req, res) => {
   try {
     const userId = req.auth.sub;
