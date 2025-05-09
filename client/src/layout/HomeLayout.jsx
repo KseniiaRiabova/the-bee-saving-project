@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/UI/Header';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
 import { MainHeroLandingSurvey } from '../components/UI/MainHeroLandingSurvey';
@@ -9,28 +8,38 @@ import Footer from '../components/Footer/Footer';
 import { ProblemContainter } from '../components/UI/ProblemContainer';
 import { SolutionsHeader } from '../components/UI/SolutionsHeader';
 import { SolutionsContainer } from '../components/UI/SolutionsContainer';
-import { Map } from '../components/Map';
+import { SignUpNotification } from '../components/notifications/SignUpNotification';
 
 const HomeLayout = () => {
-  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
-  const { loginWithRedirect, logout } = useAuth0();
-  // const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
   const navigate = useNavigate();
 
-  // const [action, setAction] = useState("Sign Up");
   const [action, setAction] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
+  const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      setShowNotification(true);
+
+      if (!user?.email_verified) {
+        setIsFirstTimeUser(true);
+      } else {
+        setIsFirstTimeUser(false);
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, isFirstTimeUser, user]);
+
+  const handleOnCloseNotification = () => {
+    setShowNotification(false);
+  };
 
   const onClickHandler = () => {
     if (!isAuthenticated) {
       loginWithRedirect({});
     } else {
       logout({ returnTo: window.location.origin });
+      navigate("/");
     }
   };
 
@@ -41,6 +50,13 @@ const HomeLayout = () => {
   return (
     <>
       <section className='relative bg-[#9BC25B] h-[100%]'>
+        {showNotification && (
+          <SignUpNotification
+            isFirstTimeUser={isFirstTimeUser}
+            userNickName={user?.nickname}
+            onClose={handleOnCloseNotification}
+          />
+        )}
         <section className=' bg-[#9BC25B] flex flex-col justify-between md:justify-evenly md:gap-4 md:max-w-7xl md:mx-auto'>
           <Header action={action} onClickHandler={onClickHandler} />
           <MainHeroLanding />
@@ -53,9 +69,6 @@ const HomeLayout = () => {
           <ProblemContainter />
           <SolutionsHeader />
         </section>
-        {/* <section className='flex justify-center p-2'>
-          <Map />
-        </section> */}
         <section className='md:max-w-7xl md:mx-auto'>
           <SolutionsContainer />
         </section>

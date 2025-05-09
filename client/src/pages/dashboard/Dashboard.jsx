@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Header } from "../../components/UI/Header";
 import { Map } from "../../components/Map";
@@ -9,6 +10,8 @@ import { BACKEND_URL } from "../../components/configs/envConfig";
 const Dashboard = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { logout } = useAuth0();
+  const navigate = useNavigate();
+
   const [protectedData, setProtectedData] = useState({});
   const [action, setAction] = useState("");
   const [requests, setRequests] = useState([]);
@@ -18,6 +21,7 @@ const Dashboard = () => {
 
   const onClickHandler = () => {
     logout({ logoutParams: { returnTo: window.location.origin } });
+    navigate("/");
   };
 
   const handleUpdateUserContactNumber = (data) => {
