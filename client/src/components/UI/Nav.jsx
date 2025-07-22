@@ -23,27 +23,27 @@ export const Nav = ({ action, onClickHandler }) => {
           className={`flex items-center justify-center text-xl text-black ${
             isNavMenuOpen
               ? 'flex-col gap-6 absolute top-0 left-0 w-full h-dvh bg-neutral-500 z-40'
-              : 'flex-row gap-8 lg:gap-12'
+              : 'flex-row gap-5 lg:gap-9'
           }`}
         >
           <li>
             <AnchorLink
               href='/'
-              className='underline text-[#F4743B] hover:rounded-lg focus:rounded-lg hover:bg-neutral-300 focus:bg-neutral-300 hover:text-black focus:text-black dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:hover:text-white dark:focus:text-white'
+              className='underline text-[#F4743B] p-2.5 hover:rounded-lg focus:rounded-lg hover:bg-neutral-300 focus:bg-neutral-300 hover:text-black focus:text-black dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:hover:text-white dark:focus:text-white'
               text='Home'
             />
           </li>
           <li>
             <AnchorLink
               href='#footer'
-              className='text-nowrap hover:rounded-lg focus:rounded-lg hover:bg-neutral-300 focus:bg-neutral-300 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:text-white'
+              className='text-nowrap p-2.5 hover:rounded-lg focus:rounded-lg hover:bg-neutral-300 focus:bg-neutral-300 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:text-white'
               text='About Us'
             />
           </li>
           <li>
             <Link
               to='/solutions'
-              className='hover:rounded-lg focus:rounded-lg hover:bg-neutral-300 focus:bg-neutral-300 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:text-white'
+              className='p-2.5 hover:rounded-lg focus:rounded-lg hover:bg-neutral-300 focus:bg-neutral-300 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:text-white'
             >
               Dashboard
             </Link>
