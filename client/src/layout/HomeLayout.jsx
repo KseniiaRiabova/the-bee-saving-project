@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Header } from '../components/UI/Header';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
@@ -39,7 +39,7 @@ const HomeLayout = () => {
       loginWithRedirect({});
     } else {
       logout({ returnTo: window.location.origin });
-      navigate("/");
+      navigate('/');
     }
   };
 
@@ -49,7 +49,7 @@ const HomeLayout = () => {
 
   return (
     <>
-      <section className='relative bg-[#9BC25B] h-[100%]'>
+      <section className='relative bg-[#9BC25B] min-h-screen overflow-hidden'>
         {showNotification && (
           <SignUpNotification
             isFirstTimeUser={isFirstTimeUser}
@@ -57,7 +57,7 @@ const HomeLayout = () => {
             onClose={handleOnCloseNotification}
           />
         )}
-        <section className=' bg-[#9BC25B] flex flex-col justify-between md:justify-evenly md:gap-4 md:max-w-7xl md:mx-auto'>
+        <section className=' bg-[#9BC25B] flex flex-col justify-between md:justify-evenly md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
           <Header action={action} onClickHandler={onClickHandler} />
           <MainHeroLanding />
           <MainHeroLandingSurvey />
