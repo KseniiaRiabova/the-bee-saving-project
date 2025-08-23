@@ -9,8 +9,8 @@ function FooterTechStack({ techstack }) {
     setModalIndex(url);
   };
   return (
-    <div className='box2 px-4 md:px-8 w-full lg:w-1/3 border border-footerBoxColor flex flex-col items-center gap-2 rounded-3xl'>
-      <h2 className='text-xl font-bold my-4 text-footerProfileNameColor dark:text-white'>
+    <div className='box2 p-4 md:p-8 w-full md:w-1/3 border border-footerBoxColor flex flex-col items-center gap-6 rounded-3xl'>
+      <h2 className='text-xl font-bold text-footerProfileNameColor dark:text-white'>
         Tech Stack
       </h2>
 
@@ -22,7 +22,10 @@ function FooterTechStack({ techstack }) {
               tech.name === 'tailwindcss' ? 'col-span-2' : ''
             }`}
           >
-            <a href='#' onClick={(e) => handleClick(e, tech.url)}>
+            <a
+              href='#'
+              onClick={(e) => handleClick(e, tech.url)}
+            >
               <TechIcon
                 id={tech.image}
                 className={`w-full duration-300 hover:scale-105 ${
@@ -37,7 +40,10 @@ function FooterTechStack({ techstack }) {
       </div>
 
       {modalIndex && (
-        <ModalResourceLink url={modalIndex} handleClick={setModalIndex} />
+        <ModalResourceLink
+          url={modalIndex}
+          handleClick={setModalIndex}
+        />
       )}
     </div>
   );
