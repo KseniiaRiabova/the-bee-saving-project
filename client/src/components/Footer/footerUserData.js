@@ -1,13 +1,13 @@
 export const profiles = [
   {
     name: "Kseniia",
-    role: "Web Developer/Scrum Master",
+    role: "Web Developer / Scrum Master",
     github: "https://github.com/KseniiaRiabova",
     linkedin: "https://www.linkedin.com/in/kseniia--riabova/",
   },
   {
     name: "Valeriy",
-    role: "Web Developer/Product Owner",
+    role: "Web Developer / Product Owner",
     github: "https://github.com/Valeriusdev",
     linkedin: "https://www.linkedin.com/in/valeriylysenko/",
   },
