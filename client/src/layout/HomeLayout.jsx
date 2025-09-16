@@ -57,7 +57,7 @@ const HomeLayout = () => {
             onClose={handleOnCloseNotification}
           />
         )}
-        <section className=' bg-[#9BC25B] flex flex-col justify-between md:justify-evenly md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
+        <section className=' bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
           <Header
             action={action}
             onClickHandler={onClickHandler}
