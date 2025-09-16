@@ -6,7 +6,7 @@ export const SolutionsContainer = () => {
   const customStyles = 'text-[#101828] text-18px font-semibold';
 
   return (
-    <section className='flex flex-col pt-6 md:pt-14 md:min-h-[100%] px-6'>
+    <section className='flex flex-col pt-6 md:pt-14 md:min-h-[100%]'>
       <div className='flex flex-col justify-between gap-4 md:flex-row'>
         <article className='bg-[#D8E5C3] rounded-xl min-h-full px-3 py-6 flex flex-col gap-6 md:py-10 md:justify-stretch md:gap-8 md:w-5/12 dark:bg-[#3D4D22]'>
           <DetailsSummary

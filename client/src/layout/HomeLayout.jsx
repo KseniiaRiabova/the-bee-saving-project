@@ -57,7 +57,7 @@ const HomeLayout = () => {
             onClose={handleOnCloseNotification}
           />
         )}
-        <section className=' bg-[#9BC25B] flex flex-col justify-between  md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
+        <section className=' bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
           <Header
             action={action}
             onClickHandler={onClickHandler}
@@ -67,7 +67,7 @@ const HomeLayout = () => {
         </section>
       </section>
 
-      <main className='flex flex-col justify-between dark:bg-black dark:text-white'>
+      <main className='flex flex-col justify-between dark:bg-black dark:text-white px-6'>
         <section className='md:max-w-7xl md:mx-auto'>
           <ProblemContainter />
           <SolutionsHeader />
