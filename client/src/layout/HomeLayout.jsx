@@ -18,21 +18,31 @@ const HomeLayout = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
+  // Show notification for a few seconds after authentication
   useEffect(() => {
-    if (isAuthenticated) {
+    let timeout;
+
+    if (isAuthenticated && user) {
+      setIsFirstTimeUser(!user.email_verified);
       setShowNotification(true);
 
-      if (!user?.email_verified) {
-        setIsFirstTimeUser(true);
-      } else {
-        setIsFirstTimeUser(false);
-      }
+      timeout = setTimeout(() => {
+        setShowNotification(false);
+      }, 4000); // show for 4 seconds
     }
-  }, [isAuthenticated, navigate, isFirstTimeUser, user]);
+
+    return () => clearTimeout(timeout);
+  }, [isAuthenticated, user]);
 
   const handleOnCloseNotification = () => {
     setShowNotification(false);
   };
+
+  // const onClickHandler = () => {
+  //   isAuthenticated
+  //     ? logout({ returnTo: window.location.origin })
+  //     : loginWithRedirect();
+  // };
 
   const onClickHandler = () => {
     if (!isAuthenticated) {
@@ -57,11 +67,8 @@ const HomeLayout = () => {
             onClose={handleOnCloseNotification}
           />
         )}
-        <section className=' bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
-          <Header
-            action={action}
-            onClickHandler={onClickHandler}
-          />
+        <section className='bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
+          <Header action={action} onClickHandler={onClickHandler} />
           <MainHeroLanding />
           <MainHeroLandingSurvey />
         </section>
