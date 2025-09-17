@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Header } from "../../components/UI/Header";
 import { Map } from "../../components/Map";
@@ -8,90 +7,25 @@ import { UserProfileNew } from "../../components/UserProfile/UserProfileNew";
 import { BACKEND_URL } from "../../components/configs/envConfig";
 
 const Dashboard = () => {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { logout } = useAuth0();
-  const navigate = useNavigate();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    logout,
+    getAccessTokenSilently,
+  } = useAuth0();
 
-  const [protectedData, setProtectedData] = useState({});
   const [action, setAction] = useState("");
   const [requests, setRequests] = useState([]);
+  const [protectedData, setProtectedData] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [activeRequest, setActiveRequest] = useState();
-  const [completedRequest, setCompletedRequest] = useState();
+  const [activeRequest, setActiveRequest] = useState(0);
+  const [completedRequest, setCompletedRequest] = useState(0);
 
   const onClickHandler = () => {
-    logout({ logoutParams: { returnTo: window.location.origin } });
-    navigate("/");
-  };
-
-  const handleUpdateUserContactNumber = (data) => {
-    handleAddOrUpdateUserContactNumber(data);
-  };
-
-  const handleRequestToDeleteUserContactNumber = () => {
-    handleDeleteUserContactNumber();
-  };
-
-  const filterUserRequestData = (data) => {
-    const activeRequest = data?.requests.filter((request) => request.isActive === true);
-    const completedRequest = data?.requests.filter((request) => request.isCompleted === true);
-    const numberOfActiveRequest = activeRequest.length;
-    const numberOfCompletedRequest = completedRequest.length;
-    setActiveRequest(numberOfActiveRequest);
-    setCompletedRequest(numberOfCompletedRequest);
-  };
-
-  const handleAddOrUpdateUserContactNumber = async (data) => {
-    try {
-      const token = await getAccessTokenSilently();
-
-      const response = await fetch(`${BACKEND_URL}/user/metadata`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          metadata: { contactNumber: data },
-        }),
-      });
-
-      if (response.ok) {
-        console.log("Contact number updated successfully:", data);
-        const responseData = await response.json();
-        console.log("Updated user data:", responseData?.user);
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to add/update contact number", errorData);
-      }
-    } catch (error) {
-      console.error("Error updating contact number:", error);
-    }
-  };
-
-  const handleDeleteUserContactNumber = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-
-      const response = await fetch(`${BACKEND_URL}/user/metadata`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          metadata: { contactNumber: null },
-        }),
-      });
-
-      if (response.ok) {
-        console.log("Contact number deleted successfully");
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to delete contact number:", errorData);
-      }
-    } catch (error) {
-      console.error("Error deleting contact number:", error);
+    if (!isAuthenticated) {
+      loginWithRedirect();
+    } else {
+      logout({ returnTo: window.location.origin });
     }
   };
 
@@ -99,57 +33,99 @@ const Dashboard = () => {
     setAction(isAuthenticated ? "Log Out" : "Sign In/Up");
   }, [isAuthenticated]);
 
+  const filterUserRequestData = useCallback((data) => {
+    const active = data?.requests.filter((r) => r.isActive).length || 0;
+    const completed = data?.requests.filter((r) => r.isCompleted).length || 0;
+    setActiveRequest(active);
+    setCompletedRequest(completed);
+    setRequests(data?.requests || []);
+  }, []);
+
+  const fetchUserData = useCallback(async () => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      const [userRes, requestRes] = await Promise.all([
+        fetch(`${BACKEND_URL}/dashboard`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        fetch(`${BACKEND_URL}/requests`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      ]);
+
+      const userData = await userRes.json();
+      const requestData = await requestRes.json();
+
+      setProtectedData(userData?.user);
+      filterUserRequestData(requestData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [getAccessTokenSilently, filterUserRequestData]);
+
   useEffect(() => {
-    const fetchProtectedData = async () => {
-      try {
-        const accessToken = await getAccessTokenSilently();
-        const response = await fetch(
-          `${BACKEND_URL}/dashboard`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setProtectedData(data?.user);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+    fetchUserData();
+  }, [fetchUserData]);
 
-    const fetchProtectedUserRequestData = async () => {
-      try {
-        const accessToken = await getAccessTokenSilently();
-        const response = await fetch(
-          `${BACKEND_URL}/requests`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        const data = await response.json();
-        filterUserRequestData(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+  const handleUpdateUserContactNumber = async (number) => {
+    try {
+      const token = await getAccessTokenSilently();
+      const res = await fetch(`${BACKEND_URL}/user/metadata`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ metadata: { contactNumber: number } }),
+      });
 
-    fetchProtectedData();
-    fetchProtectedUserRequestData();
-  }, [getAccessTokenSilently]);
+      if (res.ok) {
+        console.log("Contact number updated:", number);
+        fetchUserData();
+      } else {
+        const err = await res.json();
+        console.error("Update failed:", err);
+      }
+    } catch (error) {
+      console.error("Error updating number:", error);
+    }
+  };
+
+  const handleDeleteUserContactNumber = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const res = await fetch(`${BACKEND_URL}/user/metadata`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ metadata: { contactNumber: null } }),
+      });
+
+      if (res.ok) {
+        console.log("Contact number deleted");
+        fetchUserData();
+      } else {
+        const err = await res.json();
+        console.error("Delete failed:", err);
+      }
+    } catch (error) {
+      console.error("Error deleting number:", error);
+    }
+  };
 
   return (
     <section>
       <section className="bg-[#9BC25B]">
-        <section className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <Header action={action} onClickHandler={onClickHandler} />
-        </section>
+        </div>
       </section>
 
       <main className="dark:bg-black dark:text-white border-2 border-transparent">
-        <section className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {protectedData && (
             <UserProfileNew
               showModal={showModal}
@@ -158,12 +134,12 @@ const Dashboard = () => {
               requests={requests}
               data={protectedData}
               sendUpdateUserContactNumber={handleUpdateUserContactNumber}
-              sendDeleteRequestOfUserContactNumber={handleRequestToDeleteUserContactNumber}
+              sendDeleteRequestOfUserContactNumber={handleDeleteUserContactNumber}
               activeBeeHivesFound={activeRequest}
               completedBeeHivesSaved={completedRequest}
             />
           )}
-        </section>
+        </div>
 
         <section className="flex justify-center p-2">
           <Map requests={requests} setRequests={setRequests} />

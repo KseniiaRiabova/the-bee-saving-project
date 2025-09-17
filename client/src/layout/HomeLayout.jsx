@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
 import { Header } from '../components/UI/Header';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
@@ -12,36 +11,31 @@ import { SignUpNotification } from '../components/notifications/SignUpNotificati
 
 const HomeLayout = () => {
   const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
-  const navigate = useNavigate();
-
   const [action, setAction] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      setShowNotification(true);
+      const timeout = setTimeout(() => {
+        setShowNotification(true);
+        setIsFirstTimeUser(!user?.email_verified);
+      }, 300);
 
-      if (!user?.email_verified) {
-        setIsFirstTimeUser(true);
-      } else {
-        setIsFirstTimeUser(false);
-      }
+      return () => clearTimeout(timeout);
     }
-  }, [isAuthenticated, navigate, isFirstTimeUser, user]);
+  }, [isAuthenticated, user]);
 
   const handleOnCloseNotification = () => {
     setShowNotification(false);
   };
 
   const onClickHandler = () => {
-    if (!isAuthenticated) {
-      loginWithRedirect({});
-    } else {
-      logout({ returnTo: window.location.origin });
-      navigate("/");
-    }
+    isAuthenticated
+      ? logout({ returnTo: window.location.origin })
+      : loginWithRedirect();
   };
+
 
   useEffect(() => {
     setAction(isAuthenticated ? 'Log Out' : 'Sign In / Up');

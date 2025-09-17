@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
-// import { AnchorLink } from '../UI/AnchorLink';
 import { Link } from 'react-router-dom';
 import { Nav } from '../UI/Nav';
 import navBeeLogo from '../../assets/imgs/nav_bee_logo.png';
-import React from 'react';
-// // import { Link } from 'react-router-dom';
-// import navBeeLogo from '../../assets/imgs/nav_bee_logo.png';
 
 export const Header = ({ action, onClickHandler, isAuthenticated }) => {
   return (
@@ -25,4 +21,5 @@ export const Header = ({ action, onClickHandler, isAuthenticated }) => {
 Header.propTypes = {
   action: PropTypes.string,
   onClickHandler: PropTypes.func,
+  isAuthenticated: PropTypes.bool,
 };

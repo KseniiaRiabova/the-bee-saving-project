@@ -6,7 +6,10 @@ import { useEffect } from "react";
 export const useAuthListener = () => {
   const { isAuthenticated, user, isLoading } = useAuth0();
   const dispatch = useDispatch();
-  useEffect(() => { dispatch(setAuthState({ isAuthenticated, user, isLoading })); }, [dispatch, isAuthenticated, user, isLoading]);
 
-  return { isLoading, isAuthenticated };
+  useEffect(() => {
+    dispatch(setAuthState({ isAuthenticated, user, isLoading }));
+  }, [dispatch, isAuthenticated, user, isLoading]);
+
+  return { isLoading, isAuthenticated, user };
 };
