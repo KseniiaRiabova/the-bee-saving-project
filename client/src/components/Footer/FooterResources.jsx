@@ -8,21 +8,24 @@ function FooterResources() {
     setModalIndex(index);
   };
   return (
-    <div className="box3 px-8 w-full md:w-1/3 border border-footerBoxColor flex flex-col items-center rounded-3xl">
-      <h2 className="text-xl font-bold my-4 text-footerProfileNameColor text-center dark:text-white">
+    <div className='box3 p-4 md:p-8 md:w-1/3 border border-footerBoxColor flex flex-col items-center gap-6 rounded-3xl'>
+      <h2 className='text-xl font-bold text-footerProfileNameColor text-center dark:text-white'>
         Resources
       </h2>
-      <ul className="list-none w-full text-center mb-4">
+      <ul className='list-none w-full text-center space-y-2'>
         {resourcesData.map((resource, index) => (
           <li key={index}>
             <a
-              className="underline mb-2 block text-footerBoxColor cursor-pointer"
+              className='underline block text-footerBoxColor cursor-pointer'
               onClick={() => handleClick(index)}
             >
               {resource.name}
             </a>
             {modalIndex === index && (
-              <ModalResourceLink url={resource.url} handleClick={handleClick} />
+              <ModalResourceLink
+                url={resource.url}
+                handleClick={handleClick}
+              />
             )}
           </li>
         ))}

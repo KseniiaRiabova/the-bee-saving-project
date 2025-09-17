@@ -6,10 +6,10 @@ import { techstack } from "./FooterTechStackData";
 
 function FooterContent() {
   return (
-    <div className="flex flex-col md:flex-row justify-between w-full space-y-4 md:space-y-0 md:space-x-4 lg:space-x-8 text-footerBoxColor pt-2">
+    <div className='flex flex-col md:flex-row justify-between gap-4 lg:gap-8 text-footerBoxColor pt-2'>
       <FooterUserProfiles profiles={profiles} />
 
-      <FooterTechStack techstack={techstack}/>
+      <FooterTechStack techstack={techstack} />
 
       <FooterResources />
     </div>

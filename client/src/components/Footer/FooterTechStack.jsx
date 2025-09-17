@@ -1,5 +1,6 @@
-import ModalResourceLink from "./ModalResourceLink";
-import { useState } from "react";
+import ModalResourceLink from './ModalResourceLink';
+import { useState } from 'react';
+import TechIcon from './TechIcon';
 
 function FooterTechStack({ techstack }) {
   const [modalIndex, setModalIndex] = useState(null);
@@ -8,29 +9,29 @@ function FooterTechStack({ techstack }) {
     setModalIndex(url);
   };
   return (
-    <div className="box2 px-4 md:px-8 w-full lg:w-1/3 border border-footerBoxColor flex flex-col items-center rounded-3xl">
-      <h2 className="text-xl font-bold my-4 text-footerProfileNameColor dark:text-white">
+    <div className='box2 p-4 md:p-8 w-full md:w-1/3 border border-footerBoxColor flex flex-col items-center gap-6 rounded-3xl'>
+      <h2 className='text-xl font-bold text-footerProfileNameColor dark:text-white'>
         Tech Stack
       </h2>
 
-      <div className="grid grid-cols-2 gap-4 w-full">
+      <div className='grid grid-cols-2 gap-x-8 gap-y-10 md:w-full'>
         {techstack.map((tech, index) => (
           <div
             key={index}
-            className={`flex justify-center items-center px-4 ${
-              tech.name === "tailwindcss" ? "col-span-2" : ""
-            }`}>
+            className={`flex justify-center items-center ${
+              tech.name === 'tailwindcss' ? 'col-span-2' : ''
+            }`}
+          >
             <a
-              href="#"
-              className="group"
-              onClick={e => handleClick(e, tech.url)}>
-              <img
-                src={tech.image}
-                alt={tech.name}
-                className={`object-contain ${
-                  tech.name === "tailwindcss"
-                    ? "w-96 mt-10"
-                    : "w-24 xl:w-32 h-24 xl:h-32 mr-2 xl:mr-4 mt-1"
+              href='#'
+              onClick={(e) => handleClick(e, tech.url)}
+            >
+              <TechIcon
+                id={tech.image}
+                className={`w-full duration-300 hover:scale-105 ${
+                  tech.name === 'tailwindcss'
+                    ? 'max-w-60 max-h-16'
+                    : 'max-w-20 xl:max-w-28 max-h-20 xl:max-h-24'
                 }`}
               />
             </a>
@@ -39,7 +40,10 @@ function FooterTechStack({ techstack }) {
       </div>
 
       {modalIndex && (
-        <ModalResourceLink url={modalIndex} handleClick={setModalIndex} />
+        <ModalResourceLink
+          url={modalIndex}
+          handleClick={setModalIndex}
+        />
       )}
     </div>
   );

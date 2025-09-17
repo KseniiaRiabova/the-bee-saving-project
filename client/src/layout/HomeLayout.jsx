@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Header } from '../components/UI/Header';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
@@ -11,31 +12,36 @@ import { SignUpNotification } from '../components/notifications/SignUpNotificati
 
 const HomeLayout = () => {
   const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+  const navigate = useNavigate();
+
   const [action, setAction] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      const timeout = setTimeout(() => {
-        setShowNotification(true);
-        setIsFirstTimeUser(!user?.email_verified);
-      }, 300);
+      setShowNotification(true);
 
-      return () => clearTimeout(timeout);
+      if (!user?.email_verified) {
+        setIsFirstTimeUser(true);
+      } else {
+        setIsFirstTimeUser(false);
+      }
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, navigate, isFirstTimeUser, user]);
 
   const handleOnCloseNotification = () => {
     setShowNotification(false);
   };
 
   const onClickHandler = () => {
-    isAuthenticated
-      ? logout({ returnTo: window.location.origin })
-      : loginWithRedirect();
+    if (!isAuthenticated) {
+      loginWithRedirect({});
+    } else {
+      logout({ returnTo: window.location.origin });
+      navigate('/');
+    }
   };
-
 
   useEffect(() => {
     setAction(isAuthenticated ? 'Log Out' : 'Sign In / Up');
@@ -43,7 +49,7 @@ const HomeLayout = () => {
 
   return (
     <>
-      <section className='relative bg-[#9BC25B] h-[100%]'>
+      <section className='relative bg-[#9BC25B] min-h-screen overflow-hidden'>
         {showNotification && (
           <SignUpNotification
             isFirstTimeUser={isFirstTimeUser}
@@ -51,14 +57,17 @@ const HomeLayout = () => {
             onClose={handleOnCloseNotification}
           />
         )}
-        <section className=' bg-[#9BC25B] flex flex-col justify-between md:justify-evenly md:gap-4 md:max-w-7xl md:mx-auto'>
-          <Header action={action} onClickHandler={onClickHandler} />
+        <section className=' bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
+          <Header
+            action={action}
+            onClickHandler={onClickHandler}
+          />
           <MainHeroLanding />
           <MainHeroLandingSurvey />
         </section>
       </section>
 
-      <main className='flex flex-col justify-between dark:bg-black dark:text-white'>
+      <main className='flex flex-col justify-between dark:bg-black dark:text-white px-6'>
         <section className='md:max-w-7xl md:mx-auto'>
           <ProblemContainter />
           <SolutionsHeader />

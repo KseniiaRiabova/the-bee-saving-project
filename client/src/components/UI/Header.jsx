@@ -6,14 +6,14 @@ import navBeeLogo from '../../assets/imgs/nav_bee_logo.png';
 export const Header = ({ action, onClickHandler, isAuthenticated }) => {
   return (
     <header>
-      <section className='flex items-start justify-between mx-auto'>
-        <div className='logo'>
+      <div className='flex items-center justify-between gap-6 p-6'>
+        <div className='logo shrink-0'>
           <Link to={isAuthenticated ? '/dashboard' : '/'}>
-            <img src={navBeeLogo} alt='Bee Logo' className='h-[10rem]' />
+            <img src={navBeeLogo} alt='Bee Logo' className='h-16 md:h-24' />
           </Link>
         </div>
         <Nav action={action} onClickHandler={onClickHandler} />
-      </section>
+      </div>
     </header>
   );
 };
