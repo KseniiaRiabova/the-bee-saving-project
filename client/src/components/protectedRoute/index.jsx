@@ -1,18 +1,17 @@
-import PropTypes from "prop-types";
-import { Navigate } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
 
-export const ProtectedRoute = ({ children, auth }) => {
-  const { isAuthenticated, isLoading } = auth;
+export const ProtectedRoute = ({ auth, children }) => {
+  if (auth.isLoading) return null;
+  if (!auth.isAuthenticated) return <Navigate to="/" replace />;
 
-  if (isLoading) return <section>Loading...</section>;
-  if (isAuthenticated) return children;
-
-  return (
-    <Navigate to="/" />
-  );
+  return children;
 };
 
 ProtectedRoute.propTypes = {
-  children: PropTypes.array,
-  auth: PropTypes.object,
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  }).isRequired,
+  children: PropTypes.node.isRequired,
 };
