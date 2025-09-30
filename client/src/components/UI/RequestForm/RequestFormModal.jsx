@@ -1,26 +1,25 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { BACKEND_URL } from '../../configs/envConfig';
 import MapComponent from './MapComponent';
 import FetchLocationData from '../../../lib/FetchLocationData';
-import SubmitRequestForm from '../../../lib/SubmitRequestForm';
+import useRequestStore from '../../../stores/useRequestStore';
 
-import {  OpenStreetMapProvider } from 'leaflet-geosearch';
-import { MapContainer, TileLayer,  } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet-geosearch/dist/geosearch.css';
 
-export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
+export const RequestFormModal = ({ showModal, setShowModal }) => {
   const customLabelStyles =
     'block mb-2 text-sm font-medium text-gray-900 dark:text-white';
   const customInputStyles =
     'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500';
 
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
+  const { addRequest } = useRequestStore();
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
-
     title: '',
     description: '',
     latitude: '',
@@ -32,9 +31,7 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
     isActive: true,
     isAccepted: false,
   });
-  const [addressQuery, setAddressQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [markerPosition, setMarkerPosition] = useState([51.505, -0.09]);  
+  const [markerPosition, setMarkerPosition] = useState([51.505, -0.09]);
   useEffect(() => {
     const fetchUserLocation = () => {
       if (navigator.geolocation) {
@@ -42,7 +39,7 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
           (position) => {
             const { latitude, longitude } = position.coords;
             setMarkerPosition([latitude, longitude]);
-            FetchLocationData(latitude, longitude,setFormData); // Already exists, sets formData
+            FetchLocationData(latitude, longitude, setFormData); // Already exists, sets formData
           },
           (error) => {
             console.error('Error getting user location:', error);
@@ -53,12 +50,11 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
         console.error('Geolocation is not supported by this browser.');
       }
     };
-  
+
     if (showModal) {
-      fetchUserLocation();  
+      fetchUserLocation();
     }
   }, [showModal]);
-   
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -92,7 +88,7 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
     if (showModal) {
       fetchUserData();
     }
-  }, [getAccessTokenSilently, showModal, BACKEND_URL]);
+  }, [getAccessTokenSilently, showModal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,13 +98,47 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
     }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-   
+    // Basic validation
+    const newErrors = {};
+    if (!formData.title.trim()) newErrors.title = true;
+    if (!formData.description.trim()) newErrors.description = true;
+    if (!formData.city) newErrors.city = true;
+    if (!formData.country) newErrors.country = true;
+    if (!formData.contactNumber) newErrors.contactNumber = true;
 
-   
-   
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
-  
+    try {
+      const token = await getAccessTokenSilently();
+
+      const response = await fetch(`${BACKEND_URL}/requests/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create request');
+      }
+
+      const data = await response.json();
+      await addRequest(data);
+      setShowModal(false);
+      setErrors({});
+    } catch (error) {
+      console.error('Error creating request:', error);
+      setErrors({ submit: true });
+    }
+  };
 
   return (
     <>
@@ -127,6 +157,7 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
                   </span>
                 </button>
               </div>
+
               <div className="relative bg-white rounded-lg dark:bg-gray-700">
                 <form className="p-4 mx-4 md:p-5">
                   <div className="grid gap-3 grid-cols-2">
@@ -151,6 +182,7 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
                         </p>
                       )}
                     </div>
+
                     {/* Description */}
                     <div className="col-span-12">
                       <label htmlFor="description" className={customLabelStyles}>
@@ -171,20 +203,19 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
                         </p>
                       )}
                     </div>
-                     
 
                     {/* Map Rendering */}
                     <div className="col-span-12">
                       <label className={customLabelStyles}>Map</label>
                       <MapContainer
-                    
-                      
+
+
                         center={markerPosition}
                         zoom={11}
                         style={{ width: '100%', height: '300px' }}
                       >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        <MapComponent markerPosition={markerPosition} FetchLocationData={FetchLocationData} setFormData={setFormData} setMarkerPosition={setMarkerPosition}/>
+                        <MapComponent markerPosition={markerPosition} FetchLocationData={FetchLocationData} setFormData={setFormData} setMarkerPosition={setMarkerPosition} />
                       </MapContainer>
                     </div>
 
@@ -222,20 +253,25 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
                       </div>
                     </div>
                     <div className="col-span-12">
-                      <label htmlFor="country" className={customLabelStyles}>
+                      <label htmlFor="contactNumber" className={customLabelStyles}>
                         Phone Number *
                       </label>
                       <div className="mt-2">
                         <input
-                          id="contact"
-                          name="contact"
+                          id="contactNumber"
+                          name="contactNumber"
                           type="text"
                           value={formData.contactNumber}
                           onChange={handleChange}
                           className={customInputStyles}
-
+                          placeholder="Enter your phone number"
                         />
                       </div>
+                      {errors.contactNumber && (
+                        <p className="text-red-500 text-sm">
+                          Enter valid phone number
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -251,7 +287,7 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
                     <button
                       className="bg-[#F4743B] text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={(e)=>{SubmitRequestForm(e,formData,setRequests,setShowModal,setErrors,getAccessTokenSilently,user)}}
+                      onClick={(e) => { handleSubmit(e); }}
                     >
                       Save Changes
                     </button>
@@ -266,9 +302,16 @@ export const RequestFormModal = ({ showModal, setShowModal, setRequests }) => {
   );
 };
 
+MapComponent.propTypes = {
+  markerPosition: PropTypes.arrayOf(PropTypes.number).isRequired,
+  FetchLocationData: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  setMarkerPosition: PropTypes.func.isRequired,
+};
+
 RequestFormModal.propTypes = {
-  showModal: PropTypes.bool,
-  setShowModal: PropTypes.func,
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired,
 };
 
 export default RequestFormModal;

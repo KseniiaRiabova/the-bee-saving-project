@@ -1,19 +1,15 @@
-import { useState } from 'react';
+import useDarkModeStore from '../../stores/useDarkModeStore';
 
 export const DarkLightModeButton = () => {
-  const [dark, setDark] = useState(false);
-
-  const darkModeHandler = () => {
-    setDark(!dark);
-    document.body.classList.toggle('dark');
-  };
+  const { isDarkMode, toggleDarkMode } = useDarkModeStore();
 
   return (
     <label className='relative block w-12 h-6'>
       <input
         type='checkbox'
         className='sr-only peer'
-        onClick={() => darkModeHandler()}
+        checked={isDarkMode}
+        onChange={toggleDarkMode}
       />
       {/* Toggle track */}
       <span className='absolute inset-0 bg-transparent border border-black rounded-full cursor-pointer'></span>
