@@ -12,26 +12,41 @@ export const MainHeroLandingSurvey = () => {
   });
 
   return (
-    <section className="flex flex-col items-center justify-center py-4 md:px-4 md:flex-row md:justify-between">
-      <section className="flex flex-col items-center justify-center gap-4 md:gap-0 md:flex-row">
-        <Image src={beeImage} alt="Bee image" className="border-2 border-[#D9D9D9] rounded-full h-40 w-40 dark:border-black" />
-
-        <h2 className="text-2xl text-center font-bold text-black leading-8 pl-4 md:max-w-60 md:text-start dark:text-white">
-          Its Time to Save The Bees To Save Our Future Generations
-        </h2>
-
-        <Button
-          className="w-40 text-black bg-navSignupButton text-lg px-5 py-2 rounded-lg md:mt-10 dark:text-white"
-          type="button"
-          text="Learn More"
+    <section className='flex flex-col md:flex-row items-center md:justify-between gap-9 p-6 '>
+      <div className='flex items-center justify-center gap-4'>
+        <Image
+          src={beeImage}
+          alt='Bee image'
+          className='border-2 border-borderColor rounded-full h-24 md:h-28 lg:h-32 dark:border-black'
         />
-      </section>
 
-      <section className="flex flex-col gap-4 my-2 md:my-0 md:gap-8 md:flex-row">
-        <MainHeroLandingSurveyAnimatedNumber statHighlights={statHighlights.countries} text="Countries" />
-        <MainHeroLandingSurveyAnimatedNumber statHighlights={statHighlights.hivesSaved} text="Beehives Saved" />
-        <MainHeroLandingSurveyAnimatedNumber statHighlights={statHighlights.volunteers} text="Volunteers" />
-      </section>
+        <div className='flex flex-wrap items-end justify-end md:justify-start gap-2 lg:gap-6 text-end md:text-start'>
+          <h2 className='text-lg sm:text-xl lg:text-2xl font-bold text-black leading-6 lg:leading-8 md:max-w-60 dark:text-white'>
+            Its Time to Save The Bees To Save Our Future Generations
+          </h2>
+
+          <Button
+            className='text-black bg-navSignupButton text-lg px-8 py-2 rounded-lg dark:text-white'
+            type='button'
+            text='Learn More'
+          />
+        </div>
+      </div>
+
+      <div className='flex gap-6 lg:gap-8'>
+        <MainHeroLandingSurveyAnimatedNumber
+          statHighlights={statHighlights.countries}
+          text='Countries'
+        />
+        <MainHeroLandingSurveyAnimatedNumber
+          statHighlights={statHighlights.hivesSaved}
+          text='Beehives Saved'
+        />
+        <MainHeroLandingSurveyAnimatedNumber
+          statHighlights={statHighlights.volunteers}
+          text='Volunteers'
+        />
+      </div>
     </section>
   );
 };

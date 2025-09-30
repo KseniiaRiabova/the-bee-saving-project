@@ -21,6 +21,7 @@ export default {
         footerLinkedinHoverColor: "#0072B1",
         navSignupButton: "#F4743B",
         navSignupButtonWhite: "#ffffff",
+        borderColor: "#D9D9D9",
       },
       fontSize: {
         "18px": "18px",
