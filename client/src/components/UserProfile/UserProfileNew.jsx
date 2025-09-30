@@ -82,9 +82,14 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
         <h3 className="font-semibold text-xl">Dashboard</h3>
 
         <section className="flex items-center justify-end gap-3 md:gap-6">
-          <section>
-            <p>{email}</p>
-          </section>
+          <div className="flex flex-col items-end">
+            <p className="font-medium text-black dark:text-white">
+              {email ? email.split('@')[0] : 'Loading...'}
+            </p>
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              {email || 'Loading...'}
+            </p>
+          </div>
 
           <section className="relative w-20 h-20 rounded-full overflow-hidden">
             <AnchorLink className="" onClick={() => onChangeToggleUserInfoModalHandler(true)}>
@@ -92,7 +97,7 @@ export const UserProfileNew = ({ data, sendUpdateUserContactNumber, sendDeleteRe
             </AnchorLink>
           </section>
 
-          {isUserInfoModalOpen && <section className={`${isUserInfoModalOpen ? "absolute bg-gray-300 rounded-lg top-[19rem] right-0 w-full md:max-w-lg border-2 border-[#9BC25B] md:top-[17rem] md:right-auto dark:bg-black dark:border-white z-[60]" : "hidden"}`}>
+          {isUserInfoModalOpen && <section className={`${isUserInfoModalOpen ? "absolute bg-gray-300 rounded-lg top-[16rem] right-0 w-full md:max-w-lg border-2 border-[#9BC25B] md:top-[15rem] md:right-auto dark:bg-black dark:border-white z-[60]" : "hidden"}`}>
             <section className="relative flex flex-col justify-around items-start pl-4 h-64 md:items-start md:pl-6">
               <section className="absolute top-[2rem] right-[2rem]">
                 <Button onClickHandler={() => onChangeToggleUserInfoModalHandler(false)}>
@@ -186,6 +191,10 @@ UserProfileNew.propTypes = {
   data: PropTypes.object,
   sendUpdateUserContactNumber: PropTypes.func.isRequired,
   sendDeleteRequestOfUserContactNumber: PropTypes.func,
+  showModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
+  setRequests: PropTypes.func,
+  requests: PropTypes.array,
   activeBeeHivesFound: PropTypes.number,
   completedBeeHivesSaved: PropTypes.number,
 };
