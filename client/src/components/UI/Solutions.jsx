@@ -5,17 +5,22 @@ import { useNavigate } from 'react-router-dom';
 import { SolutionsContainer } from './SolutionsContainer';
 import { Header } from './Header';
 import Footer from '../Footer/Footer';
+import { useLogout } from '../../hooks/useLogout';
 
 const Solutions = () => {
-  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
-  const { loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  // const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+  const { loginWithRedirect } = useAuth0();
+  // const { loginWithRedirect, logout } = useAuth0();
   // const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
   const navigate = useNavigate();
+
+  const logout = useLogout();
 
   // const [action, setAction] = useState("Sign Up");
   const [action, setAction] = useState('');
 
-  const returnToUri = import.meta.env.VITE_AUTH0_RETURN_TO_URI;
+  // const returnToUri = import.meta.env.VITE_AUTH0_RETURN_TO_URI;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -28,7 +33,9 @@ const Solutions = () => {
       loginWithRedirect({});
     } else {
       // logout({ returnTo: window.location.origin });
-      logout({ logoutParams: { returnTo: returnToUri } });
+      // logout({ logoutParams: { returnTo: returnToUri } });
+      // logout({ returnTo: import.meta.env.VITE_AUTH0_CALLBACK_URI });
+      logout();
     }
   };
 

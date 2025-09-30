@@ -5,14 +5,17 @@ import { Map } from "../../components/Map";
 import Footer from "../../components/Footer/Footer";
 import { UserProfileNew } from "../../components/UserProfile/UserProfileNew";
 import { BACKEND_URL } from "../../components/configs/envConfig";
+import { useLogout } from '../../hooks/useLogout';
 
 const Dashboard = () => {
   const {
     loginWithRedirect,
     isAuthenticated,
-    logout,
+    // logout,
     getAccessTokenSilently,
   } = useAuth0();
+
+  const logout = useLogout();
 
   const [action, setAction] = useState("");
   const [requests, setRequests] = useState([]);
@@ -21,13 +24,13 @@ const Dashboard = () => {
   const [activeRequest, setActiveRequest] = useState(0);
   const [completedRequest, setCompletedRequest] = useState(0);
 
-  const onClickHandler = () => {
+  const onClickHandler = useCallback(() => {
     if (!isAuthenticated) {
       loginWithRedirect();
     } else {
-      logout({ returnTo: window.location.origin });
+      logout();
     }
-  };
+  }, [isAuthenticated, loginWithRedirect, logout]);
 
   useEffect(() => {
     setAction(isAuthenticated ? "Log Out" : "Sign In/Up");
