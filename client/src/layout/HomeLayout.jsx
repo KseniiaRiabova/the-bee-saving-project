@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Header } from '../components/UI/Header';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
@@ -9,10 +9,13 @@ import { ProblemContainter } from '../components/UI/ProblemContainer';
 import { SolutionsHeader } from '../components/UI/SolutionsHeader';
 import { SolutionsContainer } from '../components/UI/SolutionsContainer';
 import { SignUpNotification } from '../components/notifications/SignUpNotification';
+import { useLogout } from '../hooks/useLogout';
 
 const HomeLayout = () => {
-  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
-  const navigate = useNavigate();
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  // const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+  // const navigate = useNavigate();
+  const logout = useLogout();
 
   const [action, setAction] = useState('');
   const [showNotification, setShowNotification] = useState(false);
@@ -44,14 +47,13 @@ const HomeLayout = () => {
   //     : loginWithRedirect();
   // };
 
-  const onClickHandler = () => {
+  const onClickHandler = useCallback(() => {
     if (!isAuthenticated) {
-      loginWithRedirect({});
+      loginWithRedirect();
     } else {
-      logout({ returnTo: window.location.origin });
-      navigate('/');
+      logout();
     }
-  };
+  }, [isAuthenticated, loginWithRedirect, logout]);
 
   useEffect(() => {
     setAction(isAuthenticated ? 'Log Out' : 'Sign In / Up');

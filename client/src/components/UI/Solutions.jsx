@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import { SolutionsContainer } from './SolutionsContainer';
 import { Header } from './Header';
 import Footer from '../Footer/Footer';
+import { useLogout } from '../../hooks/useLogout';
+import useAuthStore from '../../stores/useAuthStore';
 
 const Solutions = () => {
-  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
-  const { loginWithRedirect, logout } = useAuth0();
-  // const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const { isAuthenticated } = useAuthStore();
+  const { loginWithRedirect } = useAuth0();
+
   const navigate = useNavigate();
 
-  // const [action, setAction] = useState("Sign Up");
-  const [action, setAction] = useState('');
+  const logout = useLogout();
 
-  const returnToUri = import.meta.env.VITE_AUTH0_RETURN_TO_URI;
+  const [action, setAction] = useState('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -27,8 +27,7 @@ const Solutions = () => {
     if (!isAuthenticated) {
       loginWithRedirect({});
     } else {
-      // logout({ returnTo: window.location.origin });
-      logout({ logoutParams: { returnTo: returnToUri } });
+      logout();
     }
   };
 

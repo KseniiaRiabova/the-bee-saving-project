@@ -1,15 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch } from "react-redux";
-import { setAuthState } from "../../../features/auth/authSlice";
 import { useEffect } from "react";
+import useAuthStore from "../../../stores/useAuthStore";
 
 export const useAuthListener = () => {
   const { isAuthenticated, user, isLoading } = useAuth0();
-  const dispatch = useDispatch();
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   useEffect(() => {
-    dispatch(setAuthState({ isAuthenticated, user, isLoading }));
-  }, [dispatch, isAuthenticated, user, isLoading]);
+    setAuth({ isAuthenticated, user, isLoading });
+  }, [setAuth, isAuthenticated, user, isLoading]);
 
   return { isLoading, isAuthenticated, user };
 };

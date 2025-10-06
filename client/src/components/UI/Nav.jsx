@@ -1,18 +1,33 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '../UI/Button';
 import { DarkLightModeButton } from '../UI/DarkLightModeButton';
 import { BurgerMenu } from './BurgerMenu';
 import { useAuthListener } from '../../components/auth/useAuthListener';
+import { useLogout } from '../../hooks/useLogout';
 
 export const Nav = ({ action, onClickHandler }) => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const userInfoRef = useRef(null);
 
   const { isAuthenticated, user } = useAuthListener();
-  const { logout } = useAuth0();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userInfoRef.current && !userInfoRef.current.contains(event.target)) {
+        setShowUserInfo(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const logout = useLogout();
 
   const burgerMenuContainer = document.querySelector('.burger-menu-container');
 
@@ -21,14 +36,13 @@ export const Nav = ({ action, onClickHandler }) => {
     burgerMenuContainer?.classList.toggle('change');
   };
 
-  const handleAuthClick = () => {
+  const handleAuthClick = useCallback(() => {
     if (isAuthenticated) {
-      console.log('Logging out to:', window.location.origin);
-      logout({ returnTo: window.location.origin });
+      logout();
     } else {
       onClickHandler?.();
     }
-  };
+  }, [isAuthenticated, logout, onClickHandler]);
 
   const toggleUserInfo = () => {
     setShowUserInfo(prev => !prev);
@@ -89,7 +103,7 @@ export const Nav = ({ action, onClickHandler }) => {
           </li>
 
           {isAuthenticated && user && (
-            <li className="relative flex items-center space-x-3 px-2">
+            <li className="relative flex items-center space-x-3 px-2" ref={userInfoRef}>
               <button
                 onClick={toggleUserInfo}
                 className="focus:outline-none"
@@ -103,12 +117,12 @@ export const Nav = ({ action, onClickHandler }) => {
               </button>
 
               {showUserInfo && (
-                <div className="absolute top-8 right-0 mt-2 w-56 p-3 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded shadow-md z-50">
-                  <div className="font-medium text-black dark:text-white">
+                <div className="absolute top-8 right-[-146px] mt-2 min-w-[340px] w-[280px] p-4 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg z-50 md:right-0">
+                  <div className="font-medium text-black dark:text-white break-words mb-1">
                     {user.name}
                   </div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-300 break-words mb-3">
-                    {user.email}
+                  <div className="text-sm text-neutral-600 dark:text-neutral-300 break-all mb-3">
+                    {user.email.split('@')[0]}
                   </div>
 
                   <Button
