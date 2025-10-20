@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import { useAuth0 } from '@auth0/auth0-react';
-import { BACKEND_URL } from '../configs/envConfig';
+import PropTypes from "prop-types";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BACKEND_URL } from "../configs/envConfig";
 
 function AcceptRequestCall({ selectedRequest, onSuccess }) {
   const { getAccessTokenSilently, user } = useAuth0();
@@ -11,10 +11,10 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
       const response = await fetch(
         `${BACKEND_URL}/requests/${selectedRequest._id}/accept`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             beekeeperId: user.sub,
@@ -23,14 +23,14 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
       );
 
       if (!response.ok) {
-        throw new Error('Failed to accept the request');
+        throw new Error("Failed to accept the request");
       }
       const data = await response.json();
-      console.log('Request accepted successfully:', data);
+      console.log("Request accepted successfully:", data);
       onSuccess(data.request);
     } catch (error) {
       console.error(
-        'Error accepting request:',
+        "Error accepting request:",
         error.response ? error.response.data : error.message
       );
     }
@@ -42,7 +42,6 @@ function AcceptRequestCall({ selectedRequest, onSuccess }) {
         <span className='text-green-500 font-bold'>Accepted ✅</span>
       ) : (
         <button
-          className={`font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 bg-[#F4743B] text-white`}
           type='button'
           onClick={handleAcceptRequest}
         >

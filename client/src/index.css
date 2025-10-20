@@ -3,45 +3,79 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Blinker, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "Blinker";
+  src: url("../src/assets/fonts/Blinker/Blinker-Regular.ttf") format("truetype");
 }
 
-* {
-  @apply transition-all duration-100;
+@font-face {
+  font-family: BlinkerBold;
+  src: url("../src/assets/fonts/Blinker/Blinker-Bold.ttf");
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Blinker;
-  min-height: 100vh;
-  height: 100%;
-  overflow: hidden;
-  overflow-y: auto;
-}
-
-.logo-custom {
+@font-face {
   font-family: BlackOpsOneFont;
+  src: url("../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf");
 }
 
-.burger-menu-container {
-  display: inline-block;
-  cursor: pointer;
+@layer base {
+  :root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  * {
+    @apply box-border m-0 p-0;
+  }
+
+  body {
+    @apply min-h-screen h-full overflow-y-auto
+           font-sans text-base font-normal antialiased
+           text-footerProfileNameColor dark:text-white;
+  }
+
+  h2,
+  h3 {
+    @apply text-footerProfileNameColor dark:text-white;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl font-bold;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl font-bold;
+  }
+
+  a,
+  button,
+  summary {
+    @apply cursor-pointer transition-all duration-500 ease-in-out;
+  }
+
+  button {
+    @apply px-8 py-2 text-base font-medium text-white bg-navSignupButton border border-navSignupButton rounded-lg shadow
+           hover:bg-neutral-300 hover:text-footerProfileNameColor hover:shadow-lg hover:border-neutral-300
+           focus:bg-neutral-300 focus:text-footerProfileNameColor
+           dark:text-footerProfileNameColor dark:hover:text-white
+           dark:hover:bg-neutral-600  dark:hover:border-neutral-600
+           dark:focus:bg-neutral-600 dark:focus:text-white;
+  }
+
+  summary {
+    @apply text-[#101828] font-bold text-lg dark:text-white;
+  }
 }
 
-.bar1, 
-.bar2, 
+@layer components {
+  .btn-outline {
+    @apply bg-transparent border border-neutral-300 text-footerProfileNameColor
+           hover:border-neutral-300;
+  }
+}
+
+.bar1,
+.bar2,
 .bar3 {
   width: 35px;
   height: 5px;
@@ -62,13 +96,6 @@ body {
   transform: translate(0, -11px) rotate(45deg);
 }
 
-summary {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  transition: all .03s ease-in-out;
-}
-
 summary::after {
   display: inline-flex;
   margin-left: auto;
@@ -76,18 +103,5 @@ summary::after {
 }
 
 details[open] > summary::after {
-  content: url("./assets/images/detailsSummaryButton/orangeButtonMinus.svg");  
-}
-
-@font-face {
-  font-family: BlackOpsOneFont;
-  src: url("../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf");
-}
-@font-face {
-  font-family: Blinker;
-  src: url("../src/assets/fonts/Blinker/Blinker-Regular.ttf");
-}
-@font-face {
-  font-family: BlinkerBold;
-  src: url("../src/assets/fonts/Blinker/Blinker-Bold.ttf");
+  content: url("./assets/images/detailsSummaryButton/orangeButtonMinus.svg");
 }

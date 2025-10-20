@@ -1,15 +1,26 @@
-import DataTable from 'react-data-table-component';
-import PropTypes from 'prop-types';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useState } from 'react';
-import AcceptRequestModal from './AcceptRequestModal';
-import useRequestStore from '../../stores/useRequestStore';
-import columns from './requestTableColumns';
+import DataTable from "react-data-table-component";
+import PropTypes from "prop-types";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
+import AcceptRequestModal from "./AcceptRequestModal";
+import useRequestStore from "../../stores/useRequestStore";
+import columns from "./requestTableColumns";
 
 const tableCustomStyles = {
   headRow: {
     style: {
-      backgroundColor: '#f0f0f2',
+      backgroundColor: "#f0f0f2",
+      fontSize: "1rem",
+    },
+  },
+  rows: {
+    style: {
+      fontSize: "1rem",
+    },
+  },
+  pagination: {
+    style: {
+      fontSize: "1rem",
     },
   },
 };
@@ -38,14 +49,14 @@ export const RequestComponent = ({ fixedHeader, requests }) => {
     const updatedRequest = {
       ...selectedRequest,
       isAccepted: true,
-      beekeeper: user.email
+      beekeeper: user.email,
     };
     await updateRequest(updatedRequest);
     handleModalClose();
   };
 
   return (
-    <>
+    <div>
       <DataTable
         columns={columns({
           handleDetailsClick,
@@ -67,7 +78,7 @@ export const RequestComponent = ({ fixedHeader, requests }) => {
           onAccept={handleRequestAcceptance}
         />
       )}
-    </>
+    </div>
   );
 };
 

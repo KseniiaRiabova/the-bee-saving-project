@@ -10,16 +10,14 @@ function FooterUserProfiles({ profiles }) {
   };
 
   return (
-    <div className='box1 p-6 lg:p-8 w-full md:w-1/3 space-y-4 border border-footerBoxColor rounded-3xl dark:bg-black dark:text-white'>
+    <div className='box1 p-6 lg:p-8 w-full md:w-1/3 space-y-4 border border-footerBoxColor rounded-3xl dark:bg-black'>
       {profiles.map((profile, index) => (
         <div
           key={index}
           className='profile-info flex justify-between items-center gap-4'
         >
           <div className='firstNameContainer'>
-            <h2 className='text-2xl text-footerProfileNameColor dark:text-white'>
-              {profile.name}
-            </h2>
+            <h3>{profile.name}</h3>
             <p className='text-sm text-footerBoxColor'>{profile.role}</p>
           </div>
           <div className='icon-containers flex items-center'>

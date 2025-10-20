@@ -3,13 +3,15 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["ui-sans-serif", "system-ui"],
-      serif: ["ui-serif", "Georgia"],
-      mono: ["ui-monospace", "SFMono-Regular"],
-      display: ["Oswald"],
-      body: ["Blinker"],
+      // sans: ["ui-sans-serif", "system-ui"],
+      // serif: ["ui-serif", "Georgia"],
+      // mono: ["ui-monospace", "SFMono-Regular"],
+      // display: ["Oswald"],
+      // body: ["Blinker"],
       bold: ["BlinkerBold"],
-      blinker: ["BlinkerBold"],
+      // blinker: ["BlinkerBold"],
+      sans: ["Blinker", "Arial", "ui-sans-serif", "system-ui", "sans-serif"],
+      display: ["BlackOpsOne", "Oswald"],
     },
     extend: {
       colors: {

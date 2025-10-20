@@ -9,9 +9,7 @@ function FooterResources() {
   };
   return (
     <div className='box3 p-4 md:p-8 md:w-1/3 border border-footerBoxColor flex flex-col items-center gap-6 rounded-3xl'>
-      <h2 className='text-xl font-bold text-footerProfileNameColor text-center dark:text-white'>
-        Resources
-      </h2>
+      <h3 className='text-center'>Resources</h3>
       <ul className='list-none w-full text-center space-y-2'>
         {resourcesData.map((resource, index) => (
           <li key={index}>
