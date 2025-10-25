@@ -1,26 +1,25 @@
-import { Button } from '../UI/Button';
-import { RequestFormModal } from '../UI/RequestForm/RequestFormModal';
-import { Input } from '../UI/Input';
-import { RequestComponent } from './RequestTable';
-import useRequestStore from '../../stores/useRequestStore';
-import PropTypes from 'prop-types';
+import { Button } from "../UI/Button";
+import { RequestFormModal } from "../UI/RequestForm/RequestFormModal";
+import { Input } from "../UI/Input";
+import { RequestComponent } from "./RequestTable";
+import useRequestStore from "../../stores/useRequestStore";
+import PropTypes from "prop-types";
 
 export const UserRequest = ({ showModal, setShowModal }) => {
   const { requests } = useRequestStore();
 
   return (
-    <section className="flex flex-col justify-around items-center border border-gray-400 rounded-lg w-full md:items-start md:p-10">
-      <section className="flex justify-between items-center mb-4 w-full flex-col gap-4 md:flex-row md:justify-between">
-        <h3 className="font-semibold text-xl dark:text-white">Requests</h3>
+    <section className='flex flex-col justify-around items-center border border-gray-400 rounded-lg w-full md:items-start md:p-10'>
+      <section className='flex justify-between items-center mb-4 w-full flex-col gap-4 md:flex-row md:justify-between'>
+        <h3>Requests</h3>
         <Input
-          type="text"
-          placeholder="Search"
-          className="w-64 bg-gray-50 border border-gray-300 text-sm text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          type='text'
+          placeholder='Search'
+          className='w-64 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
         />
         <Button
-          className="font-normal text-white bg-[#F4743B] border hover:border-[#F4743B] rounded-lg p-2 dark:text-black"
-          type="button"
-          text="Create New Request"
+          type='button'
+          text='Create New Request'
           onClick={() => setShowModal(true)}
         />
       </section>
@@ -30,15 +29,22 @@ export const UserRequest = ({ showModal, setShowModal }) => {
         <p>Location</p>
         <p>Dropdown</p>
       </section> */}
-      <section className="w-full md:mt-10">
-        <RequestComponent requests={requests} fixedHeader fixedHeaderScrollHeight="300px" />
+      <section className='w-full md:mt-10'>
+        <RequestComponent
+          requests={requests}
+          fixedHeader
+          fixedHeaderScrollHeight='300px'
+        />
       </section>
 
-      <section className="flex gap-4 md:gap-6 md:justify-around">
+      <section className='flex gap-4 md:gap-6 md:justify-around'>
         {/* <Button className="font-normal text-white bg-[#F4743B] hover:bg-green-300 rounded-lg p-2 dark:text-black" type="button" text="Completed" /> */}
       </section>
       {showModal && (
-        <RequestFormModal showModal={showModal} setShowModal={setShowModal} />
+        <RequestFormModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
       )}
     </section>
   );

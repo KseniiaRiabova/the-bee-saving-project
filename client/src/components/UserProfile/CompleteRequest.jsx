@@ -1,7 +1,7 @@
 // CancelRequest.js
-import PropTypes from 'prop-types';
-import { useAuth0 } from '@auth0/auth0-react';
-import { BACKEND_URL } from '../configs/envConfig';
+import PropTypes from "prop-types";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BACKEND_URL } from "../configs/envConfig";
 
 const CompleteRequest = ({ request, onComplete }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -12,7 +12,7 @@ const CompleteRequest = ({ request, onComplete }) => {
       const response = await fetch(
         `${BACKEND_URL}/requests/${request.id}/complete`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -20,21 +20,21 @@ const CompleteRequest = ({ request, onComplete }) => {
       );
 
       if (!response.ok) {
-        throw new Error('Failed to complete the request');
+        throw new Error("Failed to complete the request");
       }
-      console.log('Completed request successfully:');
+      console.log("Completed request successfully:");
       const data = await response.json();
       onComplete(data);
     } catch (error) {
-      console.error('Failed to complete the request:', error);
+      console.error("Failed to complete the request:", error);
     }
   };
 
   return (
     <>
       <button
+        className='px-6'
         onClick={handleCompleteRequest}
-        className='border border-[#F4743B] px-3 py-2 uppercase text-sm rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150'
       >
         Complete
       </button>

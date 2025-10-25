@@ -21,12 +21,11 @@ export const MainHeroLandingSurvey = () => {
         />
 
         <div className='flex flex-wrap items-end justify-end md:justify-start gap-2 lg:gap-6 text-end md:text-start'>
-          <h2 className='text-lg sm:text-xl lg:text-2xl font-bold text-black leading-6 lg:leading-8 md:max-w-60 dark:text-white'>
+          <h2 className='text-lg sm:text-xl lg:text-2xl md:max-w-60 lg:max-w-56'>
             Its Time to Save The Bees To Save Our Future Generations
           </h2>
 
           <Button
-            className='text-black bg-navSignupButton text-lg px-8 py-2 rounded-lg dark:text-white'
             type='button'
             text='Learn More'
           />

@@ -6,7 +6,7 @@ export const MainHeroLandingSurveyAnimatedNumber = ({
   text,
 }) => {
   return (
-    <div className='text-base md:text-lg space-y-1 whitespace-nowrap text-black dark:text-white'>
+    <div className='space-y-1 whitespace-nowrap'>
       <div className='flex justify-center md:justify-start font-bold'>
         <AnimatedNumber n={statHighlights} /> +
       </div>
