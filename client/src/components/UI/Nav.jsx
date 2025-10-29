@@ -38,9 +38,17 @@ export const Nav = ({ action, onClickHandler }) => {
     setIsNavMenuOpen((prev) => !prev);
   };
 
+  // const handleAuthClick = useCallback(() => {
+  //   if (isAuthenticated) logout();
+  //   else onClickHandler?.();
+  // }, [isAuthenticated, logout, onClickHandler]);
+
   const handleAuthClick = useCallback(() => {
-    if (isAuthenticated) logout();
-    else onClickHandler?.();
+    if (isAuthenticated) {
+      logout();
+    } else {
+      onClickHandler?.(); // open login modal or trigger login
+    }
   }, [isAuthenticated, logout, onClickHandler]);
 
   const toggleUserInfo = () => setShowUserInfo((prev) => !prev);
@@ -78,8 +86,8 @@ export const Nav = ({ action, onClickHandler }) => {
       <nav className={`${isNavMenuOpen ? "" : "hidden md:block"}`}>
         <ul
           className={`flex items-center justify-center text-lg ${isNavMenuOpen
-              ? "flex-col gap-6 absolute top-0 left-0 w-full h-dvh bg-neutral-500 z-40"
-              : "flex-row gap-5 lg:gap-9"
+            ? "flex-col gap-6 absolute top-0 left-0 w-full h-dvh bg-neutral-500 z-40"
+            : "flex-row gap-5 lg:gap-9"
             }`}
         >
           {/* Home */}
