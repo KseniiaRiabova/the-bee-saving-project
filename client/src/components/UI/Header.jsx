@@ -8,7 +8,7 @@ export const Header = ({ action, onClickHandler, isAuthenticated }) => {
     <header>
       <div className='flex items-center justify-between gap-6 p-6'>
         <div className='logo shrink-0'>
-          <Link to={isAuthenticated ? '/dashboard' : '/'}>
+          <Link to={isAuthenticated ? '/dashboard' : '/home'}>
             <img src={navBeeLogo} alt='Bee Logo' className='h-16 md:h-24' />
           </Link>
         </div>
