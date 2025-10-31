@@ -1,21 +1,21 @@
-@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-  font-family: "Blinker";
-  src: url("../src/assets/fonts/Blinker/Blinker-Regular.ttf") format("truetype");
+  font-family: 'Blinker';
+  src: url('../src/assets/fonts/Blinker/Blinker-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: BlinkerBold;
-  src: url("../src/assets/fonts/Blinker/Blinker-Bold.ttf");
+  src: url('../src/assets/fonts/Blinker/Blinker-Bold.ttf');
 }
 
 @font-face {
   font-family: BlackOpsOneFont;
-  src: url("../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf");
+  src: url('../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf');
 }
 
 @layer base {
@@ -44,7 +44,7 @@
   }
 
   h3 {
-    @apply text-xl md:text-2xl font-bold;
+    @apply text-xl md:text-2xl font-bold capitalize;
   }
 
   a,
@@ -56,7 +56,7 @@
   button {
     @apply px-8 py-2 text-base font-medium text-white bg-navSignupButton border border-navSignupButton rounded-lg shadow
            hover:bg-neutral-300 hover:text-footerProfileNameColor hover:shadow-lg hover:border-neutral-300
-           focus:bg-neutral-300 focus:text-footerProfileNameColor
+           focus:bg-neutral-300 focus:text-footerProfileNameColor focus:border-neutral-300
            dark:text-footerProfileNameColor dark:hover:text-white
            dark:hover:bg-neutral-600  dark:hover:border-neutral-600
            dark:focus:bg-neutral-600 dark:focus:text-white;
@@ -70,7 +70,7 @@
 @layer components {
   .btn-outline {
     @apply bg-transparent border border-neutral-300 text-footerProfileNameColor
-           hover:border-neutral-300;
+           hover:border-neutral-300 dark:text-primary-light;
   }
 }
 
@@ -99,9 +99,9 @@
 summary::after {
   display: inline-flex;
   margin-left: auto;
-  content: url("./assets/images/detailsSummaryButton/orangeButtonPlus.svg");
+  content: url('./assets/images/detailsSummaryButton/orangeButtonPlus.svg');
 }
 
 details[open] > summary::after {
-  content: url("./assets/images/detailsSummaryButton/orangeButtonMinus.svg");
+  content: url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg');
 }
