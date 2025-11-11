@@ -73,7 +73,7 @@ const HomeLayout = () => {
 
   return (
     <BaseLayout>
-      <section className="relative bg-[#9BC25B] overflow-hidden">
+      <div className="relative bg-[#9BC25B] overflow-hidden">
         {/* <section className="relative bg-[#9BC25B] min-h-screen overflow-hidden"> */}
         {showNotification && (
           <SignUpNotification
@@ -88,19 +88,19 @@ const HomeLayout = () => {
           <MainHeroLanding />
           <MainHeroLandingSurvey />
         </section>
-      </section>
+      </div>
 
-      <section className="flex flex-col justify-between dark:bg-black dark:text-white px-6">
-        <section className="md:max-w-7xl md:mx-auto">
+      <div className="flex flex-col justify-between dark:bg-black dark:text-white px-6">
+        <div className="md:max-w-7xl md:mx-auto">
           <ProblemContainter />
           <SolutionsSection />
           {/* <SolutionsContainer /> */}
-        </section>
+        </div>
 
         {/* <section className="md:max-w-7xl md:mx-auto">
           <SolutionsContainer />
         </section> */}
-      </section>
+      </div>
     </BaseLayout>
   );
 };

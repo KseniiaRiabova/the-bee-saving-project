@@ -23,12 +23,12 @@ export const BaseLayout = ({ children }) => {
   }, [isAuthenticated, loginWithRedirect, logout]);
 
   return (
-    <section>
-      <section className="bg-[#9BC25B]">
+    <>
+      <div className="bg-[#9BC25B]">
         <div className="max-w-7xl mx-auto">
           <Header action={action} onClickHandler={onClickHandler} />
         </div>
-      </section>
+      </div>
 
       <main className="dark:bg-black dark:text-white border-transparent">
         {/* <main className="dark:bg-black dark:text-white border-2 border-transparent"> */}
@@ -36,7 +36,7 @@ export const BaseLayout = ({ children }) => {
       </main>
 
       <Footer />
-    </section>
+    </>
   );
 };
 
