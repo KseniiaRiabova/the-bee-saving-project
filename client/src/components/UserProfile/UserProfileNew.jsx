@@ -16,13 +16,14 @@ export const UserProfileNew = ({
   showModal,
   setShowModal,
 }) => {
-  const { userData: data } = useUserStore();
-  const { email, gravatar } = data || {};
+  const { userData: data, isLoading: userLoading } = useUserStore();
   const {
+    email,
+    gravatar,
     contactNumber: userContactNumber,
     isEditable,
     isUserInfoModalOpen,
-    isLoading,
+    isLoading: profileLoading,
     setEditable,
     setUserInfoModalOpen,
     setProfileData,
@@ -37,15 +38,13 @@ export const UserProfileNew = ({
     }
   }, [data, setProfileData]);
 
-  const onChangeToggleUserInfoModalHandler = (updateState) => {
-    setUserInfoModalOpen(updateState);
-  };
+  const toggleUserInfoModal = (open) => setUserInfoModalOpen(open);
 
-  const onChangeUserContactNumberHandler = (e) => {
+  const handleContactNumberChange = (e) => {
     setContactNumber(e.target.value);
   };
 
-  const onClickDeleteUserContactNumber = () => {
+  const handleDeleteContactNumber = () => {
     if (!userContactNumber) {
       alert('No contact number to delete.');
       return;
@@ -53,26 +52,24 @@ export const UserProfileNew = ({
 
     if (
       confirm(
-        `Are you sure you want to delete your contact number - ${userContactNumber} ?`
+        `Are you sure you want to delete your contact number - ${userContactNumber}?`
       )
     ) {
-      sendDeleteRequestOfUserContactNumber(userContactNumber);
+      sendDeleteRequestOfUserContactNumber();
       setContactNumber('');
     }
   };
 
-  const onClickEditUserContactNumber = () => {
-    setEditable(true);
-  };
+  const handleEditContactNumber = () => setEditable(true);
 
-  const onClickCancelUpdateContactNumber = () => {
+  const handleCancelUpdate = () => {
     setContactNumber(data?.metadata?.contactNumber || '');
     setEditable(false);
   };
 
-  const onClickUpdateUserContactNumber = () => {
+  const handleUpdateContactNumber = () => {
     if (!userContactNumber || isNaN(userContactNumber)) {
-      alert('Please enter a valid contact number.');
+      alert('Please enter a valid contact number (digits only).');
       setContactNumber(data?.metadata?.contactNumber || '');
       return;
     }
@@ -81,7 +78,7 @@ export const UserProfileNew = ({
     setEditable(false);
   };
 
-  if (isLoading || !data) {
+  if (userLoading || profileLoading || !data) {
     return <div>Loading...</div>;
   }
 
@@ -100,23 +97,22 @@ export const UserProfileNew = ({
             </p>
           </div>
 
+          {/* Avatar */}
           <div className='relative w-20 h-20 rounded-full overflow-hidden'>
-            <AnchorLink
-              onClick={() => onChangeToggleUserInfoModalHandler(true)}
-            >
+            <AnchorLink onClick={() => toggleUserInfoModal(true)}>
               <Image
-                src={gravatar}
-                alt="User's Image"
-                className='object-cover object-center h-20'
+                src={gravatar || '/default-user.png'}
+                alt="User's avatar"
+                className='object-cover object-center h-20 w-20'
               />
             </AnchorLink>
           </div>
+
+          {/* Modal */}
           {isUserInfoModalOpen && (
             <section className='absolute top-[16rem] md:top-[15rem] right-0 md:right-auto w-full md:max-w-lg bg-secondary-light border border-brand-primary rounded-lg dark:bg-black dark:border-white z-[60]'>
               <div className='relative p-8 flex flex-col gap-5'>
-                <ButtonClose
-                  onClose={() => onChangeToggleUserInfoModalHandler(false)}
-                />
+                <ButtonClose onClose={() => toggleUserInfoModal(false)} />
 
                 <h3>User info</h3>
 
@@ -128,13 +124,13 @@ export const UserProfileNew = ({
                       autoFocus
                       className='border border-outline-color rounded-lg px-2 py-1 w-56 focus:outline-none focus:border-brand-primary '
                       type='text'
-                      label='Contact number: '
+                      label='Contact number:'
                       placeholder={
                         data?.metadata?.contactNumber ||
                         'Please enter a contact number...'
                       }
                       value={userContactNumber}
-                      onChange={onChangeUserContactNumberHandler}
+                      onChange={handleContactNumberChange}
                     />
                   ) : (
                     <p>Contact number: {userContactNumber || 'Not provided'}</p>
@@ -146,15 +142,16 @@ export const UserProfileNew = ({
                   <p>Bee Hives Saved - {completedRequests.length} </p>
                 </div>
 
+                {/* Action Buttons */}
                 <div className='flex flex-col sm:flex-row-reverse justify-start gap-2 sm:gap-3'>
                   {!isEditable ? (
                     <>
                       <Button
                         type='button'
                         text='Edit Contact Number'
-                        onClickHandler={onClickEditUserContactNumber}
+                        onClickHandler={handleEditContactNumber}
                       />
-                      {!isLoading && (
+                      {!(userLoading || profileLoading) && (
                         <Button
                           className={`btn-outline px-6 ${
                             !userContactNumber
@@ -163,7 +160,7 @@ export const UserProfileNew = ({
                           }`}
                           type='button'
                           text='Delete Contact Number'
-                          onClickHandler={onClickDeleteUserContactNumber}
+                          onClickHandler={handleDeleteContactNumber}
                           disabled={!userContactNumber}
                         />
                       )}
@@ -173,13 +170,13 @@ export const UserProfileNew = ({
                       <Button
                         type='button'
                         text='Update Contact Number'
-                        onClickHandler={onClickUpdateUserContactNumber}
+                        onClickHandler={handleUpdateContactNumber}
                       />
                       <Button
                         className='btn-outline'
                         type='button'
                         text='Cancel'
-                        onClickHandler={onClickCancelUpdateContactNumber}
+                        onClickHandler={handleCancelUpdate}
                       />
                     </>
                   )}
@@ -202,7 +199,7 @@ export const UserProfileNew = ({
 
 UserProfileNew.propTypes = {
   sendUpdateUserContactNumber: PropTypes.func.isRequired,
-  sendDeleteRequestOfUserContactNumber: PropTypes.func,
+  sendDeleteRequestOfUserContactNumber: PropTypes.func.isRequired,
   showModal: PropTypes.bool,
   setShowModal: PropTypes.func,
 };
