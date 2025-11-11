@@ -15,13 +15,14 @@ export const UserProfileNew = ({
   showModal,
   setShowModal,
 }) => {
-  const { userData: data } = useUserStore();
-  const { email, gravatar } = data || {};
+  const { userData: data, isLoading: userLoading } = useUserStore();
   const {
+    email,
+    gravatar,
     contactNumber: userContactNumber,
     isEditable,
     isUserInfoModalOpen,
-    isLoading,
+    isLoading: profileLoading,
     setEditable,
     setUserInfoModalOpen,
     setProfileData,
@@ -36,15 +37,13 @@ export const UserProfileNew = ({
     }
   }, [data, setProfileData]);
 
-  const onChangeToggleUserInfoModalHandler = (updateState) => {
-    setUserInfoModalOpen(updateState);
-  };
+  const toggleUserInfoModal = (open) => setUserInfoModalOpen(open);
 
-  const onChangeUserContactNumberHandler = (e) => {
+  const handleContactNumberChange = (e) => {
     setContactNumber(e.target.value);
   };
 
-  const onClickDeleteUserContactNumber = () => {
+  const handleDeleteContactNumber = () => {
     if (!userContactNumber) {
       alert("No contact number to delete.");
       return;
@@ -52,26 +51,24 @@ export const UserProfileNew = ({
 
     if (
       confirm(
-        `Are you sure you want to delete your contact number - ${userContactNumber} ?`
+        `Are you sure you want to delete your contact number - ${userContactNumber}?`
       )
     ) {
-      sendDeleteRequestOfUserContactNumber(userContactNumber);
+      sendDeleteRequestOfUserContactNumber();
       setContactNumber("");
     }
   };
 
-  const onClickEditUserContactNumber = () => {
-    setEditable(true);
-  };
+  const handleEditContactNumber = () => setEditable(true);
 
-  const onClickCancelUpdateContactNumber = () => {
+  const handleCancelUpdate = () => {
     setContactNumber(data?.metadata?.contactNumber || "");
     setEditable(false);
   };
 
-  const onClickUpdateUserContactNumber = () => {
+  const handleUpdateContactNumber = () => {
     if (!userContactNumber || isNaN(userContactNumber)) {
-      alert("Please enter a valid contact number.");
+      alert("Please enter a valid contact number (digits only).");
       setContactNumber(data?.metadata?.contactNumber || "");
       return;
     }
@@ -80,7 +77,7 @@ export const UserProfileNew = ({
     setEditable(false);
   };
 
-  if (isLoading || !data) {
+  if (userLoading || profileLoading || !data) {
     return <div>Loading...</div>;
   }
 
@@ -99,26 +96,24 @@ export const UserProfileNew = ({
             </p>
           </div>
 
+          {/* Avatar */}
           <section className='relative w-20 h-20 rounded-full overflow-hidden'>
-            <AnchorLink
-              onClick={() => onChangeToggleUserInfoModalHandler(true)}
-            >
+            <AnchorLink onClick={() => toggleUserInfoModal(true)}>
               <Image
-                src={gravatar}
-                alt="User's Image"
-                className='object-cover object-center h-20'
+                src={gravatar || "/default-user.png"}
+                alt="User's avatar"
+                className='object-cover object-center h-20 w-20'
               />
             </AnchorLink>
           </section>
 
+          {/* Modal */}
           {isUserInfoModalOpen && (
             <section className='absolute bg-gray-300 rounded-lg top-[16rem] right-0 w-full md:max-w-lg border-2 border-[#9BC25B] md:top-[15rem] md:right-auto dark:bg-black dark:border-white z-[60]'>
               <section className='relative flex flex-col justify-around items-start pl-4 h-64 md:items-start md:pl-6'>
                 <section className='absolute top-[2rem] right-[2rem]'>
                   <Button
-                    onClickHandler={() =>
-                      onChangeToggleUserInfoModalHandler(false)
-                    }
+                    onClickHandler={() => toggleUserInfoModal(false)}
                   >
                     <svg
                       className='w-6 h-6 border-2 border-transparent rounded-2xl hover:border-black focus:border-black dark:hover:border-white dark:focus:border-white'
@@ -139,34 +134,37 @@ export const UserProfileNew = ({
                 </section>
 
                 <section className='self-center'>
-                  <h3 className='uppercase'>user info</h3>
+                  <h3 className='uppercase'>User Info</h3>
                 </section>
 
                 <section>
-                  <p>Email: {email} </p>
+                  <p>Email: {email}</p>
 
                   {isEditable ? (
                     <Input
                       className='border-2 border-blue-300 md:w-56 pl-1'
                       type='text'
-                      label='Contact number: '
+                      label='Contact number:'
                       placeholder={
                         data?.metadata?.contactNumber ||
                         "Please enter a contact number..."
                       }
                       value={userContactNumber}
-                      onChange={onChangeUserContactNumberHandler}
+                      onChange={handleContactNumberChange}
                     />
                   ) : (
-                    <p>Contact number: {userContactNumber || "Not provided"}</p>
+                    <p>
+                      Contact number: {userContactNumber || "Not provided"}
+                    </p>
                   )}
                 </section>
 
                 <section>
-                  <p>Bee Hives Found - {activeRequests.length} </p>
-                  <p>Bee Hives Saved - {completedRequests.length} </p>
+                  <p>Bee Hives Found - {activeRequests.length}</p>
+                  <p>Bee Hives Saved - {completedRequests.length}</p>
                 </section>
 
+                {/* Action Buttons */}
                 <section className='flex self-center gap-4 md:gap-6 md:justify-around'>
                   {!isEditable ? (
                     <>
@@ -174,19 +172,18 @@ export const UserProfileNew = ({
                         className='md:w-56 hover:bg-green-300 focus:bg-green-300 p-2 -mt-4 dark:hover:bg-green-600 dark:focus:bg-green-600'
                         type='button'
                         text='Edit Contact Number'
-                        onClickHandler={onClickEditUserContactNumber}
+                        onClickHandler={handleEditContactNumber}
                       />
 
-                      {!isLoading && (
+                      {!(userLoading || profileLoading) && (
                         <Button
-                          className={`bg-red-600 md:w-56 hover:bg-red-800 focus:bg-red-800 p-2 -mt-4 dark:hover:bg-red-800 dark:focus:bg-red-800 ${
-                            !userContactNumber
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
-                          }`}
+                          className={`bg-red-600 md:w-56 hover:bg-red-800 focus:bg-red-800 p-2 -mt-4 dark:hover:bg-red-800 dark:focus:bg-red-800 ${!userContactNumber
+                            ? 'opacity-50 cursor-not-allowed'
+                            : ''
+                            }`}
                           type='button'
                           text='Delete Contact Number'
-                          onClickHandler={onClickDeleteUserContactNumber}
+                          onClickHandler={handleDeleteContactNumber}
                           disabled={!userContactNumber}
                         />
                       )}
@@ -197,13 +194,13 @@ export const UserProfileNew = ({
                         className='bg-gray-500 md:w-56 hover:bg-gray-600 focus:bg-gray-700 p-2 -mt-4 dark:hover:bg-gray-700 dark:focus:bg-gray-800'
                         type='button'
                         text='Cancel'
-                        onClickHandler={onClickCancelUpdateContactNumber}
+                        onClickHandler={handleCancelUpdate}
                       />
                       <Button
                         className='md:w-56 hover:bg-green-300 focus:bg-green-300 p-2 -mt-4 dark:hover:bg-green-600 dark:focus:bg-green-600'
                         type='button'
                         text='Update Contact Number'
-                        onClickHandler={onClickUpdateUserContactNumber}
+                        onClickHandler={handleUpdateContactNumber}
                       />
                     </>
                   )}
@@ -214,11 +211,9 @@ export const UserProfileNew = ({
         </section>
       </section>
 
-      <section className='flex flex-col gap-4 md:flex-row'>
-        <UserRequest
-          showModal={showModal}
-          setShowModal={setShowModal}
-        />
+      {/* Requests */}
+      <section className="flex flex-col gap-4 md:flex-row">
+        <UserRequest showModal={showModal} setShowModal={setShowModal} />
       </section>
     </section>
   );
@@ -226,7 +221,7 @@ export const UserProfileNew = ({
 
 UserProfileNew.propTypes = {
   sendUpdateUserContactNumber: PropTypes.func.isRequired,
-  sendDeleteRequestOfUserContactNumber: PropTypes.func,
+  sendDeleteRequestOfUserContactNumber: PropTypes.func.isRequired,
   showModal: PropTypes.bool,
   setShowModal: PropTypes.func,
 };

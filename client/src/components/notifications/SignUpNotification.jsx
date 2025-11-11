@@ -6,7 +6,8 @@ export const SignUpNotification = ({
   onClose,
 }) => {
   return (
-    <div className='absolute top-[10%] right-1 w-[98%] text-center bg-blue-600 text-white p-4 rounded-lg shadow-lg z-50 md:w-[25%] md:top-[10%] md:right-[35vw]'>
+    <div className='absolute top-[1%] right-1 w-[98%] text-center bg-blue-600 text-white p-4 rounded-lg shadow-lg z-50 md:w-[50%] md:right-[22%] lg:w-[25%] lg:right-[40%]'>
+      {/* <div className='absolute top-[10%] right-1 w-[98%] text-center bg-blue-600 text-white p-4 rounded-lg shadow-lg z-50 md:w-[25%] md:top-[10%] md:right-[35vw]'> */}
       {isFirstTimeUser ? (
         <p>
           Welcome to Bee Saving App! Please check your email to verify your

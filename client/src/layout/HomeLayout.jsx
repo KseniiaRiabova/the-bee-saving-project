@@ -1,67 +1,80 @@
-import { useState, useEffect, useCallback } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Header } from '../components/UI/Header';
-import MainHeroLanding from '../components/UI/MainHeroLanding';
-import { MainHeroLandingSurvey } from '../components/UI/MainHeroLandingSurvey';
-import Footer from '../components/Footer/Footer';
-import { ProblemContainter } from '../components/UI/ProblemContainer';
-import { SolutionsHeader } from '../components/UI/SolutionsHeader';
-import { SolutionsContainer } from '../components/UI/SolutionsContainer';
-import { SignUpNotification } from '../components/notifications/SignUpNotification';
-import { useLogout } from '../hooks/useLogout';
+import { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BaseLayout } from "./BaseLayout";
+import MainHeroLanding from "../components/UI/MainHeroLanding";
+import { MainHeroLandingSurvey } from "../components/UI/MainHeroLandingSurvey";
+import { ProblemContainter } from "../components/UI/ProblemContainer";
+import { SolutionsSection } from "../components/UI/SolutionsSection";
+// import { SolutionsContainer } from "../components/UI/SolutionsContainer";
+import { SignUpNotification } from "../components/notifications/SignUpNotification";
+import { useLocation } from "react-router-dom";
 
 const HomeLayout = () => {
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
-  // const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
-  // const navigate = useNavigate();
-  const logout = useLogout();
-
-  const [action, setAction] = useState('');
+  const { isAuthenticated, user } = useAuth0();
   const [showNotification, setShowNotification] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
-  // Show notification for a few seconds after authentication
+  const location = useLocation();
+
+  // useEffect(() => {
+  //   let timeout;
+
+  //   if (isAuthenticated && user) {
+  //     setIsFirstTimeUser(!user.email_verified);
+  //     setShowNotification(true);
+
+  //     timeout = setTimeout(() => {
+  //       setShowNotification(false);
+  //     }, 4000); // Show notification for 4 seconds
+  //   }
+
+  //   return () => clearTimeout(timeout);
+  // }, [isAuthenticated, user]);
+
   useEffect(() => {
     let timeout;
 
     if (isAuthenticated && user) {
-      setIsFirstTimeUser(!user.email_verified);
-      setShowNotification(true);
+      // Check if notification has already been shown in this session
+      const hasSeenNotification = sessionStorage.getItem("signupNotificationShown");
 
-      timeout = setTimeout(() => {
-        setShowNotification(false);
-      }, 4000); // show for 4 seconds
+      if (!hasSeenNotification) {
+        // Determine if user is first-time (unverified)
+        setIsFirstTimeUser(!user.email_verified);
+
+        // Show the notification
+        setShowNotification(true);
+
+        // Mark notification as shown for this session
+        sessionStorage.setItem("signupNotificationShown", "true");
+
+        // Auto-hide after 4 seconds
+        timeout = setTimeout(() => {
+          setShowNotification(false);
+        }, 4000);
+      }
     }
 
     return () => clearTimeout(timeout);
   }, [isAuthenticated, user]);
 
-  const handleOnCloseNotification = () => {
-    setShowNotification(false);
-  };
-
-  // const onClickHandler = () => {
-  //   isAuthenticated
-  //     ? logout({ returnTo: window.location.origin })
-  //     : loginWithRedirect();
-  // };
-
-  const onClickHandler = useCallback(() => {
-    if (!isAuthenticated) {
-      loginWithRedirect();
-    } else {
-      logout();
-    }
-  }, [isAuthenticated, loginWithRedirect, logout]);
-
   useEffect(() => {
-    setAction(isAuthenticated ? 'Log Out' : 'Sign In / Up');
-  }, [isAuthenticated]);
+    if (location.hash === "#solutions") {
+      const solutionsSection = document.getElementById("solutions");
+      if (solutionsSection) {
+        setTimeout(() => {
+          solutionsSection.scrollIntoView({ behavior: "smooth" });
+        }, 200); // wait for render
+      }
+    }
+  }, [location]);
+
+  const handleOnCloseNotification = () => setShowNotification(false);
 
   return (
-    <>
-      <section className='relative bg-[#9BC25B] min-h-screen overflow-hidden'>
+    <BaseLayout>
+      <div className="relative bg-[#9BC25B] overflow-hidden">
+        {/* <section className="relative bg-[#9BC25B] min-h-screen overflow-hidden"> */}
         {showNotification && (
           <SignUpNotification
             isFirstTimeUser={isFirstTimeUser}
@@ -69,25 +82,26 @@ const HomeLayout = () => {
             onClose={handleOnCloseNotification}
           />
         )}
-        <section className='bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen'>
-          <Header action={action} onClickHandler={onClickHandler} />
+
+        <section className="bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto">
+          {/* <section className="bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen"> */}
           <MainHeroLanding />
           <MainHeroLandingSurvey />
         </section>
-      </section>
+      </div>
 
-      <main className='flex flex-col justify-between dark:bg-black dark:text-white px-6'>
-        <section className='md:max-w-7xl md:mx-auto'>
+      <div className="flex flex-col justify-between dark:bg-black dark:text-white px-6">
+        <div className="md:max-w-7xl md:mx-auto">
           <ProblemContainter />
-          <SolutionsHeader />
-        </section>
-        <section className='md:max-w-7xl md:mx-auto'>
-          <SolutionsContainer />
-        </section>
-      </main>
+          <SolutionsSection />
+          {/* <SolutionsContainer /> */}
+        </div>
 
-      <Footer />
-    </>
+        {/* <section className="md:max-w-7xl md:mx-auto">
+          <SolutionsContainer />
+        </section> */}
+      </div>
+    </BaseLayout>
   );
 };
 
