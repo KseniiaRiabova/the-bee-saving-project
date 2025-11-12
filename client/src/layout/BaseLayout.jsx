@@ -24,16 +24,12 @@ export const BaseLayout = ({ children }) => {
 
   return (
     <>
-      <div className='bg-[#9BC25B]'>
-        <div className='max-w-7xl mx-auto'>
-          <Header
-            action={action}
-            onClickHandler={onClickHandler}
-          />
-        </div>
-      </div>
+      <Header
+        action={action}
+        onClickHandler={onClickHandler}
+      />
 
-      <main className='dark:bg-black dark:text-white border-transparent'>
+      <main className='dark:bg-black dark:text-white'>
         {/* <main className="dark:bg-black dark:text-white border-2 border-transparent"> */}
         {children}
       </main>

@@ -75,22 +75,22 @@ const HomeLayout = () => {
 
   return (
     <BaseLayout>
-      <div className='relative bg-[#9BC25B] overflow-hidden'>
+      <section className='relative bg-[#9BC25B] overflow-hidden'>
         {/* <section className="relative bg-[#9BC25B] min-h-screen overflow-hidden"> */}
-        {showNotification && (
-          <SignUpNotification
-            isFirstTimeUser={isFirstTimeUser}
-            userNickName={user?.nickname}
-            onClose={handleOnCloseNotification}
-          />
-        )}
+        <div className='flex flex-col max-w-7xl mx-auto min-h-[calc(100vh-112px)] md:min-h-[calc(100vh-128px)]'>
+          {showNotification && (
+            <SignUpNotification
+              isFirstTimeUser={isFirstTimeUser}
+              userNickName={user?.nickname}
+              onClose={handleOnCloseNotification}
+            />
+          )}
 
-        <section className='bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto'>
           {/* <section className="bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen"> */}
           <MainHeroLanding />
           <MainHeroLandingSurvey />
-        </section>
-      </div>
+        </div>
+      </section>
 
       <div className='flex flex-col justify-between dark:bg-black dark:text-white px-6'>
         <div className='md:max-w-7xl md:mx-auto'>
