@@ -1,14 +1,15 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 // import axios from 'axios';
-import CancelRequest from "./CancelRequest";
-import AcceptRequestCall from "./AcceptRequestCall";
-import CompleteRequest from "./CompleteRequest";
-import { BACKEND_URL } from "../configs/envConfig";
+import CancelRequest from './CancelRequest';
+import AcceptRequestCall from './AcceptRequestCall';
+import CompleteRequest from './CompleteRequest';
+import { BACKEND_URL } from '../configs/envConfig';
+import { ButtonClose } from '../UI/ButtonClose';
 
 const customInputStyles =
-  "w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+  'w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500';
 
 function AcceptRequestModal({ request, onClose }) {
   const [isEditable, setIsEditable] = useState(false);
@@ -23,13 +24,13 @@ function AcceptRequestModal({ request, onClose }) {
   };
 
   const [formData, setFormData] = useState({
-    title: request?.title || "",
-    location: request?.location?.city || "",
-    latitude: request?.location?.coordinates[0] || "",
-    longitude: request?.location?.coordinates[1] || "",
-    contactNumber: request?.contactNumber || "",
-    description: request?.description || "",
-    image: request?.image || "",
+    title: request?.title || '',
+    location: request?.location?.city || '',
+    latitude: request?.location?.coordinates[0] || '',
+    longitude: request?.location?.coordinates[1] || '',
+    contactNumber: request?.contactNumber || '',
+    description: request?.description || '',
+    image: request?.image || '',
   });
 
   const handleSubmit = async (e) => {
@@ -42,7 +43,7 @@ function AcceptRequestModal({ request, onClose }) {
         ...restFormData,
         contactNumber: formData.contactNumber,
         location: {
-          type: "Point",
+          type: 'Point',
           coordinates: [parseFloat(latitude), parseFloat(longitude)],
           city: location,
           country: request?.location?.country,
@@ -54,7 +55,7 @@ function AcceptRequestModal({ request, onClose }) {
         `${BACKEND_URL}/requests/${request.id}`,
         validationData,
         {
-          method: "PUT",
+          method: 'PUT',
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -62,13 +63,13 @@ function AcceptRequestModal({ request, onClose }) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to cancel the request");
+        throw new Error('Failed to cancel the request');
       }
 
       if (response.ok) {
         const data = response.data.requests;
-        console.log("response - data", data);
-        console.log("response", response.data.request);
+        console.log('response - data', data);
+        console.log('response', response.data.request);
       }
     } catch (error) {
       let validationErrors = {};
@@ -213,38 +214,31 @@ function AcceptRequestModal({ request, onClose }) {
     <div className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-gray-500 bg-opacity-75 transition-opacity'>
       <div className='p-8 w-full max-w-lg max-h-full'>
         <div className='border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none'>
-          <div className='flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t'>
+          <div className='relative flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t'>
             <h3>Request Details</h3>
-            <button
-              className='p-0 rounded-full bg-transparent border-0 text-black float-right'
-              onClick={onClose}
-            >
-              <span className='text-black h-6 w-6 block bg-gray-400 rounded-full'>
-                X
-              </span>
-            </button>
+            <ButtonClose onClose={onClose} />
           </div>
 
           <div className='p-8 flex flex-col '>
             <div className='text-gray-700 mb-6 text-left'>
               {renderField({
-                label: "Title",
-                name: "title",
+                label: 'Title',
+                name: 'title',
                 value: formData.title,
                 onChange: handleInputChange,
                 isEditable: isEditable,
                 error: errors.title,
-                errorMessage: "errors.title",
+                errorMessage: 'errors.title',
                 customInputStyles: customInputStyles,
               })}
               {renderField({
-                label: "Location",
-                name: "location",
+                label: 'Location',
+                name: 'location',
                 value: formData.location,
                 onChange: handleInputChange,
                 isEditable: isEditable,
                 error: errors.location,
-                errorMessage: "errors.location",
+                errorMessage: 'errors.location',
                 customInputStyles: customInputStyles,
               })}
               <div className=' text-gray-700 mb-1 text-left'>
@@ -254,7 +248,7 @@ function AcceptRequestModal({ request, onClose }) {
                     name='description'
                     value={formData.description}
                     onChange={handleInputChange}
-                    className={customInputStyles + " w-full h-28"}
+                    className={customInputStyles + ' w-full h-28'}
                   />
                 ) : (
                   <>
@@ -263,8 +257,8 @@ function AcceptRequestModal({ request, onClose }) {
                         ? acceptedRequest?.description
                         : `${acceptedRequest?.description?.slice(0, 200)}${
                             acceptedRequest?.description?.length > 200
-                              ? "..."
-                              : ""
+                              ? '...'
+                              : ''
                           }`}
                     </span>
                     {acceptedRequest?.description?.length > 200 && (
@@ -272,7 +266,7 @@ function AcceptRequestModal({ request, onClose }) {
                         onClick={toggleDescription}
                         className='underline ml-2'
                       >
-                        {isDescriptionExpanded ? "Show Less" : "Show More"}
+                        {isDescriptionExpanded ? 'Show Less' : 'Show More'}
                       </button>
                     )}
                   </>
@@ -280,23 +274,23 @@ function AcceptRequestModal({ request, onClose }) {
               </div>
 
               {renderField({
-                label: "Latitude",
-                name: "latitude",
+                label: 'Latitude',
+                name: 'latitude',
                 value: formData.latitude,
                 onChange: handleInputChange,
                 isEditable: isEditable,
                 error: errors[0],
-                errorMessage: "Enter valid latitude",
+                errorMessage: 'Enter valid latitude',
                 customInputStyles: customInputStyles,
               })}
               {renderField({
-                label: "Longitude",
-                name: "longitude",
+                label: 'Longitude',
+                name: 'longitude',
                 value: formData.longitude,
                 onChange: handleInputChange,
                 isEditable: isEditable,
                 error: errors[1],
-                errorMessage: "Enter valid longitude",
+                errorMessage: 'Enter valid longitude',
                 customInputStyles: customInputStyles,
               })}
 
@@ -315,11 +309,11 @@ function AcceptRequestModal({ request, onClose }) {
                         />
                       ) : (
                         acceptedRequest?.contactNumber ||
-                        "(No contact number provided)"
+                        '(No contact number provided)'
                       )}
                     </>
                   ) : (
-                    "(Upon Accept)"
+                    '(Upon Accept)'
                   )}
                 </span>
               </div>
@@ -329,10 +323,10 @@ function AcceptRequestModal({ request, onClose }) {
                   {isRequestAccepted ? (
                     <>
                       {acceptedRequest?.beefinder?.email ||
-                        "(No email provided)"}{" "}
+                        '(No email provided)'}{' '}
                     </>
                   ) : (
-                    "(Upon Accept)"
+                    '(Upon Accept)'
                   )}
                 </span>
               </div>
@@ -371,7 +365,7 @@ function AcceptRequestModal({ request, onClose }) {
                             <i className='fas fa-edit mr-2'></i> Edit
                           </>
                         ) : (
-                          "Save"
+                          'Save'
                         )}
                       </button>
                     )}

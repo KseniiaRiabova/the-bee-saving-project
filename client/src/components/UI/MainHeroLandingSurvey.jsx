@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { MainHeroLandingSurveyAnimatedNumber } from "./MainHeroLandingSurveyAnimatedNumber";
-import { Image } from "./Image";
-import { Button } from "./Button";
-import beeImage from "../../assets/imgs/bee.png";
+import { useState } from 'react';
+import { MainHeroLandingSurveyAnimatedNumber } from './MainHeroLandingSurveyAnimatedNumber';
+import { Image } from './Image';
+import { Button } from './Button';
+import beeImage from '../../assets/imgs/bee.png';
 
 export const MainHeroLandingSurvey = () => {
   const [statHighlights] = useState({
@@ -12,7 +12,7 @@ export const MainHeroLandingSurvey = () => {
   });
 
   return (
-    <section className='flex flex-col md:flex-row items-center md:justify-between gap-9 p-6 '>
+    <section className='flex flex-col md:flex-row items-center md:justify-between gap-9 p-6'>
       <div className='flex items-center justify-center gap-4'>
         <Image
           src={beeImage}

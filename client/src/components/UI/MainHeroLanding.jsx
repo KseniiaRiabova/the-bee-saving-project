@@ -4,8 +4,8 @@ import beesTextLogo from '../../assets/imgs/bees_text_logo.png';
 
 function MainLandingHero() {
   return (
-    <div className='max-w-4xl xl:max-w-5xl w-full mx-auto px-10 py-6 md:p-8  '>
-      <div className='flex flex-col '>
+    <div className='max-w-4xl xl:max-w-5xl w-full px-10 py-6 md:p-8 m-auto'>
+      <div className='flex flex-col'>
         <img
           src={saveTextLogo}
           alt='Save'
