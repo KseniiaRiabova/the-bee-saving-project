@@ -117,22 +117,7 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
 
     try {
       const token = await getAccessTokenSilently();
-
-      const response = await fetch(`${BACKEND_URL}/requests/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create request');
-      }
-
-      const data = await response.json();
-      await addRequest(data);
+      await addRequest(formData, token);
       setShowModal(false);
       setErrors({});
     } catch (error) {

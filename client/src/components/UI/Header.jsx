@@ -1,9 +1,12 @@
+
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Nav } from '../UI/Nav';
 import navBeeLogo from '../../assets/imgs/nav_bee_logo.png';
+import useAuthStore from '../../stores/useAuthStore';
 
-export const Header = ({ action, onClickHandler, isAuthenticated }) => {
+export const Header = ({ action, onClickHandler }) => {
+  const { isAuthenticated } = useAuthStore();
   return (
     <header className='bg-[#9BC25B]'>
       <div className='flex items-center justify-between gap-6 p-6 max-w-7xl mx-auto'>
@@ -27,5 +30,4 @@ export const Header = ({ action, onClickHandler, isAuthenticated }) => {
 Header.propTypes = {
   action: PropTypes.string,
   onClickHandler: PropTypes.func,
-  isAuthenticated: PropTypes.bool,
 };
