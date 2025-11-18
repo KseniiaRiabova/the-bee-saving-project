@@ -3,14 +3,26 @@ import PropTypes from 'prop-types';
 export const BurgerMenu = ({ onChangeHandler, isOpen }) => {
   return (
     <>
-      <section
-        className='absolute right-6 text-[40px] cursor-pointer md:hidden z-50 burger-menu-container'
+      <button
+        className='absolute right-6 p-0 space-y-1.5 bg-transparent shadow-none border-none  md:hidden z-50 hover:bg-transparent hover:shadow-none focus:bg-transparent'
         onClick={onChangeHandler}
       >
-        <section className={`bar1 ${isOpen ? "change-bar1" : ""}`}></section>
-        <section className={`bar2 ${isOpen ? "change-bar2" : ""}`}></section>
-        <section className={`bar3 ${isOpen ? "change-bar3" : ""}`}></section>
-      </section>
+        <div
+          className={`w-9 h-[5px] bg-primary-dark transition-all duration-500 ${
+            isOpen ? 'translate-y-[11px] -rotate-45' : ''
+          }  `}
+        ></div>
+        <div
+          className={`w-9 h-[5px] bg-primary-dark transition-all duration-500 ${
+            isOpen ? 'opacity-0' : ''
+          }`}
+        ></div>
+        <div
+          className={`w-9 h-[5px] bg-primary-dark transition-all duration-500 ${
+            isOpen ? '-translate-y-[11px] rotate-45' : ''
+          }`}
+        ></div>
+      </button>
     </>
   );
 };
