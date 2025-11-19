@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../UI/Button";
 import { DarkLightModeButton } from "../UI/DarkLightModeButton";
 import { BurgerMenu } from "./BurgerMenu";
-import { useAuthListener } from "../../components/auth/useAuthListener";
+import useAuthStore from "../../stores/useAuthStore";
 import { useLogout } from "../../hooks/useLogout";
 
 export const Nav = ({ action, onClickHandler }) => {
@@ -15,7 +15,7 @@ export const Nav = ({ action, onClickHandler }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, user } = useAuthListener();
+  const { isAuthenticated, user } = useAuthStore();
   const logout = useLogout();
 
   // Determine active link based on URL (works for both /home and /dashboard)
