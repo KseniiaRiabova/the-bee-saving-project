@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import useAuthStore from '../stores/useAuthStore';
 import { BaseLayout } from './BaseLayout';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
 import { MainHeroLandingSurvey } from '../components/UI/MainHeroLandingSurvey';
@@ -10,7 +10,7 @@ import { SignUpNotification } from '../components/notifications/SignUpNotificati
 import { useLocation } from 'react-router-dom';
 
 const HomeLayout = () => {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user } = useAuthStore();
   const [showNotification, setShowNotification] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 

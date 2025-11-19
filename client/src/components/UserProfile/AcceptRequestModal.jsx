@@ -5,13 +5,15 @@ import { useAuth0 } from '@auth0/auth0-react';
 import CancelRequest from './CancelRequest';
 import AcceptRequestCall from './AcceptRequestCall';
 import CompleteRequest from './CompleteRequest';
-import { BACKEND_URL } from '../configs/envConfig';
+// import { BACKEND_URL } from '../configs/envConfig';
 import { ButtonClose } from '../UI/ButtonClose';
+import useRequestStore from '../../stores/useRequestStore';
 
 const customInputStyles =
   'w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500';
 
 function AcceptRequestModal({ request, onClose }) {
+  const { updateRequest, cancelRequest, completeRequest } = useRequestStore();
   const [isEditable, setIsEditable] = useState(false);
   const [errors, setErrors] = useState({});
   const { getAccessTokenSilently } = useAuth0();
@@ -48,32 +50,14 @@ function AcceptRequestModal({ request, onClose }) {
           city: location,
           country: request?.location?.country,
         },
+        id: request.id,
       };
       const accessToken = await getAccessTokenSilently();
-
-      const response = await fetch(
-        `${BACKEND_URL}/requests/${request.id}`,
-        validationData,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to cancel the request');
-      }
-
-      if (response.ok) {
-        const data = response.data.requests;
-        console.log('response - data', data);
-        console.log('response', response.data.request);
-      }
+      const updatedRequest = await updateRequest(validationData, accessToken);
+      setAcceptedRequest(updatedRequest);
     } catch (error) {
       let validationErrors = {};
-      if (error) {
+      if (error && error.response && error.response.data && error.response.data.error) {
         validationErrors = error.response.data.error.details;
         setIsEditable(isEditable);
       }
@@ -139,23 +123,30 @@ function AcceptRequestModal({ request, onClose }) {
       },
     }));
   };
-  const handleCancelRequest = (canceledRequest) => {
-    setAcceptedRequest((prevRequest) => ({
-      ...prevRequest,
-      isAccepted: false,
-      isActive: true,
-      beekeeperId: null,
-    }));
+  const handleCancelRequest = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      const canceled = await cancelRequest(acceptedRequest.id, accessToken);
+      setAcceptedRequest((prevRequest) => ({
+        ...prevRequest,
+        ...canceled,
+      }));
+    } catch (error) {
+      console.error("Failed to cancel the request:", error);
+    }
   };
 
-  const handleCompleteRequest = (completedRequest) => {
-    setAcceptedRequest((prevRequest) => ({
-      ...prevRequest,
-      isActive: false,
-      isAccepted: true,
-      isCompleted: true,
-      completedAt: new Date(),
-    }));
+  const handleCompleteRequest = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      const completed = await completeRequest(acceptedRequest.id, accessToken);
+      setAcceptedRequest((prevRequest) => ({
+        ...prevRequest,
+        ...completed,
+      }));
+    } catch (error) {
+      console.error("Failed to complete the request:", error);
+    }
   };
 
   const isRequestPostedByUser = acceptedRequest?.beefinderId === user?.sub;
@@ -255,11 +246,10 @@ function AcceptRequestModal({ request, onClose }) {
                     <span>
                       {isDescriptionExpanded
                         ? acceptedRequest?.description
-                        : `${acceptedRequest?.description?.slice(0, 200)}${
-                            acceptedRequest?.description?.length > 200
-                              ? '...'
-                              : ''
-                          }`}
+                        : `${acceptedRequest?.description?.slice(0, 200)}${acceptedRequest?.description?.length > 200
+                          ? '...'
+                          : ''
+                        }`}
                     </span>
                     {acceptedRequest?.description?.length > 200 && (
                       <button

@@ -1,11 +1,14 @@
 // CancelRequest.js
+
 import PropTypes from "prop-types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "../UI/Button";
-import { BACKEND_URL } from "../configs/envConfig";
+// import { BACKEND_URL } from "../configs/envConfig";
+import useRequestStore from "../../stores/useRequestStore";
 
 const DeleteRequest = ({ requestId, onDelete }) => {
   const { getAccessTokenSilently } = useAuth0();
+  const { deleteRequest } = useRequestStore();
 
   const handleDeleteRequest = async () => {
     console.log("requestId", requestId);
@@ -13,17 +16,7 @@ const DeleteRequest = ({ requestId, onDelete }) => {
       if (confirm("Are you sure you want to delete this request?")) {
         console.log("User would like to delete the request.");
         const accessToken = await getAccessTokenSilently();
-        const response = await fetch(`${BACKEND_URL}/requests/${requestId}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to delete the request");
-        }
-
+        await deleteRequest(requestId, accessToken);
         console.log("Deleted request successfully:");
         onDelete(requestId);
       }

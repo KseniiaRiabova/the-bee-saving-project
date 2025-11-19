@@ -2,11 +2,11 @@ import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from '../components/protectedRoute';
 import HomeLayout from '../layout/HomeLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
-import { useAuthListener } from '../components/auth/useAuthListener';
+import useAuthStore from '../stores/useAuthStore';
 import { AuthRedirect } from '../components/AuthRedirect';
 
 const AppRoutes = () => {
-  const auth = useAuthListener();
+  const auth = useAuthStore();
 
   return (
     <>
