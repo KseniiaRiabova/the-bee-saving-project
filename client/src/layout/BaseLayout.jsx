@@ -4,8 +4,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Header } from '../components/UI/Header';
 import Footer from '../components/Footer/Footer';
 import { useLogout } from '../hooks/useLogout';
+import { Outlet } from 'react-router-dom';
 
-export const BaseLayout = ({ children }) => {
+export const BaseLayout = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const logout = useLogout();
   const [action, setAction] = useState('');
@@ -31,7 +32,8 @@ export const BaseLayout = ({ children }) => {
 
       <main className='dark:bg-black dark:text-white'>
         {/* <main className="dark:bg-black dark:text-white border-2 border-transparent"> */}
-        {children}
+        {/* {children} */}
+        <Outlet />
       </main>
 
       <Footer />
@@ -39,6 +41,6 @@ export const BaseLayout = ({ children }) => {
   );
 };
 
-BaseLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+// BaseLayout.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };

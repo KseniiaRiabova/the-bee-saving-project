@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import useAuthStore from '../stores/useAuthStore';
-import { BaseLayout } from './BaseLayout';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
 import { MainHeroLandingSurvey } from '../components/UI/MainHeroLandingSurvey';
 import { ProblemContainter } from '../components/UI/ProblemContainer';
@@ -60,21 +59,21 @@ const HomeLayout = () => {
     return () => clearTimeout(timeout);
   }, [isAuthenticated, user]);
 
-  useEffect(() => {
-    if (location.hash === '#solutions') {
-      const solutionsSection = document.getElementById('solutions');
-      if (solutionsSection) {
-        setTimeout(() => {
-          solutionsSection.scrollIntoView({ behavior: 'smooth' });
-        }, 200); // wait for render
-      }
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   if (location.hash === '#solutions') {
+  //     const solutionsSection = document.getElementById('solutions');
+  //     if (solutionsSection) {
+  //       setTimeout(() => {
+  //         solutionsSection.scrollIntoView({ behavior: 'smooth' });
+  //       }, 200); // wait for render
+  //     }
+  //   }
+  // }, [location]);
 
   const handleOnCloseNotification = () => setShowNotification(false);
 
   return (
-    <BaseLayout>
+    <>
       <section className='relative bg-[#9BC25B] overflow-hidden'>
         {/* <section className="relative bg-[#9BC25B] min-h-screen overflow-hidden"> */}
         <div className='flex flex-col max-w-7xl mx-auto min-h-[calc(100vh-112px)] md:min-h-[calc(100vh-128px)]'>
@@ -103,7 +102,7 @@ const HomeLayout = () => {
           <SolutionsContainer />
         </section> */}
       </div>
-    </BaseLayout>
+    </>
   );
 };
 

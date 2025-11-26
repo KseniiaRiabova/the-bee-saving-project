@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { BaseLayout } from "../../layout/BaseLayout";
-import { Map } from "../../components/Map";
-import { UserProfileNew } from "../../components/UserProfile/UserProfileNew";
-import useAuthStore from "../../stores/useAuthStore";
-import useRequestStore from "../../stores/useRequestStore";
-import useUserStore from "../../stores/useUserStore";
-import useProfileStore from "../../stores/useProfileStore";
+import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Map } from '../../components/Map';
+import { UserProfileNew } from '../../components/UserProfile/UserProfileNew';
+import useAuthStore from '../../stores/useAuthStore';
+import useRequestStore from '../../stores/useRequestStore';
+import useUserStore from '../../stores/useUserStore';
+import useProfileStore from '../../stores/useProfileStore';
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -24,7 +23,7 @@ const Dashboard = () => {
           const token = await getAccessTokenSilently();
           await Promise.all([fetchUserData(token), fetchRequests(token)]);
         } catch (error) {
-          console.error("Error fetching initial data:", error);
+          console.error('Error fetching initial data:', error);
         }
       }
     };
@@ -37,7 +36,7 @@ const Dashboard = () => {
       const token = await getAccessTokenSilently();
       await profileStore.updateContactNumber(token, number, fetchUserData);
     } catch (error) {
-      console.error("Error updating contact number:", error);
+      console.error('Error updating contact number:', error);
     }
   };
 
@@ -46,13 +45,13 @@ const Dashboard = () => {
       const token = await getAccessTokenSilently();
       await profileStore.deleteContactNumber(token, fetchUserData);
     } catch (error) {
-      console.error("Error deleting contact number:", error);
+      console.error('Error deleting contact number:', error);
     }
   };
 
   return (
-    <BaseLayout>
-      <div className="max-w-7xl mx-auto">
+    <>
+      <div className='max-w-7xl mx-auto'>
         <UserProfileNew
           showModal={showModal}
           setShowModal={setShowModal}
@@ -61,10 +60,10 @@ const Dashboard = () => {
         />
       </div>
 
-      <section className="flex justify-center p-2">
+      <section className='flex justify-center p-2'>
         <Map requests={requests} />
       </section>
-    </BaseLayout>
+    </>
   );
 };
 

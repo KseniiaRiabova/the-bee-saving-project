@@ -4,27 +4,35 @@ import HomeLayout from '../layout/HomeLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
 import useAuthStore from '../stores/useAuthStore';
 import { AuthRedirect } from '../components/AuthRedirect';
+import { BaseLayout } from '../layout/BaseLayout';
 
 const AppRoutes = () => {
   const auth = useAuthStore();
 
   return (
     <>
-      {/* Redirect logged-in users to dashboard */}
+      {/* Redirect logged-in users to dashboard  */}
       <AuthRedirect />
 
       <Routes>
-        <Route path="/" element={<HomeLayout />} />
-        <Route path="/home" element={<HomeLayout />} />
-
         <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute auth={auth}>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+          path='/'
+          element={<BaseLayout />}
+        >
+          <Route
+            index
+            element={<HomeLayout />}
+          />
+
+          <Route
+            path='/dashboard'
+            element={
+              <ProtectedRoute auth={auth}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
       </Routes>
     </>
   );
