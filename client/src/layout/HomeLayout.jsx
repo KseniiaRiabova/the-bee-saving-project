@@ -4,16 +4,15 @@ import MainHeroLanding from '../components/UI/MainHeroLanding';
 import { MainHeroLandingSurvey } from '../components/UI/MainHeroLandingSurvey';
 import { ProblemContainter } from '../components/UI/ProblemContainer';
 import { SolutionsSection } from '../components/UI/SolutionsSection';
-// import { SolutionsContainer } from "../components/UI/SolutionsContainer";
 import { SignUpNotification } from '../components/notifications/SignUpNotification';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 
 const HomeLayout = () => {
   const { isAuthenticated, user } = useAuthStore();
   const [showNotification, setShowNotification] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(false);
 
-  const location = useLocation();
+  //const location = useLocation();
 
   // useEffect(() => {
   //   let timeout;
@@ -74,8 +73,7 @@ const HomeLayout = () => {
 
   return (
     <>
-      <section className='relative bg-[#9BC25B] overflow-hidden'>
-        {/* <section className="relative bg-[#9BC25B] min-h-screen overflow-hidden"> */}
+      <section className='relative bg-brand-secondary overflow-hidden'>
         <div className='flex flex-col max-w-7xl mx-auto min-h-[calc(100vh-112px)] md:min-h-[calc(100vh-128px)]'>
           {showNotification && (
             <SignUpNotification
@@ -85,22 +83,14 @@ const HomeLayout = () => {
             />
           )}
 
-          {/* <section className="bg-[#9BC25B] flex flex-col justify-between md:gap-4 md:max-w-7xl md:mx-auto min-h-screen"> */}
           <MainHeroLanding />
           <MainHeroLandingSurvey />
         </div>
       </section>
 
-      <div className='flex flex-col justify-between dark:bg-black dark:text-white px-6'>
-        <div className='md:max-w-7xl md:mx-auto'>
-          <ProblemContainter />
-          <SolutionsSection />
-          {/* <SolutionsContainer /> */}
-        </div>
-
-        {/* <section className="md:max-w-7xl md:mx-auto">
-          <SolutionsContainer />
-        </section> */}
+      <div className='max-w-7xl mx-auto px-6'>
+        <ProblemContainter />
+        <SolutionsSection />
       </div>
     </>
   );
