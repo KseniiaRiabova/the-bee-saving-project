@@ -61,8 +61,8 @@ export const NavLinks = ({ isNavMenuOpen }) => {
     { label: 'solutions', path: '/#solutions', sectionId: 'solutions' },
     {
       label: 'about us',
-      path: location.pathname + '#footer',
-      sectionId: 'footer',
+      path: location.pathname + '#about',
+      sectionId: 'about',
     },
     {
       label: 'dashboard',

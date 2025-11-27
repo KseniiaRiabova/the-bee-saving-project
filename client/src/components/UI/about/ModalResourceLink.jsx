@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const ModalResourceLink = ({ url, handleClick }) => {
   return (
@@ -19,7 +19,7 @@ const ModalResourceLink = ({ url, handleClick }) => {
               <div className='sm:flex sm:items-start'>
                 <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 sm:mx-0 sm:h-10 sm:w-10'>
                   <svg
-                    className='h-6 w-6 text-[#F4743B]'
+                    className='h-6 w-6 text-brand-primary'
                     fill='none'
                     viewBox='0 0 24 24'
                     strokeWidth='1.5'

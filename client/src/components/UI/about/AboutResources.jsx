@@ -1,20 +1,19 @@
-import ModalResourceLink from "./ModalResourceLink";
-import { resourcesData } from "./footerResourcesData";
-import { useState } from "react";
+import { useState } from 'react';
+import ModalResourceLink from './ModalResourceLink';
 
-function FooterResources() {
+function AboutResources({ resourcesData }) {
   const [modalIndex, setModalIndex] = useState(null);
   const handleClick = (index) => {
     setModalIndex(index);
   };
   return (
-    <div className='box3 p-4 md:p-8 md:w-1/3 border border-footerBoxColor flex flex-col items-center gap-6 rounded-3xl'>
-      <h3 className='text-center'>Resources</h3>
-      <ul className='list-none w-full text-center space-y-2'>
+    <div className='p-4 md:p-8 md:w-1/3 border border-border-color flex flex-col items-center gap-6 rounded-3xl'>
+      <h3>Resources</h3>
+      <ul className='text-center space-y-2'>
         {resourcesData.map((resource, index) => (
           <li key={index}>
             <a
-              className='underline block text-footerBoxColor cursor-pointer'
+              className='underline underline-offset-4 text-secondary-dark hover:text-brand-primary'
               onClick={() => handleClick(index)}
             >
               {resource.name}
@@ -32,4 +31,4 @@ function FooterResources() {
   );
 }
 
-export default FooterResources;
+export default AboutResources;

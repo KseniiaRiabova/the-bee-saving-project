@@ -1,4 +1,4 @@
-function FooterBottom() {
+function Footer() {
   return (
     <div className='relative w-full flex flex-col items-center mt-10 pb-20 dark:bg-black dark:text-white'>
       <span className='flex items-center justify-center order-first text-footerBoxColor mb-4'>
@@ -39,4 +39,4 @@ function FooterBottom() {
   );
 }
 
-export default FooterBottom;
+export default Footer;
