@@ -1,25 +1,30 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import useAuthStore from '../../stores/useAuthStore';
 
-const NavLinks = ({ isNavMenuOpen }) => {
+export const NavLinks = ({ isNavMenuOpen }) => {
   const location = useLocation();
-  const { hash } = useLocation();
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const [activeLink, setActiveLink] = useState('');
   //const navigate = useNavigate();
 
   // Determine active link based on URL (works for both /home and /dashboard)
   useEffect(() => {
-    if (location.hash === '#solutions') setActiveLink('solutions');
-    else if (location.hash === '#footer') setActiveLink('footer');
-    else if (location.pathname === '/dashboard') setActiveLink('dashboard');
-    else setActiveLink('home');
+    // if (location.hash === '#solutions') setActiveLink('solutions');
+    // else if (location.hash === '#footer') setActiveLink('footer');
+    // else if (location.pathname === '/dashboard') setActiveLink('dashboard');
+    // else setActiveLink('home');
+    //const hash = hash.replace('#', '');
 
+    const hash = location.hash.replace('#', '');
+
+    setActiveLink(hash || location.pathname);
+
+    //Scroll to section
     if (hash) {
-      const id = hash.replace('#', '');
-      const el = document.getElementById(id);
-      el.scrollIntoView({ behavior: 'smooth' });
+      const el = document.getElementById(hash);
+      el?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [location]);
 
@@ -40,29 +45,29 @@ const NavLinks = ({ isNavMenuOpen }) => {
 
   // Tailwind helper for styling (orange + underline for hover/focus/active)
   const getLinkClass = (linkName) =>
-    `p-2.5 rounded-lg ${
+    `p-2.5 rounded-lg hover:text-primary-dark hover:bg-neutral-300 ${
       activeLink === linkName
         ? 'text-brand-primary underline underline-offset-4'
         : 'dark:text-white'
-    } hover:text-primary-dark hover:bg-neutral-300`;
+    } `;
 
   // Determine the base path dynamically (home or dashboard)
-  const currentBasePath = location.pathname.startsWith('/dashboard')
-    ? '/dashboard'
-    : '/';
+  // const currentBasePath = location.pathname.startsWith('/dashboard')
+  //   ? '/dashboard'
+  //   : '/';
 
   const links = [
-    { label: 'home', path: '/', sectionId: 'home' },
+    { label: 'home', path: '/', sectionId: '/' },
     { label: 'solutions', path: '/#solutions', sectionId: 'solutions' },
     {
       label: 'about us',
-      path: currentBasePath + '#footer',
+      path: location.pathname + '#footer',
       sectionId: 'footer',
     },
     {
       label: 'dashboard',
       path: '/dashboard',
-      sectionId: 'dashboard',
+      sectionId: '/dashboard',
       auth: true,
     },
   ];
@@ -81,7 +86,6 @@ const NavLinks = ({ isNavMenuOpen }) => {
               to={path}
               className={getLinkClass(sectionId)}
               // onClick={() => handleNavClick(sectionId, path, sectionId)}
-              onClick={() => setActiveLink(sectionId)}
             >
               {label}
             </Link>
@@ -92,4 +96,6 @@ const NavLinks = ({ isNavMenuOpen }) => {
   );
 };
 
-export default NavLinks;
+NavLinks.propTypes = {
+  isNavMenuOpen: PropTypes.bool,
+};

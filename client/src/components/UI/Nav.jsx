@@ -5,7 +5,7 @@ import { DarkLightModeButton } from '../UI/DarkLightModeButton';
 import { BurgerMenu } from './BurgerMenu';
 import useAuthStore from '../../stores/useAuthStore';
 import { useLogout } from '../../hooks/useLogout';
-import NavLinks from './NavLinks';
+import { NavLinks } from './NavLinks';
 
 export const Nav = ({ action, onClickHandler }) => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
@@ -14,6 +14,12 @@ export const Nav = ({ action, onClickHandler }) => {
 
   const { isAuthenticated, user } = useAuthStore();
   const logout = useLogout();
+
+  const onChangeToggleClassHandler = () => {
+    setIsNavMenuOpen((prev) => !prev);
+  };
+
+  const toggleUserInfo = () => setShowUserInfo((prev) => !prev);
 
   // Close user info dropdown if clicked outside
   const handleClickOutside = (event) => {
@@ -28,10 +34,6 @@ export const Nav = ({ action, onClickHandler }) => {
   }, []);
   // document.addEventListener('mousedown', handleClickOutside);
 
-  const onChangeToggleClassHandler = () => {
-    setIsNavMenuOpen((prev) => !prev);
-  };
-
   const handleAuthClick = useCallback(() => {
     if (isAuthenticated) {
       logout();
@@ -39,8 +41,6 @@ export const Nav = ({ action, onClickHandler }) => {
       onClickHandler?.(); // open login modal or trigger login
     }
   }, [isAuthenticated, logout, onClickHandler]);
-
-  const toggleUserInfo = () => setShowUserInfo((prev) => !prev);
 
   return (
     <>
@@ -56,10 +56,7 @@ export const Nav = ({ action, onClickHandler }) => {
             : 'hidden md:flex'
         }`}
       >
-        <NavLinks
-          isNavMenuOpen={isNavMenuOpen}
-          isActiveLink={activeLink}
-        />
+        <NavLinks isNavMenuOpen={isNavMenuOpen} />
 
         {/* Auth button */}
         {!isAuthenticated && (
