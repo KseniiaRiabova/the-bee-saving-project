@@ -1,19 +1,20 @@
 function Footer() {
   return (
-    <div className='relative w-full flex flex-col items-center mt-10 pb-20 dark:bg-black dark:text-white'>
-      <span className='flex items-center justify-center order-first text-footerBoxColor mb-4'>
-        <i className='fab fa-github text-4xl mr-4'></i>
-        <a
-          href='https://github.com/chingu-voyages/v50-tier3-team-28'
-          target='_blank'
-          className='hover:text-footerSubscribeBg'
-        >
-          Github Project Link - September 2024
-        </a>
-      </span>
-      <div className='relative w-full flex flex-col items-center content-center sm:flex-row sm:items-start justify-center mt-12 rounded-3xl bg-[#9BC25B]'>
-        <div className='px-8 py-8 flex flex-col space-y-6 content-center'>
-          <div>
+    <footer className='dark:bg-black dark:text-white'>
+      <div className='max-w-7xl mx-auto px-6 py-10'>
+        <div className='flex items-center justify-center text-secondary-dark mb-10'>
+          <i className='fab fa-github text-4xl mr-4'></i>
+          <a
+            href='https://github.com/chingu-voyages/v50-tier3-team-28'
+            target='_blank'
+            className='hover:text-brand-primary'
+          >
+            Github Project Link - September 2024
+          </a>
+        </div>
+
+        <div className='p-8 space-y-6 bg-brand-secondary rounded-3xl'>
+          <p>
             Disclaimer: This website and its associated services are provided
             for demonstrative and educational purposes only. The content and
             features, including the ability to report bee swarms, are part of a
@@ -21,21 +22,21 @@ function Footer() {
             The information presented about bees is intended solely for
             informational purposes and should not be relied upon for
             professional advice or real-world applications.
-          </div>
-          <div>
+          </p>
+          <p>
             Please note that this site is not monitored, and any reports
             submitted regarding bee swarms will not be acted upon. For
             assistance with bee-related concerns, please contact a licensed
             professional or your local authorities.
-          </div>
-          <div>
+          </p>
+          <p>
             We are not responsible for any inaccuracies or issues arising from
             the use of this site. By using this website, you acknowledge and
             agree to these terms.
-          </div>
+          </p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 
