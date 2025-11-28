@@ -50,8 +50,8 @@ const Dashboard = () => {
   };
 
   return (
-    <>
-      <div className='max-w-7xl mx-auto'>
+    <section>
+      <div className='max-w-7xl mx-auto px-6 py-16'>
         <UserProfileNew
           showModal={showModal}
           setShowModal={setShowModal}
@@ -59,11 +59,10 @@ const Dashboard = () => {
           sendDeleteRequestOfUserContactNumber={handleDeleteUserContactNumber}
         />
       </div>
-
-      <section className='flex justify-center p-2'>
+      <div className='flex justify-center'>
         <Map requests={requests} />
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

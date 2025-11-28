@@ -1,16 +1,16 @@
-import { Button } from "../UI/Button";
-import { RequestFormModal } from "../UI/RequestForm/RequestFormModal";
-import { Input } from "../UI/Input";
-import { RequestComponent } from "./RequestTable";
-import useRequestStore from "../../stores/useRequestStore";
-import PropTypes from "prop-types";
+import { Button } from '../UI/Button';
+import { RequestFormModal } from '../UI/RequestForm/RequestFormModal';
+import { Input } from '../UI/Input';
+import { RequestComponent } from './RequestTable';
+import useRequestStore from '../../stores/useRequestStore';
+import PropTypes from 'prop-types';
 
 export const UserRequest = ({ showModal, setShowModal }) => {
   const { requests } = useRequestStore();
 
   return (
-    <section className='flex flex-col justify-around items-center border border-gray-400 rounded-lg w-full md:items-start md:p-10'>
-      <section className='flex justify-between items-center mb-4 w-full flex-col gap-4 md:flex-row md:justify-between'>
+    <div className='border border-border-color rounded-lg p-6 md:p-8'>
+      <div className='flex flex-col md:flex-row justify-between items-center gap-4 w-full pt-4 pb-8'>
         <h3>Requests</h3>
         <Input
           type='text'
@@ -22,31 +22,24 @@ export const UserRequest = ({ showModal, setShowModal }) => {
           text='Create New Request'
           onClick={() => setShowModal(true)}
         />
-      </section>
+      </div>
 
-      {/* <section>
-        <p>Sort by country</p>
-        <p>Location</p>
-        <p>Dropdown</p>
-      </section> */}
-      <section className='w-full md:mt-10'>
-        <RequestComponent
-          requests={requests}
-          fixedHeader
-          fixedHeaderScrollHeight='300px'
-        />
-      </section>
+      <RequestComponent
+        requests={requests}
+        fixedHeader
+        fixedHeaderScrollHeight='300px'
+      />
 
-      <section className='flex gap-4 md:gap-6 md:justify-around'>
-        {/* <Button className="font-normal text-white bg-[#F4743B] hover:bg-green-300 rounded-lg p-2 dark:text-black" type="button" text="Completed" /> */}
-      </section>
+      {/* <div className='flex gap-4 md:gap-6 md:justify-around'>
+         <Button className="font-normal text-white bg-[#F4743B] hover:bg-green-300 rounded-lg p-2 dark:text-black" type="button" text="Completed" /> 
+      </div> */}
       {showModal && (
         <RequestFormModal
           showModal={showModal}
           setShowModal={setShowModal}
         />
       )}
-    </section>
+    </div>
   );
 };
 

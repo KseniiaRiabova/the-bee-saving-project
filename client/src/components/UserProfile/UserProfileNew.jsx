@@ -83,16 +83,16 @@ export const UserProfileNew = ({
   }
 
   return (
-    <section className='flex flex-col gap-4 m-4 md:m-0 md:my-4'>
-      <div className='flex flex-col items-center gap-4 md:flex-row md:justify-between'>
+    <>
+      <div className='flex flex-col items-center gap-4 md:flex-row md:justify-between mb-6'>
         <h2>Dashboard</h2>
 
-        <section className='flex items-center justify-end gap-3 md:gap-6'>
-          <div className='flex flex-col items-end'>
-            <p className='font-medium text-black dark:text-white'>
+        <div className='flex items-center justify-end gap-3 md:gap-6'>
+          <div className='text-right'>
+            <p className='font-medium'>
               {email ? email.split('@')[0] : 'Loading...'}
             </p>
-            <p className='text-sm text-neutral-600 dark:text-neutral-300'>
+            <p className='text-sm text-secondary-dark dark:text-neutral-300'>
               {email || 'Loading...'}
             </p>
           </div>
@@ -110,8 +110,8 @@ export const UserProfileNew = ({
 
           {/* Modal */}
           {isUserInfoModalOpen && (
-            <section className='absolute top-[16rem] md:top-[15rem] right-0 md:right-auto w-full md:max-w-lg bg-secondary-light border border-brand-primary rounded-lg dark:bg-black dark:border-white z-[60]'>
-              <div className='relative p-8 flex flex-col gap-5'>
+            <div className='absolute top-[21rem] md:top-[18.5rem] right-0 md:right-auto w-full md:max-w-lg bg-secondary-light border border-brand-primary rounded-lg dark:bg-black dark:border-white z-[60]'>
+              <div className='flex flex-col gap-5 p-6'>
                 <ButtonClose onClose={() => toggleUserInfoModal(false)} />
 
                 <h3>User info</h3>
@@ -182,18 +182,18 @@ export const UserProfileNew = ({
                   )}
                 </div>
               </div>
-            </section>
+            </div>
           )}
-        </section>
+        </div>
       </div>
 
-      <div className='flex flex-col gap-4 md:flex-row'>
-        <UserRequest
-          showModal={showModal}
-          setShowModal={setShowModal}
-        />
-      </div>
-    </section>
+      {/* <div className='flex flex-col gap-4 md:flex-row'> */}
+      <UserRequest
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+      {/* </div> */}
+    </>
   );
 };
 
