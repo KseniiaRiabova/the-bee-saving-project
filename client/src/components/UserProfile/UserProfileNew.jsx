@@ -84,7 +84,7 @@ export const UserProfileNew = ({
 
   return (
     <>
-      <div className='flex flex-col items-center gap-4 md:flex-row md:justify-between mb-6'>
+      <div className='flex flex-col items-center gap-4 md:flex-row md:justify-between mb-5 md:mb-10'>
         <h2>Dashboard</h2>
 
         <div className='flex items-center justify-end gap-3 md:gap-6'>
@@ -187,12 +187,10 @@ export const UserProfileNew = ({
         </div>
       </div>
 
-      {/* <div className='flex flex-col gap-4 md:flex-row'> */}
       <UserRequest
         showModal={showModal}
         setShowModal={setShowModal}
       />
-      {/* </div> */}
     </>
   );
 };

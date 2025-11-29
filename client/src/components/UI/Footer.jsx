@@ -1,8 +1,10 @@
+import { Container } from './Container';
+
 function Footer() {
   return (
     <footer className='dark:bg-black dark:text-white'>
-      <div className='max-w-7xl mx-auto px-6 py-10'>
-        <div className='flex items-center justify-center text-secondary-dark mb-10'>
+      <Container>
+        <div className='flex items-center justify-center text-secondary-dark mb-5 md:mb-10'>
           <i className='fab fa-github text-4xl mr-4'></i>
           <a
             href='https://github.com/chingu-voyages/v50-tier3-team-28'
@@ -35,7 +37,7 @@ function Footer() {
             agree to these terms.
           </p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import useAuthStore from '../stores/useAuthStore';
 import MainHeroLanding from '../components/UI/MainHeroLanding';
-import { MainHeroLandingSurvey } from '../components/UI/MainHeroLandingSurvey';
 import { ProblemContainter } from '../components/UI/ProblemContainer';
 import { SolutionsSection } from '../components/UI/SolutionsSection';
 import { SignUpNotification } from '../components/notifications/SignUpNotification';
@@ -73,25 +72,17 @@ const HomeLayout = () => {
 
   return (
     <>
-      <section className='relative bg-brand-secondary overflow-hidden'>
-        <div className='flex flex-col max-w-7xl mx-auto min-h-[calc(100vh-112px)] md:min-h-[calc(100vh-128px)]'>
-          {showNotification && (
-            <SignUpNotification
-              isFirstTimeUser={isFirstTimeUser}
-              userNickName={user?.nickname}
-              onClose={handleOnCloseNotification}
-            />
-          )}
+      {showNotification && (
+        <SignUpNotification
+          isFirstTimeUser={isFirstTimeUser}
+          userNickName={user?.nickname}
+          onClose={handleOnCloseNotification}
+        />
+      )}
 
-          <MainHeroLanding />
-          <MainHeroLandingSurvey />
-        </div>
-      </section>
-
-      <div className='max-w-7xl mx-auto px-6'>
-        <ProblemContainter />
-        <SolutionsSection />
-      </div>
+      <MainHeroLanding />
+      <ProblemContainter />
+      <SolutionsSection />
     </>
   );
 };

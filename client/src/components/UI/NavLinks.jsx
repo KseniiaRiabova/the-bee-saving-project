@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import useAuthStore from '../../stores/useAuthStore';
 
-export const NavLinks = ({ isNavMenuOpen }) => {
+export const NavLinks = ({ isNavMenuOpen, onLinkClick }) => {
   const location = useLocation();
   const { isAuthenticated } = useAuthStore();
   const [activeLink, setActiveLink] = useState('');
@@ -86,6 +86,7 @@ export const NavLinks = ({ isNavMenuOpen }) => {
               to={path}
               className={getLinkClass(sectionId)}
               // onClick={() => handleNavClick(sectionId, path, sectionId)}
+              onClick={onLinkClick}
             >
               {label}
             </Link>
@@ -98,4 +99,5 @@ export const NavLinks = ({ isNavMenuOpen }) => {
 
 NavLinks.propTypes = {
   isNavMenuOpen: PropTypes.bool,
+  onLinkClick: PropTypes.func,
 };

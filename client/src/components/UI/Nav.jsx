@@ -56,7 +56,10 @@ export const Nav = ({ action, onClickHandler }) => {
             : 'hidden md:flex'
         }`}
       >
-        <NavLinks isNavMenuOpen={isNavMenuOpen} />
+        <NavLinks
+          isNavMenuOpen={isNavMenuOpen}
+          onLinkClick={() => setIsNavMenuOpen(false)}
+        />
 
         {/* Auth button */}
         {!isAuthenticated && (
