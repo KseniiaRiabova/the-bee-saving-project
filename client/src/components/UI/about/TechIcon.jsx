@@ -1,4 +1,4 @@
-import sprite from '../../assets/images/footer/tech-logo.svg?raw';
+import sprite from '../../../assets/images/about/tech-logo.svg?raw';
 
 export function TechIcon({ id, className }) {
   return (

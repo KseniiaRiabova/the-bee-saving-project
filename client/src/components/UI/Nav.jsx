@@ -1,30 +1,25 @@
-import PropTypes from "prop-types";
-import { useState, useCallback, useRef, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Button } from "../UI/Button";
-import { DarkLightModeButton } from "../UI/DarkLightModeButton";
-import { BurgerMenu } from "./BurgerMenu";
-import useAuthStore from "../../stores/useAuthStore";
-import { useLogout } from "../../hooks/useLogout";
+import PropTypes from 'prop-types';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { Button } from '../UI/Button';
+import { DarkLightModeButton } from '../UI/DarkLightModeButton';
+import { BurgerMenu } from './BurgerMenu';
+import useAuthStore from '../../stores/useAuthStore';
+import { useLogout } from '../../hooks/useLogout';
+import { NavLinks } from './NavLinks';
 
 export const Nav = ({ action, onClickHandler }) => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
-  const [activeLink, setActiveLink] = useState("");
   const userInfoRef = useRef(null);
 
-  const navigate = useNavigate();
-  const location = useLocation();
   const { isAuthenticated, user } = useAuthStore();
   const logout = useLogout();
 
-  // Determine active link based on URL (works for both /home and /dashboard)
-  useEffect(() => {
-    if (location.hash === "#solutions") setActiveLink("solutions");
-    else if (location.hash === "#footer") setActiveLink("about");
-    else if (location.pathname === "/dashboard") setActiveLink("dashboard");
-    else if (location.pathname === "/home") setActiveLink("home");
-  }, [location]);
+  const onChangeToggleClassHandler = () => {
+    setIsNavMenuOpen((prev) => !prev);
+  };
+
+  const toggleUserInfo = () => setShowUserInfo((prev) => !prev);
 
   // Close user info dropdown if clicked outside
   const handleClickOutside = (event) => {
@@ -32,16 +27,12 @@ export const Nav = ({ action, onClickHandler }) => {
       setShowUserInfo(false);
     }
   };
-  document.addEventListener("mousedown", handleClickOutside);
 
-  const onChangeToggleClassHandler = () => {
-    setIsNavMenuOpen((prev) => !prev);
-  };
-
-  // const handleAuthClick = useCallback(() => {
-  //   if (isAuthenticated) logout();
-  //   else onClickHandler?.();
-  // }, [isAuthenticated, logout, onClickHandler]);
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+  // document.addEventListener('mousedown', handleClickOutside);
 
   const handleAuthClick = useCallback(() => {
     if (isAuthenticated) {
@@ -51,130 +42,72 @@ export const Nav = ({ action, onClickHandler }) => {
     }
   }, [isAuthenticated, logout, onClickHandler]);
 
-  const toggleUserInfo = () => setShowUserInfo((prev) => !prev);
-
-  // Universal nav link handler
-  const handleNavClick = (linkName, targetUrl, sectionId = null) => {
-    setActiveLink(linkName);
-    setIsNavMenuOpen(false);
-
-    navigate(targetUrl, { replace: true });
-
-    if (sectionId) {
-      setTimeout(() => {
-        const section = document.getElementById(sectionId);
-        if (section) section.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    }
-  };
-
-  // Determine the base path dynamically (home or dashboard)
-  const currentBasePath =
-    location.pathname.startsWith("/dashboard") ? "/dashboard" : "/home";
-
-  // Tailwind helper for styling (orange + underline for hover/focus/active)
-  const getLinkClass = (linkName) =>
-    `p-2.5 rounded-lg transition-colors duration-150 ${activeLink === linkName
-      ? "text-[#F4743B] underline"
-      : "text-black dark:text-white"
-    } hover:text-[#F4743B] hover:underline focus:text-[#F4743B] focus:underline`;
-
   return (
     <>
-      <BurgerMenu onChangeHandler={onChangeToggleClassHandler} isOpen={isNavMenuOpen} />
+      <BurgerMenu
+        onChangeHandler={onChangeToggleClassHandler}
+        isOpen={isNavMenuOpen}
+      />
 
-      <nav className={`${isNavMenuOpen ? "" : "hidden md:block"}`}>
-        <ul
-          className={`flex items-center justify-center text-lg ${isNavMenuOpen
-            ? "flex-col gap-6 absolute top-0 left-0 w-full h-dvh bg-neutral-500 z-40"
-            : "flex-row gap-5 lg:gap-9"
-            }`}
-        >
-          {/* Home */}
-          <li>
-            <Link
-              to="/home"
-              className={getLinkClass("home")}
-              onClick={() => handleNavClick("home", "/home")}
+      <nav
+        className={`flex items-center justify-center gap-6 lg:gap-9 ${
+          isNavMenuOpen
+            ? 'fixed inset-0 flex-col bg-secondary-dark z-40'
+            : 'hidden md:flex'
+        }`}
+      >
+        <NavLinks
+          isNavMenuOpen={isNavMenuOpen}
+          onLinkClick={() => setIsNavMenuOpen(false)}
+        />
+
+        {/* Auth button */}
+        {!isAuthenticated && (
+          <Button
+            type='button'
+            text={action}
+            onClickHandler={handleAuthClick}
+          />
+        )}
+
+        {/* Dark/Light toggle */}
+        <DarkLightModeButton />
+
+        {/* User profile */}
+        {isAuthenticated && user && (
+          <div
+            className='relative flex items-center space-x-3'
+            ref={userInfoRef}
+          >
+            <button
+              onClick={toggleUserInfo}
+              className='p-0 rounded-full border border-neutral-400 focus:outline-none'
+              title='Toggle user info'
             >
-              Home
-            </Link>
-          </li>
+              <img
+                src={user.picture}
+                alt='avatar'
+                className='w-10 h-10 rounded-full'
+              />
+            </button>
 
-          {/* Solutions */}
-          <li>
-            <a
-              onClick={() =>
-                handleNavClick("solutions", "/home#solutions", "solutions")
-              }
-              className={getLinkClass("solutions")}
-            >
-              Solutions
-            </a>
-          </li>
-
-          {/* About Us — scrolls to footer in current page (home or dashboard) */}
-          <li>
-            <a
-              onClick={() =>
-                handleNavClick("about", `${currentBasePath}#footer`, "footer")
-              }
-              className={getLinkClass("about")}
-            >
-              About Us
-            </a>
-          </li>
-
-          {/* Dashboard */}
-          {isAuthenticated && (
-            <li className="text-center">
-              <Link
-                to="/dashboard"
-                className={getLinkClass("dashboard")}
-                onClick={() => handleNavClick("dashboard", "/dashboard")}
-              >
-                Dashboard
-              </Link>
-            </li>
-          )}
-
-          {/* Auth button */}
-          {!isAuthenticated && (
-            <li>
-              <Button type="button" text={action} onClickHandler={handleAuthClick} />
-            </li>
-          )}
-
-          {/* Dark/Light toggle */}
-          <li>
-            <DarkLightModeButton />
-          </li>
-
-          {/* User profile */}
-          {isAuthenticated && user && (
-            <li className="relative flex items-center space-x-3" ref={userInfoRef}>
-              <button
-                onClick={toggleUserInfo}
-                className="p-0 rounded-full border border-neutral-400 focus:outline-none"
-                title="Toggle user info"
-              >
-                <img src={user.picture} alt="avatar" className="w-10 h-10 rounded-full" />
-              </button>
-
-              {showUserInfo && (
-                <div className="absolute top-8 right-[-146px] mt-2 min-w-[340px] w-[280px] p-4 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg z-50 md:right-0">
-                  <div className="font-medium text-black dark:text-white break-words mb-1">
-                    {user.name}
-                  </div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-300 break-all mb-3">
-                    {user.email.split("@")[0]}
-                  </div>
-                  <Button type="button" text="Log Out" onClickHandler={handleAuthClick} />
+            {showUserInfo && (
+              <div className='absolute top-8 right-[-146px] mt-2 min-w-[340px] w-[280px] p-4 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg z-50 md:right-0'>
+                <div className='font-medium text-black dark:text-white break-words mb-1'>
+                  {user.name}
                 </div>
-              )}
-            </li>
-          )}
-        </ul>
+                <div className='text-sm text-neutral-600 dark:text-neutral-300 break-all mb-3'>
+                  {user.email.split('@')[0]}
+                </div>
+                <Button
+                  type='button'
+                  text='Log Out'
+                  onClickHandler={handleAuthClick}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </nav>
     </>
   );

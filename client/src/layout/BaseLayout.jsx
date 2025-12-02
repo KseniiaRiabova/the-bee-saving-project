@@ -2,10 +2,12 @@ import PropTypes from 'prop-types';
 import { useEffect, useState, useCallback } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Header } from '../components/UI/Header';
-import Footer from '../components/Footer/Footer';
+import Footer from '../components/UI/Footer';
 import { useLogout } from '../hooks/useLogout';
+import { Outlet } from 'react-router-dom';
+import About from '../components/UI/about/About';
 
-export const BaseLayout = ({ children }) => {
+export const BaseLayout = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const logout = useLogout();
   const [action, setAction] = useState('');
@@ -31,14 +33,15 @@ export const BaseLayout = ({ children }) => {
 
       <main className='dark:bg-black dark:text-white'>
         {/* <main className="dark:bg-black dark:text-white border-2 border-transparent"> */}
-        {children}
+        {/* {children} */}
+        <Outlet />
+        <About />
       </main>
-
       <Footer />
     </>
   );
 };
 
-BaseLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+// BaseLayout.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };

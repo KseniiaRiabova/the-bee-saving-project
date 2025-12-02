@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import graphData from "./graphData";
+import { useRef, useState } from 'react';
+import graphData from './graphData';
 
 import {
   Chart as ChartJS,
@@ -10,10 +10,10 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import { Chart } from "chart.js";
-import ModalResourceLink from "./Footer/ModalResourceLink";
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { Chart } from 'chart.js';
+import ModalResourceLink from './UI/about/ModalResourceLink';
 
 ChartJS.register(
   CategoryScale,
@@ -38,22 +38,22 @@ export default function Graph() {
           // "rgba(54, 162, 235, 0.2)",
           // "rgba(255, 99, 132, 0.2)",
           // "rgba(255, 206, 86, 0.2)",
-          "#9BC25B33",
-          "#F4743B33",
-          "#FFCE5633",
+          '#9BC25B33',
+          '#F4743B33',
+          '#FFCE5633',
         ],
         borderColor: [
           // "rgba(255, 99, 132)",
           // "rgba(54, 162, 235)",
           //"rgba(255, 206, 86)",
-          "#9bc25b",
-          "#F4743B",
-          "#FFCE56",
+          '#9bc25b',
+          '#F4743B',
+          '#FFCE56',
         ],
         borderWidth: 1,
         tension: 0.4,
-        yAxisID: "hives",
-        xAxisID: "date",
+        yAxisID: 'hives',
+        xAxisID: 'date',
       },
     ],
   };
@@ -67,29 +67,29 @@ export default function Graph() {
         ticks: {
           stepSize: 1,
         },
-        type: "linear",
+        type: 'linear',
         reverse: false,
         title: {
           display: true,
-          text: "Years",
-          color: "black",
+          text: 'Years',
+          color: 'black',
           font: {
             size: 18,
             weight: 700,
-            family: "blinker",
+            family: 'blinker',
           },
         },
       },
       hives: {
-        type: "linear",
+        type: 'linear',
         title: {
           display: true,
-          text: "Millions of hives",
-          color: "black",
+          text: 'Millions of hives',
+          color: 'black',
           font: {
             size: 18,
             weight: 700,
-            family: "blinker",
+            family: 'blinker',
           },
         },
         beginAtZero: false,
@@ -106,21 +106,21 @@ export default function Graph() {
       },
       title: {
         display: true,
-        text: "Millions of hives in the U.S.",
-        color: "black",
+        text: 'Millions of hives in the U.S.',
+        color: 'black',
         padding: {
           top: 10,
           bottom: 10,
         },
         font: {
           size: 24,
-          family: "blinkerbold",
+          family: 'blinkerbold',
           // style: "italic",
         },
       },
       datalabels: {
-        anchor: "right",
-        align: "end",
+        anchor: 'right',
+        align: 'end',
       },
       legend: {
         display: false,

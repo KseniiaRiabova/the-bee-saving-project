@@ -1,26 +1,26 @@
-import DataTable from "react-data-table-component";
-import PropTypes from "prop-types";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useState } from "react";
-import AcceptRequestModal from "./AcceptRequestModal";
-import useRequestStore from "../../stores/useRequestStore";
-import columns from "./requestTableColumns";
+import DataTable from 'react-data-table-component';
+import PropTypes from 'prop-types';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useState } from 'react';
+import AcceptRequestModal from './AcceptRequestModal';
+import useRequestStore from '../../stores/useRequestStore';
+import columns from './requestTableColumns';
 
 const tableCustomStyles = {
   headRow: {
     style: {
-      backgroundColor: "#f0f0f2",
-      fontSize: "1rem",
+      backgroundColor: '#f0f0f2',
+      fontSize: '1rem',
     },
   },
   rows: {
     style: {
-      fontSize: "1rem",
+      fontSize: '1rem',
     },
   },
   pagination: {
     style: {
-      fontSize: "1rem",
+      fontSize: '1rem',
     },
   },
 };
@@ -92,7 +92,8 @@ RequestComponent.propTypes = {
       isActive: PropTypes.bool,
       city: PropTypes.string,
       country: PropTypes.string,
-      beekeeper: PropTypes.string,
+      // beekeeper: PropTypes.string,
+      beekeeper: PropTypes.object,
     })
   ).isRequired,
 };

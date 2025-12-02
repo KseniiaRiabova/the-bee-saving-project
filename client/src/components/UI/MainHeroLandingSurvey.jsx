@@ -12,7 +12,7 @@ export const MainHeroLandingSurvey = () => {
   });
 
   return (
-    <section className='flex flex-col md:flex-row items-center md:justify-between gap-9 p-6'>
+    <div className='flex flex-col md:flex-row items-center md:justify-between gap-9 py-6'>
       <div className='flex items-center justify-center gap-4'>
         <Image
           src={beeImage}
@@ -46,6 +46,6 @@ export const MainHeroLandingSurvey = () => {
           text='Volunteers'
         />
       </div>
-    </section>
+    </div>
   );
 };
