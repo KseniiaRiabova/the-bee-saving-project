@@ -3,7 +3,12 @@ import { Marker, Popup, useMapEvent, useMap } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import L from 'leaflet';
 
-const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, setFormData }) => {
+const MapComponent = ({
+  markerPosition,
+  setMarkerPosition,
+  FetchLocationData,
+  setFormData,
+}) => {
   const [userLocation, setUserLocation] = useState(null);
   const map = useMap();
 
@@ -33,11 +38,11 @@ const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, se
             FetchLocationData(latitude, longitude, setFormData); // Fetch initial data
           },
           (error) => {
-            console.error("Error getting user location:", error);
+            console.error('Error getting user location:', error);
           }
         );
       } else {
-        console.log("Geolocation is not supported by this browser.");
+        console.log('Geolocation is not supported by this browser.');
       }
     };
 
@@ -52,7 +57,7 @@ const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, se
     const searchControl = new GeoSearchControl({
       provider,
       style: 'bar',
-      showMarker: false,  
+      showMarker: false,
       autoClose: true,
       searchLabel: 'Search for location...',
       keepResult: true,
@@ -66,15 +71,19 @@ const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, se
       const lat = location.y;
       const lon = location.x;
 
-       
       setMarkerPosition([lat, lon]);
-      console.log(markerPosition)
+
+      // Better location parsing
+      const parts = location.label.split(',').map((s) => s.trim());
+      const city = parts.length >= 2 ? parts[parts.length - 2] : '';
+      const country = parts.length >= 1 ? parts[parts.length - 1] : '';
+
       setFormData((prevData) => ({
         ...prevData,
         latitude: lat,
         longitude: lon,
-        city: location.label || '',
-        country: '', // Optional improvement: you can improve this
+        city: city,
+        country: country,
       }));
 
       // Move the map to the selected location

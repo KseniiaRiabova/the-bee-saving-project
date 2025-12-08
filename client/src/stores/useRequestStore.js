@@ -33,24 +33,45 @@ const useRequestStore = create((set, get) => ({
   addRequest: async (formData, token) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`${BACKEND_URL}/requests/create`, {
+      // Transform data before sending
+      const { latitude, longitude, city, country, ...restFormData } = formData;
+
+      const requestData = {
+        ...restFormData,
+        location: {
+          type: 'Point',
+          coordinates: [parseFloat(longitude), parseFloat(latitude)], // GeoJSON order: [lon, lat]
+          city: city || '',
+          country: country || '',
+        },
+      };
+
+      const response = await fetch(`${BACKEND_URL}/requests`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
+
       if (!response.ok) throw new Error('Failed to create request');
+
       const data = await response.json();
+
       set((state) => ({
-        requests: [...state.requests, data],
-        activeRequests: data.isActive ? state.activeRequests + 1 : state.activeRequests,
-        completedRequests: data.isCompleted ? state.completedRequests + 1 : state.completedRequests,
+        requests: [...state.requests, data.request], // Note: backend returns data.request
+        activeRequests: data.request.isActive
+          ? state.activeRequests + 1
+          : state.activeRequests,
+        completedRequests: data.request.isCompleted
+          ? state.completedRequests + 1
+          : state.completedRequests,
         isLoading: false,
         error: null,
       }));
-      return data;
+
+      return data.request;
     } catch (error) {
       set({ error: error.message, isLoading: false });
       throw error;
@@ -60,14 +81,17 @@ const useRequestStore = create((set, get) => ({
   updateRequest: async (updatedRequest, token) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`${BACKEND_URL}/requests/${updatedRequest.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedRequest),
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/requests/${updatedRequest.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedRequest),
+        }
+      );
       if (!response.ok) throw new Error('Failed to update request');
       const data = await response.json();
       set((state) => ({
@@ -109,14 +133,17 @@ const useRequestStore = create((set, get) => ({
   acceptRequest: async (requestId, userId, token) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`${BACKEND_URL}/requests/${requestId}/accept`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ beekeeperId: userId }),
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/requests/${requestId}/accept`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ beekeeperId: userId }),
+        }
+      );
       if (!response.ok) throw new Error('Failed to accept request');
       const data = await response.json();
       set((state) => ({
@@ -136,12 +163,15 @@ const useRequestStore = create((set, get) => ({
   completeRequest: async (requestId, token) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`${BACKEND_URL}/requests/${requestId}/complete`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/requests/${requestId}/complete`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) throw new Error('Failed to complete request');
       const data = await response.json();
       set((state) => ({
@@ -161,12 +191,15 @@ const useRequestStore = create((set, get) => ({
   cancelRequest: async (requestId, token) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`${BACKEND_URL}/requests/${requestId}/cancel`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/requests/${requestId}/cancel`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) throw new Error('Failed to cancel request');
       const data = await response.json();
       set((state) => ({
