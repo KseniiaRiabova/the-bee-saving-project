@@ -1,8 +1,11 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const DetailsSummary = ({ title, description, ...attrs }) => {
   return (
-    <details {...attrs}>
+    <details
+      {...attrs}
+      className='group'
+    >
       <summary
         className='flex items-center justify-start'
         title='Click here to read more'

@@ -3,22 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Blinker';
-  src: url('../src/assets/fonts/Blinker/Blinker-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: BlinkerBold;
-  src: url('../src/assets/fonts/Blinker/Blinker-Bold.ttf');
-}
-
-@font-face {
-  font-family: BlackOpsOneFont;
-  src: url('../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf');
-}
-
 @layer base {
+  @font-face {
+    font-family: 'Blinker';
+    src: url('../src/assets/fonts/Blinker/Blinker-Regular.ttf')
+      format('truetype');
+  }
+
+  @font-face {
+    font-family: BlinkerBold;
+    src: url('../src/assets/fonts/Blinker/Blinker-Bold.ttf');
+  }
+
+  @font-face {
+    font-family: BlackOpsOneFont;
+    src: url('../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf');
+  }
+
   :root {
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -63,7 +64,9 @@
   }
 
   summary {
-    @apply text-[#101828] font-bold text-lg dark:text-white;
+    @apply text-[#101828] font-bold text-lg dark:text-white
+           after:inline-flex after:ml-auto after:content-[url('./assets/images/detailsSummaryButton/orangeButtonPlus.svg')]
+           group-open:after:content-[url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg')];
   }
 }
 
@@ -72,14 +75,4 @@
     @apply bg-transparent border border-neutral-300 text-footerProfileNameColor
            hover:border-neutral-300 dark:text-primary-light;
   }
-}
-
-summary::after {
-  display: inline-flex;
-  margin-left: auto;
-  content: url('./assets/images/detailsSummaryButton/orangeButtonPlus.svg');
-}
-
-details[open] > summary::after {
-  content: url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg');
 }
