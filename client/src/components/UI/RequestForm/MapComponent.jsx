@@ -33,7 +33,7 @@ const MapComponent = ({
           (position) => {
             const { latitude, longitude } = position.coords;
             setUserLocation([latitude, longitude]);
-            setMarkerPosition([latitude, longitude]); // Place marker on user's location
+            setMarkerPosition([latitude, longitude]);
             map.setView([latitude, longitude], 13); // Center map on user's location
             FetchLocationData(latitude, longitude, setFormData); // Fetch initial data
           },
@@ -65,7 +65,6 @@ const MapComponent = ({
 
     map.addControl(searchControl);
 
-    // Listen to "location selected" event from search control
     map.on('geosearch/showlocation', (result) => {
       const { location } = result;
       const lat = location.y;
@@ -73,10 +72,12 @@ const MapComponent = ({
 
       setMarkerPosition([lat, lon]);
 
-      // Better location parsing
       const parts = location.label.split(',').map((s) => s.trim());
-      const city = parts.length >= 2 ? parts[parts.length - 2] : '';
+
       const country = parts.length >= 1 ? parts[parts.length - 1] : '';
+      const city = parts.length >= 2 ? parts[parts.length - 2] : '';
+
+      const streetInfo = parts.length > 2 ? parts.slice(0, -2).join(', ') : '';
 
       setFormData((prevData) => ({
         ...prevData,
@@ -84,10 +85,15 @@ const MapComponent = ({
         longitude: lon,
         city: city,
         country: country,
+        street: streetInfo,
+        fullAddress: location.label,
       }));
 
+      // Also fetch detailed reverse geocoding data
+      FetchLocationData(lat, lon, setFormData);
+
       // Move the map to the selected location
-      map.setView([lat, lon], 13); // Center the map on the search result
+      map.setView([lat, lon], 13);
     });
 
     return () => {

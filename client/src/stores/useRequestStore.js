@@ -34,15 +34,35 @@ const useRequestStore = create((set, get) => ({
     set({ isLoading: true });
     try {
       // Transform data before sending
-      const { latitude, longitude, city, country, ...restFormData } = formData;
+      const {
+        latitude,
+        longitude,
+        city,
+        country,
+        street,
+        houseNumber,
+        apartment,
+        postalCode,
+        fullAddress,
+        ...restFormData
+      } = formData;
 
       const requestData = {
         ...restFormData,
         location: {
           type: 'Point',
-          coordinates: [parseFloat(longitude), parseFloat(latitude)], // GeoJSON order: [lon, lat]
+          coordinates: [parseFloat(longitude), parseFloat(latitude)],
           city: city || '',
           country: country || '',
+          street: street || '',
+          houseNumber: houseNumber || '',
+          apartment: apartment || '',
+          postalCode: postalCode || '',
+          fullAddress:
+            fullAddress ||
+            `${street || ''} ${houseNumber || ''}, ${city || ''}, ${
+              country || ''
+            }`.trim(),
         },
       };
 
@@ -60,7 +80,7 @@ const useRequestStore = create((set, get) => ({
       const data = await response.json();
 
       set((state) => ({
-        requests: [...state.requests, data.request], // Note: backend returns data.request
+        requests: [...state.requests, data.request],
         activeRequests: data.request.isActive
           ? state.activeRequests + 1
           : state.activeRequests,
