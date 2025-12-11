@@ -3,13 +3,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      // sans: ["ui-sans-serif", "system-ui"],
-      // serif: ["ui-serif", "Georgia"],
-      // mono: ["ui-monospace", "SFMono-Regular"],
-      // display: ["Oswald"],
-      // body: ["Blinker"],
       bold: ['BlinkerBold'],
-      // blinker: ["BlinkerBold"],
       sans: ['Blinker', 'Arial', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       display: ['BlackOpsOne', 'Oswald'],
     },
@@ -25,16 +19,15 @@ export default {
         navSignupButtonWhite: '#ffffff',
         borderColor: '#D9D9D9',
 
-        'primary-light': '#FFFFFF', //white
-        'primary-dark': '#1E1E1E', //black
-        'secondary-light': '#F8F8F8', //light gray #e5e7eb
-        'secondary-dark': '#727272', //dark gray
-        'brand-primary': '#F4743B', //orange
-        'brand-secondary': '#9BC25B', //green
-        'brand-secondary-light': '#D8E5C3', // light green
-        'brand-secondary-dark': '#3D4D22', //dark green
-        'border-color': '#ADAAAA', //gray
-        'outline-color': '#D1D5DB', //light gray
+        primary: 'var(--primary)', //white
+        'primary-dark': 'var(--primary-dark)', //black #0D0D0D   #1E1E1E
+        'secondary-light': 'var(--secondary-light)', //light gray #e5e7eb
+        'secondary-dark': 'var(--secondary-dark)', //dark gray
+        'brand-primary': 'var(--brand-primary)', //orange
+        'brand-secondary': 'var(--brand-secondary)', //green
+        'brand-secondary-light': 'var(--brand-secondary-light)', // light green
+        'border-color': 'var(--border-color)', //gray
+        'outline-color': 'var(--outline-color)', //light gray
       },
       fontSize: {
         '18px': '18px',
