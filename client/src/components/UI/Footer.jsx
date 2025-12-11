@@ -2,7 +2,7 @@ import { Container } from './Container';
 
 function Footer() {
   return (
-    <footer className='dark:bg-black dark:text-white'>
+    <footer>
       <Container>
         <div className='flex items-center justify-center text-secondary-dark mb-5 md:mb-10'>
           <i className='fab fa-github text-4xl mr-4'></i>

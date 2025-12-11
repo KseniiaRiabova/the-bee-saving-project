@@ -12,10 +12,10 @@ export const DarkLightModeButton = () => {
         onChange={toggleDarkMode}
       />
       {/* Toggle track */}
-      <span className='absolute inset-0 bg-transparent border border-black rounded-full cursor-pointer'></span>
+      <span className='absolute inset-0 bg-transparent border border-primary-dark rounded-full cursor-pointer'></span>
 
       {/* Toggle thumb */}
-      <span className='absolute top-1 left-1 h-4 w-4 bg-white border border-black rounded-full cursor-pointer transition-transform duration-300 peer-checked:translate-x-6 peer-checked:bg-black'></span>
+      <span className='absolute top-1 left-1 h-4 w-4 bg-primary border border-primary-dark rounded-full cursor-pointer transition-transform duration-300 peer-checked:translate-x-6 peer-checked:bg-primary'></span>
     </label>
   );
 };

@@ -31,8 +31,7 @@ export const BaseLayout = () => {
         onClickHandler={onClickHandler}
       />
 
-      <main className='dark:bg-black dark:text-white'>
-        {/* <main className="dark:bg-black dark:text-white border-2 border-transparent"> */}
+      <main>
         {/* {children} */}
         <Outlet />
         <About />

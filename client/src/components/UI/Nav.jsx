@@ -92,10 +92,8 @@ export const Nav = ({ action, onClickHandler }) => {
             </button>
 
             {showUserInfo && (
-              <div className='absolute top-8 right-[-146px] mt-2 min-w-[340px] w-[280px] p-4 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg z-50 md:right-0'>
-                <div className='font-medium text-black dark:text-white break-words mb-1'>
-                  {user.name}
-                </div>
+              <div className='absolute top-8 right-[-146px] mt-2 min-w-[340px] w-[280px] p-4 bg-primary dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg z-50 md:right-0'>
+                <div className='font-medium break-words mb-1'>{user.name}</div>
                 <div className='text-sm text-neutral-600 dark:text-neutral-300 break-all mb-3'>
                   {user.email.split('@')[0]}
                 </div>

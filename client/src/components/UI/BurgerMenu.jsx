@@ -4,7 +4,7 @@ export const BurgerMenu = ({ onChangeHandler, isOpen }) => {
   return (
     <>
       <button
-        className='absolute right-6 p-0 space-y-1.5 bg-transparent shadow-none border-none  md:hidden z-50 hover:bg-transparent hover:shadow-none focus:bg-transparent'
+        className='absolute right-6 p-0 space-y-1.5 bg-transparent shadow-none border-none md:hidden z-50 hover:bg-transparent hover:shadow-none focus:bg-transparent'
         onClick={onChangeHandler}
       >
         <div

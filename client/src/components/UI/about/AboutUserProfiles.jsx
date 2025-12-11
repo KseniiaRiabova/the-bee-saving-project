@@ -20,7 +20,7 @@ function AboutUserProfiles({ profiles }) {
             <h3>{profile.name}</h3>
             <p className='text-sm text-secondary-dark'>{profile.role}</p>
           </div>
-          <div className='flex items-center gap-3 lg:gap-3.5 text-3xl lg:text-4xl'>
+          <div className='flex items-center gap-3 lg:gap-3.5 text-3xl lg:text-4xl text-secondary-dark'>
             <a
               href='#'
               onClick={(e) => handleClick(e, profile.linkedin)}

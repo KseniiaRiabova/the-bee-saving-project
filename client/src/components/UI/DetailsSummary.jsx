@@ -4,7 +4,7 @@ export const DetailsSummary = ({ title, description, ...attrs }) => {
   return (
     <details
       {...attrs}
-      className='group'
+      className='group pb-4 border-border-color/60 border-b-[1px] last:border-b-0 last:pb-0'
     >
       <summary
         className='flex items-center justify-start'
@@ -12,7 +12,7 @@ export const DetailsSummary = ({ title, description, ...attrs }) => {
       >
         {title}
       </summary>
-      <p className='text-[#4b4f57] py-4 md:max-w-[80%] lg:max-w-[95%]'>
+      <p className='text-secondary-dark pt-2 md:max-w-[80%] lg:max-w-[95%]'>
         {description}
       </p>
     </details>
