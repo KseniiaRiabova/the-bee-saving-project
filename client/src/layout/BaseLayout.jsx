@@ -30,9 +30,7 @@ export const BaseLayout = () => {
         action={action}
         onClickHandler={onClickHandler}
       />
-
       <main>
-        {/* {children} */}
         <Outlet />
         <About />
       </main>

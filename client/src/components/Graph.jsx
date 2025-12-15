@@ -36,7 +36,7 @@ export default function Graph() {
   const graphColors = {
     title: getColor('--primary-dark'),
     ticks: getColor('--secondary-dark'),
-    grid: getColor('--border-color', '33'),
+    grid: getColor('--secondary-dark', '33'),
     labelsBorder: [
       getColor('--brand-secondary'),
       getColor('--secondary-dark'),

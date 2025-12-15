@@ -31,17 +31,21 @@
     --brand-primary: #f4743b; /* orange */
     --brand-secondary: #9bc25b; /* green */
     --brand-secondary-light: #d8e5c3; /* light green */
+    --brand-secondary-light-95: #d8e5c3f6; /* light green */
     --border-color: #adaaaa; /* gray */
-    --outline-color: #d1d5db; /*light gray */
+    --outline-color: #d1d5db; /* light gray */
+    --backdrop-color: #252323cc; /* black with opacity */
   }
 
-  :root.dark {
+  .dark {
     --primary: #0d0d0d; /* black #1E1E1E */
     --primary-dark: #eeecec; /* pale white #d9d9d9 */
     --secondary-light: #0d0d0d; /* dark gray #e5e7eb */
     --brand-primary: #f58453; /* pale orange */
     --brand-secondary: #a6c96d; /* pale green */
     --brand-secondary-light: #3d4d22; /* dark green */
+    --brand-secondary-light-95: #3d4d22f6; /* light green */
+    --border-color: #adaaaa4f;
   }
 
   * {
@@ -73,7 +77,7 @@
            bg-brand-primary border border-brand-primary rounded-lg shadow
            hover:bg-neutral-300 hover:text-primary-dark hover:shadow-lg hover:border-neutral-300
            focus:bg-neutral-300 focus:text-primary-dark focus:border-neutral-300
-           dark:hover:bg-secondary-dark  dark:hover:border-secondary-dark
+           dark:hover:bg-secondary-dark dark:hover:border-secondary-dark
            dark:focus:bg-secondary-dark;
   }
 
@@ -83,12 +87,9 @@
            group-open:after:content-[url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg')];
   }
 }
-/* text-[#101828] */
 
 @layer components {
   .btn-outline {
-    @apply bg-transparent border border-neutral-300 text-primary-dark
-           hover:border-neutral-300 dark:text-primary
-          dark:bg-transparent dark:border-neutral-300;
+    @apply bg-transparent border border-outline-color text-primary-dark;
   }
 }

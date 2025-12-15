@@ -4,7 +4,7 @@ export const DetailsSummary = ({ title, description, ...attrs }) => {
   return (
     <details
       {...attrs}
-      className='group pb-4 border-border-color/60 border-b-[1px] last:border-b-0 last:pb-0'
+      className='group pb-4 border-border-color/60 border-b-[1px] last:border-b-0 last:pb-0 dark:border-backdrop-color'
     >
       <summary
         className='flex items-center justify-start'
