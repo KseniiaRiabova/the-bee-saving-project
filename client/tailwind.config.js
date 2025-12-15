@@ -26,12 +26,30 @@ export default {
         'brand-primary': 'var(--brand-primary)', //orange
         'brand-secondary': 'var(--brand-secondary)', //green
         'brand-secondary-light': 'var(--brand-secondary-light)', // light green
+        'brand-secondary-light-95': 'var(--brand-secondary-light-95)', // light green
+        // 'brand-secondary-light':
+        //   'rgb(from var(--brand-secondary-light) r g b / <alpha-value>)',
         'border-color': 'var(--border-color)', //gray
         'outline-color': 'var(--outline-color)', //light gray
+        'backdrop-color': 'var(--backdrop-color)', //black with opacity
       },
-      fontSize: {
-        '18px': '18px',
-        '22px': '22px',
+      // fontSize: {
+      //   '18px': '18px',
+      //   '22px': '22px',
+      // },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        // 'fade-out': {
+        //   '0%': { opacity: '1' },
+        //   '100%': { opacity: '0' },
+        // },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.3s ease-in-out forwards',
+        // 'fade-out': 'fade-out 0.3s ease-out forwards',
       },
     },
   },
