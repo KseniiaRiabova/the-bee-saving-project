@@ -27,6 +27,10 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     longitude: '',
     city: '',
     country: '',
+    street: '',
+    houseNumber: '',
+    apartment: '',
+    postalCode: '',
     contactNumber: '',
     image: '',
     isActive: true,
@@ -142,10 +146,7 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
                   <div className='grid gap-3 grid-cols-2'>
                     {/* Title */}
                     <div className='col-span-12'>
-                      <label
-                        htmlFor='title'
-                        className={customLabelStyles}
-                      >
+                      <label htmlFor='title' className={customLabelStyles}>
                         Title *
                       </label>
                       <div className='mt-2'>
@@ -208,11 +209,8 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
                     </div>
 
                     {/* City and Country */}
-                    <div className='col-span-12'>
-                      <label
-                        htmlFor='city'
-                        className={customLabelStyles}
-                      >
+                    <div className='col-span-6'>
+                      <label htmlFor='city' className={customLabelStyles}>
                         City *
                       </label>
                       <div className='mt-2'>
@@ -223,15 +221,11 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
                           value={formData.city}
                           onChange={handleChange}
                           className={customInputStyles}
-                          disabled
                         />
                       </div>
                     </div>
-                    <div className='col-span-12'>
-                      <label
-                        htmlFor='country'
-                        className={customLabelStyles}
-                      >
+                    <div className='col-span-6'>
+                      <label htmlFor='country' className={customLabelStyles}>
                         Country *
                       </label>
                       <div className='mt-2'>
@@ -242,10 +236,83 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
                           value={formData.country}
                           onChange={handleChange}
                           className={customInputStyles}
-                          disabled
                         />
                       </div>
                     </div>
+
+                    {/* Street Address */}
+                    <div className='col-span-8'>
+                      <label htmlFor='street' className={customLabelStyles}>
+                        Street Address
+                      </label>
+                      <div className='mt-2'>
+                        <input
+                          id='street'
+                          name='street'
+                          type='text'
+                          value={formData.street}
+                          onChange={handleChange}
+                          className={customInputStyles}
+                          placeholder='Street name'
+                        />
+                      </div>
+                    </div>
+
+                    {/* House Number */}
+                    <div className='col-span-4'>
+                      <label
+                        htmlFor='houseNumber'
+                        className={customLabelStyles}
+                      >
+                        House #
+                      </label>
+                      <div className='mt-2'>
+                        <input
+                          id='houseNumber'
+                          name='houseNumber'
+                          type='text'
+                          value={formData.houseNumber}
+                          onChange={handleChange}
+                          className={customInputStyles}
+                          placeholder='123'
+                        />
+                      </div>
+                    </div>
+
+                    {/* Apartment and Postal Code */}
+                    <div className='col-span-6'>
+                      <label htmlFor='apartment' className={customLabelStyles}>
+                        Apt/Flat #
+                      </label>
+                      <div className='mt-2'>
+                        <input
+                          id='apartment'
+                          name='apartment'
+                          type='text'
+                          value={formData.apartment}
+                          onChange={handleChange}
+                          className={customInputStyles}
+                          placeholder='Apt 4B'
+                        />
+                      </div>
+                    </div>
+                    <div className='col-span-6'>
+                      <label htmlFor='postalCode' className={customLabelStyles}>
+                        Postal Code
+                      </label>
+                      <div className='mt-2'>
+                        <input
+                          id='postalCode'
+                          name='postalCode'
+                          type='text'
+                          value={formData.postalCode}
+                          onChange={handleChange}
+                          className={customInputStyles}
+                          placeholder='12345'
+                        />
+                      </div>
+                    </div>
+
                     <div className='col-span-12'>
                       <label
                         htmlFor='contactNumber'

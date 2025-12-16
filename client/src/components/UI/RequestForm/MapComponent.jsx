@@ -3,7 +3,12 @@ import { Marker, Popup, useMapEvent, useMap } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import L from 'leaflet';
 
-const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, setFormData }) => {
+const MapComponent = ({
+  markerPosition,
+  setMarkerPosition,
+  FetchLocationData,
+  setFormData,
+}) => {
   const [userLocation, setUserLocation] = useState(null);
   const map = useMap();
 
@@ -28,16 +33,16 @@ const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, se
           (position) => {
             const { latitude, longitude } = position.coords;
             setUserLocation([latitude, longitude]);
-            setMarkerPosition([latitude, longitude]); // Place marker on user's location
+            setMarkerPosition([latitude, longitude]);
             map.setView([latitude, longitude], 13); // Center map on user's location
             FetchLocationData(latitude, longitude, setFormData); // Fetch initial data
           },
           (error) => {
-            console.error("Error getting user location:", error);
+            console.error('Error getting user location:', error);
           }
         );
       } else {
-        console.log("Geolocation is not supported by this browser.");
+        console.log('Geolocation is not supported by this browser.');
       }
     };
 
@@ -52,7 +57,7 @@ const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, se
     const searchControl = new GeoSearchControl({
       provider,
       style: 'bar',
-      showMarker: false,  
+      showMarker: false,
       autoClose: true,
       searchLabel: 'Search for location...',
       keepResult: true,
@@ -60,25 +65,35 @@ const MapComponent = ({ markerPosition, setMarkerPosition, FetchLocationData, se
 
     map.addControl(searchControl);
 
-    // Listen to "location selected" event from search control
     map.on('geosearch/showlocation', (result) => {
       const { location } = result;
       const lat = location.y;
       const lon = location.x;
 
-       
       setMarkerPosition([lat, lon]);
-      console.log(markerPosition)
+
+      const parts = location.label.split(',').map((s) => s.trim());
+
+      const country = parts.length >= 1 ? parts[parts.length - 1] : '';
+      const city = parts.length >= 2 ? parts[parts.length - 2] : '';
+
+      const streetInfo = parts.length > 2 ? parts.slice(0, -2).join(', ') : '';
+
       setFormData((prevData) => ({
         ...prevData,
         latitude: lat,
         longitude: lon,
-        city: location.label || '',
-        country: '', // Optional improvement: you can improve this
+        city: city,
+        country: country,
+        street: streetInfo,
+        fullAddress: location.label,
       }));
 
+      // Also fetch detailed reverse geocoding data
+      FetchLocationData(lat, lon, setFormData);
+
       // Move the map to the selected location
-      map.setView([lat, lon], 13); // Center the map on the search result
+      map.setView([lat, lon], 13);
     });
 
     return () => {
