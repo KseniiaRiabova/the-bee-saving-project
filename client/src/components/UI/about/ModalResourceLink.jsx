@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Backdrop } from '../Backdrop';
+import ModalForm from '../modal/ModalForm';
 
 const ModalResourceLink = ({ url, handleClick }) => {
   return (
-    <Backdrop>
+    <ModalForm>
       {/* Title */}
       <div className='flex flex-col sm:flex-row items-center gap-0 sm:gap-4 p-5'>
         <svg
@@ -53,7 +53,7 @@ const ModalResourceLink = ({ url, handleClick }) => {
           Go Back
         </button>
       </div>
-    </Backdrop>
+    </ModalForm>
   );
 };
 

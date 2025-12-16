@@ -46,6 +46,7 @@
     --brand-secondary-light: #3d4d22; /* dark green */
     --brand-secondary-light-95: #3d4d22f6; /* light green */
     --border-color: #adaaaa4f;
+    --outline-color: #75787c; /* light gray */
   }
 
   * {

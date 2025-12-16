@@ -110,7 +110,7 @@ export const UserProfileNew = ({
 
           {/* Modal */}
           {isUserInfoModalOpen && (
-            <div className='absolute top-[21rem] md:top-[18.5rem] right-0 md:right-auto w-full md:max-w-lg bg-secondary-light border border-brand-primary rounded-lg dark:border-white z-[60]'>
+            <div className='absolute top-[21rem] md:top-[18.5rem] right-0 md:right-auto w-full md:max-w-lg bg-secondary-light border border-brand-primary rounded-lg dark:border-border-color z-[60]'>
               <div className='flex flex-col gap-5 p-6'>
                 <ButtonClose onClose={() => toggleUserInfoModal(false)} />
 
