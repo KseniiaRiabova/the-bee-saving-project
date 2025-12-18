@@ -15,7 +15,7 @@ export const UserRequest = ({ showModal, setShowModal }) => {
         <Input
           type='text'
           placeholder='Search'
-          className='w-64 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500'
+          className='w-64'
         />
         <Button
           type='button'

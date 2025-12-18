@@ -32,11 +32,9 @@ export default {
         'border-color': 'var(--border-color)', //gray
         'outline-color': 'var(--outline-color)', //light gray
         'backdrop-color': 'var(--backdrop-color)', //black with opacity
+        'error-color': 'var(--error-color)', //red
       },
-      // fontSize: {
-      //   '18px': '18px',
-      //   '22px': '22px',
-      // },
+
       keyframes: {
         'fade-in': {
           '0%': { opacity: '0' },
@@ -47,12 +45,13 @@ export default {
         //   '100%': { opacity: '0' },
         // },
       },
+
       animation: {
-        'fade-in': 'fade-in 0.3s ease-in-out forwards',
+        'fade-in': 'fade-in 0.3s ease-in forwards',
         // 'fade-out': 'fade-out 0.3s ease-out forwards',
       },
     },
   },
   darkMode: 'class',
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 };

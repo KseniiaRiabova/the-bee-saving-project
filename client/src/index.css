@@ -35,18 +35,19 @@
     --border-color: #adaaaa; /* gray */
     --outline-color: #d1d5db; /* light gray */
     --backdrop-color: #252323cc; /* black with opacity */
+    --error-color: #f01717; /* red */
   }
 
   .dark {
     --primary: #0d0d0d; /* black #1E1E1E */
     --primary-dark: #eeecec; /* pale white #d9d9d9 */
-    --secondary-light: #0d0d0d; /* dark gray #e5e7eb */
+    --secondary-light: #7272721c; /*#0d0d0d; dark gray #e5e7eb */
     --brand-primary: #f58453; /* pale orange */
     --brand-secondary: #a6c96d; /* pale green */
     --brand-secondary-light: #3d4d22; /* dark green */
     --brand-secondary-light-95: #3d4d22f6; /* light green */
     --border-color: #adaaaa4f;
-    --outline-color: #75787c; /* light gray */
+    --outline-color: #252323cc; /* light gray */
   }
 
   * {
@@ -86,6 +87,19 @@
     @apply font-bold text-lg
            after:inline-flex after:ml-auto after:content-[url('./assets/images/detailsSummaryButton/orangeButtonPlus.svg')]
            group-open:after:content-[url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg')];
+  }
+
+  label {
+    @apply font-semibold;
+  }
+
+  input,
+  textarea {
+    @apply w-full bg-secondary-light text-secondary-dark border border-outline-color rounded-lg p-2 
+           focus:outline-none focus:border-primary-dark
+           placeholder-border-color;
+    /* 'w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600
+   dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'; */
   }
 }
 

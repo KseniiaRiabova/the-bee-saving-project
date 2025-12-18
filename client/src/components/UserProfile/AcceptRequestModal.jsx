@@ -8,13 +8,10 @@ import CompleteRequest from './CompleteRequest';
 // import { BACKEND_URL } from '../configs/envConfig';
 import useRequestStore from '../../stores/useRequestStore';
 
-import ModalForm from '../UI/modal/ModalForm';
+import Modal from '../UI/modal/Modal';
 import { ModalHeader } from '../UI/modal/ModalHeader';
 import { ModalBody } from '../UI/modal/ModalBody';
 import { ModalFooter } from '../UI/modal/ModalFooter';
-
-const customInputStyles =
-  'w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500';
 
 function AcceptRequestModal({ request, onClose }) {
   const { updateRequest, cancelRequest, completeRequest } = useRequestStore();
@@ -168,7 +165,6 @@ function AcceptRequestModal({ request, onClose }) {
     onChange,
     isEditable,
     error,
-    customInputStyles,
     errorMessage,
   }) => (
     <div className='flex items-center gap-2'>
@@ -179,12 +175,11 @@ function AcceptRequestModal({ request, onClose }) {
           name={name}
           value={value}
           onChange={onChange}
-          className={customInputStyles}
         />
       ) : (
         <span>{value}</span>
       )}
-      {error && <p className='text-red-500 text-center'>{errorMessage}</p>}
+      {error && <p className='text-error-color text-center'>{errorMessage}</p>}
     </div>
   );
   // const renderContactFields = () => {
@@ -211,7 +206,7 @@ function AcceptRequestModal({ request, onClose }) {
   // 	}
   // };
   return (
-    <ModalForm>
+    <Modal>
       <ModalHeader
         title='Request Details'
         onClose={onClose}
@@ -227,7 +222,6 @@ function AcceptRequestModal({ request, onClose }) {
           isEditable: isEditable,
           error: errors.title,
           errorMessage: 'errors.title',
-          customInputStyles: customInputStyles,
         })}
 
         {renderField({
@@ -238,7 +232,6 @@ function AcceptRequestModal({ request, onClose }) {
           isEditable: isEditable,
           error: errors.location,
           errorMessage: 'errors.location',
-          customInputStyles: customInputStyles,
         })}
 
         <div>
@@ -248,7 +241,7 @@ function AcceptRequestModal({ request, onClose }) {
               name='description'
               value={formData.description}
               onChange={handleInputChange}
-              className={customInputStyles + ' w-full h-28'}
+              className='w-full h-28'
             />
           ) : (
             <>
@@ -279,8 +272,8 @@ function AcceptRequestModal({ request, onClose }) {
           isEditable: isEditable,
           error: errors[0],
           errorMessage: 'Enter valid latitude',
-          customInputStyles: customInputStyles,
         })}
+
         {renderField({
           label: 'Longitude',
           name: 'longitude',
@@ -289,7 +282,6 @@ function AcceptRequestModal({ request, onClose }) {
           isEditable: isEditable,
           error: errors[1],
           errorMessage: 'Enter valid longitude',
-          customInputStyles: customInputStyles,
         })}
 
         <div className='flex gap-2'>
@@ -302,7 +294,6 @@ function AcceptRequestModal({ request, onClose }) {
                   name='contactNumber'
                   value={formData.contactNumber}
                   onChange={handleInputChange}
-                  className={customInputStyles}
                 />
               ) : (
                 acceptedRequest?.contactNumber || '(No contact number provided)'
@@ -377,7 +368,7 @@ function AcceptRequestModal({ request, onClose }) {
           </>
         )}
       </ModalFooter>
-    </ModalForm>
+    </Modal>
   );
 }
 

@@ -12,5 +12,5 @@ export const ModalHeader = ({ title, onClose }) => {
 
 ModalHeader.propTypes = {
   title: PropTypes.string,
-  onClose: PropTypes.bool,
+  onClose: PropTypes.func,
 };

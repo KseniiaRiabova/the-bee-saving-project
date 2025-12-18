@@ -8,7 +8,10 @@ import { UserRequest } from './UserRequest';
 import useProfileStore from '../../stores/useProfileStore';
 import useUserStore from '../../stores/useUserStore';
 import useRequestStore from '../../stores/useRequestStore';
-import { ButtonClose } from '../UI/ButtonClose';
+
+import { ModalHeader } from '../UI/modal/ModalHeader';
+import { ModalBody } from '../UI/modal/ModalBody';
+import { ModalFooter } from '../UI/modal/ModalFooter';
 
 export const UserProfileNew = ({
   sendUpdateUserContactNumber,
@@ -110,79 +113,79 @@ export const UserProfileNew = ({
 
           {/* Modal */}
           {isUserInfoModalOpen && (
-            <div className='absolute top-[21rem] md:top-[18.5rem] right-0 md:right-auto w-full md:max-w-lg bg-secondary-light border border-brand-primary rounded-lg dark:border-border-color z-[60]'>
-              <div className='flex flex-col gap-5 p-6'>
-                <ButtonClose onClose={() => toggleUserInfoModal(false)} />
+            <div className='absolute top-[19rem] right-0 md:right-auto w-full md:max-w-lg bg-primary border border-brand-primary rounded-lg dark:border-border-color z-[60]'>
+              <ModalHeader
+                title='User info'
+                onClose={() => toggleUserInfoModal(false)}
+              />
 
-                <h3>User info</h3>
+              <ModalBody>
+                <p>Email: {email} </p>
 
-                <div>
-                  <p>Email: {email} </p>
+                {isEditable ? (
+                  <Input
+                    autoFocus
+                    className='border border-outline-color rounded-lg px-2 py-1 w-56 focus:outline-none focus:border-brand-primary '
+                    type='text'
+                    label='Contact number:'
+                    placeholder={
+                      data?.metadata?.contactNumber ||
+                      'Please enter a contact number...'
+                    }
+                    value={userContactNumber}
+                    onChange={handleContactNumberChange}
+                  />
+                ) : (
+                  <p>Contact number: {userContactNumber || 'Not provided'}</p>
+                )}
 
-                  {isEditable ? (
-                    <Input
-                      autoFocus
-                      className='border border-outline-color rounded-lg px-2 py-1 w-56 focus:outline-none focus:border-brand-primary '
-                      type='text'
-                      label='Contact number:'
-                      placeholder={
-                        data?.metadata?.contactNumber ||
-                        'Please enter a contact number...'
-                      }
-                      value={userContactNumber}
-                      onChange={handleContactNumberChange}
+                <p>Bee Hives Found - {activeRequests.length} </p>
+                <p>Bee Hives Saved - {completedRequests.length} </p>
+              </ModalBody>
+
+              {/* Action Buttons */}
+              <ModalFooter>
+                {/* <div className='flex flex-col sm:flex-row-reverse justify-start gap-2 sm:gap-3'> */}
+                {!isEditable ? (
+                  <>
+                    <Button
+                      type='button'
+                      text='Edit Contact Number'
+                      onClickHandler={handleEditContactNumber}
                     />
-                  ) : (
-                    <p>Contact number: {userContactNumber || 'Not provided'}</p>
-                  )}
-                </div>
-
-                <div>
-                  <p>Bee Hives Found - {activeRequests.length} </p>
-                  <p>Bee Hives Saved - {completedRequests.length} </p>
-                </div>
-
-                {/* Action Buttons */}
-                <div className='flex flex-col sm:flex-row-reverse justify-start gap-2 sm:gap-3'>
-                  {!isEditable ? (
-                    <>
+                    {!(userLoading || profileLoading) && (
                       <Button
+                        className={`btn-outline px-6 ${
+                          !userContactNumber
+                            ? 'opacity-50 cursor-not-allowed'
+                            : ''
+                        }`}
                         type='button'
-                        text='Edit Contact Number'
-                        onClickHandler={handleEditContactNumber}
+                        text='Delete Contact Number'
+                        onClickHandler={handleDeleteContactNumber}
+                        disabled={!userContactNumber}
                       />
-                      {!(userLoading || profileLoading) && (
-                        <Button
-                          className={`btn-outline px-6 ${
-                            !userContactNumber
-                              ? 'opacity-50 cursor-not-allowed'
-                              : ''
-                          }`}
-                          type='button'
-                          text='Delete Contact Number'
-                          onClickHandler={handleDeleteContactNumber}
-                          disabled={!userContactNumber}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        type='button'
-                        text='Update Contact Number'
-                        onClickHandler={handleUpdateContactNumber}
-                      />
-                      <Button
-                        className='btn-outline'
-                        type='button'
-                        text='Cancel'
-                        onClickHandler={handleCancelUpdate}
-                      />
-                    </>
-                  )}
-                </div>
-              </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      type='button'
+                      text='Update Contact Number'
+                      onClickHandler={handleUpdateContactNumber}
+                    />
+                    <Button
+                      className='btn-outline'
+                      type='button'
+                      text='Cancel'
+                      onClickHandler={handleCancelUpdate}
+                    />
+                  </>
+                )}
+                {/* </div> */}
+              </ModalFooter>
             </div>
+            // </div>
           )}
         </div>
       </div>

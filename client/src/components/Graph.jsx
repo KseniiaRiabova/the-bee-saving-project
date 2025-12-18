@@ -30,7 +30,8 @@ ChartJS.register(
 export default function Graph() {
   const chartRef = useRef(null);
   const [showModal, setShowModal] = useState(null);
-  const { isDarkMode } = useDarkModeStore(); //Get Dark Mode state to update graph titles in dark mode
+  //Get Dark Mode state to update graph titles in dark mode
+  const { isDarkMode } = useDarkModeStore();
 
   //Colors for graph
   const graphColors = {
