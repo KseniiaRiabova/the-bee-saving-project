@@ -13,7 +13,7 @@ const requestValidateSchema = Joi.object({
         'Title must contain valid characters and not be empty or just spaces.',
     }),
   description: Joi.string()
-    .min(5)
+    .min(3)
     .max(750)
     .required()
     .regex(/^(?!\s*$).+$/, 'valid description')
@@ -21,7 +21,7 @@ const requestValidateSchema = Joi.object({
       'string.empty': `Description cannot be empty`,
       'string.pattern.name':
         'Description must contain valid characters and not be empty or just spaces.',
-      'string.min': 'Please enter more details.',
+      'string.min': 'Please enter at least 3 characters.',
     }),
   image: Joi.string().uri().optional().allow(null, '').messages({
     'string.uri': 'Enter valid URL',
@@ -46,11 +46,15 @@ const requestValidateSchema = Joi.object({
     coordinates: Joi.array().items(Joi.number()).length(2).required(),
     city: Joi.string().optional().allow(null, ''),
     country: Joi.string().optional().allow(null, ''),
+    street: Joi.string().optional().allow(null, ''),
+    houseNumber: Joi.string().optional().allow(null, ''),
+    apartment: Joi.string().optional().allow(null, ''),
+    postalCode: Joi.string().optional().allow(null, ''),
+    fullAddress: Joi.string().optional().allow(null, ''),
   })
     .required()
     .messages({
-      'string.empty': `Contact number cannot be empty`,
-      'any.required': 'Coordinates numbers are required.',
+      'any.required': 'Location coordinates are required.',
     }),
 });
 const validateRequest = (request) => {

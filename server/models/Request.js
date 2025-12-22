@@ -64,6 +64,21 @@ const requestSchema = new mongoose.Schema(
       country: {
         type: String,
       },
+      street: {
+        type: String,
+      },
+      houseNumber: {
+        type: String,
+      },
+      apartment: {
+        type: String,
+      },
+      postalCode: {
+        type: String,
+      },
+      fullAddress: {
+        type: String,
+      },
     },
   },
   { timestamps: true, toJSON: { virtuals: true } }

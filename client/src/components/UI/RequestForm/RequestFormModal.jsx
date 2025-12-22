@@ -26,6 +26,10 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
     longitude: '',
     city: '',
     country: '',
+    street: '',
+    houseNumber: '',
+    apartment: '',
+    postalCode: '',
     contactNumber: '',
     image: '',
     isActive: true,
@@ -143,90 +147,145 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
             }}
           >
             <ModalBody>
-              <div>
-                <label htmlFor='title'>Title *</label>
-                <div className='mt-2'>
+              <div className='grid gap-3 grid-cols-2'>
+                {/* Title */}
+                <div className='col-span-12'>
+                  <label htmlFor='title'>Title *</label>
                   <input
                     id='title'
                     name='title'
                     type='text'
                     value={formData.title}
                     onChange={handleChange}
+                    className='mt-2'
                   />
-                </div>
-                {errors.title && (
-                  <p className='text-error-color text-sm'>Enter valid title</p>
-                )}
-              </div>
 
-              {/* Description */}
-              <div>
-                <label htmlFor='description'>Description *</label>
-                <div className='mt-2'>
+                  {errors.title && (
+                    <p className='text-error-color text-sm'>
+                      Enter valid title
+                    </p>
+                  )}
+                </div>
+
+                {/* Description */}
+                <div className='col-span-12'>
+                  <label htmlFor='description'>Description *</label>
                   <textarea
                     id='description'
                     name='description'
                     value={formData.description}
                     onChange={handleChange}
+                    className='mt-2'
                   />
+
+                  {errors.description && (
+                    <p className='text-error-color text-sm'>
+                      Enter valid description
+                    </p>
+                  )}
                 </div>
-                {errors.description && (
-                  <p className='text-error-color text-sm'>
-                    Enter valid description
-                  </p>
-                )}
-              </div>
 
-              {/* Map Rendering */}
-              <div>
-                <label>Map</label>
-                <MapContainer
-                  center={markerPosition}
-                  zoom={11}
-                  style={{ width: '100%', height: '300px' }}
-                >
-                  <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
-                  <MapComponent
-                    markerPosition={markerPosition}
-                    FetchLocationData={FetchLocationData}
-                    setFormData={setFormData}
-                    setMarkerPosition={setMarkerPosition}
-                  />
-                </MapContainer>
-              </div>
+                {/* Map Rendering */}
+                <div className='col-span-12'>
+                  <label>Map</label>
+                  <MapContainer
+                    center={markerPosition}
+                    zoom={11}
+                    style={{ width: '100%', height: '300px' }}
+                  >
+                    <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
+                    <MapComponent
+                      markerPosition={markerPosition}
+                      FetchLocationData={FetchLocationData}
+                      setFormData={setFormData}
+                      setMarkerPosition={setMarkerPosition}
+                    />
+                  </MapContainer>
+                </div>
 
-              {/* City and Country */}
-              <div>
-                <label htmlFor='city'>City *</label>
-                <div className='mt-2'>
+                {/* City and Country */}
+                <div className='col-span-6'>
+                  <label htmlFor='city'>City *</label>
                   <input
                     id='city'
                     name='city'
                     type='text'
                     value={formData.city}
                     onChange={handleChange}
-                    disabled
+                    className='mt-2'
                   />
                 </div>
-              </div>
 
-              <div>
-                <label htmlFor='country'>Country *</label>
-                <div className='mt-2'>
+                <div className='col-span-6'>
+                  <label htmlFor='country'>Country *</label>
                   <input
                     id='country'
                     name='country'
                     type='text'
                     value={formData.country}
                     onChange={handleChange}
-                    disabled
+                    className='mt-2'
                   />
                 </div>
-              </div>
 
-              <div>
-                <label htmlFor='contactNumber'>Phone Number *</label>
-                <div className='mt-2'>
+                {/* Street Address */}
+                <div className='col-span-8'>
+                  <label htmlFor='street'>Street Address</label>
+                  <input
+                    id='street'
+                    name='street'
+                    type='text'
+                    value={formData.street}
+                    onChange={handleChange}
+                    placeholder='Street name'
+                    className='mt-2'
+                  />
+                </div>
+
+                {/* House Number */}
+                <div className='col-span-4'>
+                  <label htmlFor='houseNumber'>House #</label>
+                  <input
+                    id='houseNumber'
+                    name='houseNumber'
+                    type='text'
+                    value={formData.houseNumber}
+                    onChange={handleChange}
+                    placeholder='123'
+                    className='mt-2'
+                  />
+                </div>
+
+                {/* Apartment and Postal Code */}
+                <div className='col-span-6'>
+                  <label htmlFor='apartment'>Apt/Flat #</label>
+                  <input
+                    id='apartment'
+                    name='apartment'
+                    type='text'
+                    value={formData.apartment}
+                    onChange={handleChange}
+                    placeholder='Apt 4B'
+                    className='mt-2'
+                  />
+                </div>
+
+                <div className='col-span-6'>
+                  <label htmlFor='postalCode'>Postal Code</label>
+                  <input
+                    id='postalCode'
+                    name='postalCode'
+                    type='text'
+                    value={formData.postalCode}
+                    onChange={handleChange}
+                    placeholder='12345'
+                    className='mt-2'
+                  />
+                </div>
+
+                {/* Phone number */}
+                <div className='col-span-12'>
+                  <label htmlFor='contactNumber'>Phone Number *</label>
                   <input
                     id='contactNumber'
                     name='contactNumber'
@@ -234,13 +293,15 @@ export const RequestFormModal = ({ showModal, setShowModal }) => {
                     value={formData.contactNumber}
                     onChange={handleChange}
                     placeholder='Enter your phone number'
+                    className='mt-2'
                   />
+
+                  {errors.contactNumber && (
+                    <p className='text-error-color text-sm'>
+                      Enter valid phone number
+                    </p>
+                  )}
                 </div>
-                {errors.contactNumber && (
-                  <p className='text-error-color text-sm'>
-                    Enter valid phone number
-                  </p>
-                )}
               </div>
             </ModalBody>
 
