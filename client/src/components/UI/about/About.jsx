@@ -19,7 +19,7 @@ function About() {
           <h2 className='hidden sm:block text-brand-secondary'>Save Bees</h2>
         </div>
 
-        <div className='flex flex-col md:flex-row justify-between gap-4 lg:gap-8 text-secondary-dark'>
+        <div className='flex flex-col md:flex-row justify-between gap-4 lg:gap-8'>
           <AboutUserProfiles profiles={profiles} />
 
           <AboutTechStack techstack={techstack} />

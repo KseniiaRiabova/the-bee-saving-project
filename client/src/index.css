@@ -3,25 +3,51 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Blinker';
-  src: url('../src/assets/fonts/Blinker/Blinker-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: BlinkerBold;
-  src: url('../src/assets/fonts/Blinker/Blinker-Bold.ttf');
-}
-
-@font-face {
-  font-family: BlackOpsOneFont;
-  src: url('../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf');
-}
-
 @layer base {
+  @font-face {
+    font-family: 'Blinker';
+    src: url('../src/assets/fonts/Blinker/Blinker-Regular.ttf')
+      format('truetype');
+  }
+
+  @font-face {
+    font-family: BlinkerBold;
+    src: url('../src/assets/fonts/Blinker/Blinker-Bold.ttf');
+  }
+
+  @font-face {
+    font-family: BlackOpsOneFont;
+    src: url('../src/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf');
+  }
+
   :root {
     font-synthesis: none;
     text-rendering: optimizeLegibility;
+
+    --primary: #ffffff; /* white */
+    --primary-dark: #0d0d0d; /* black #1E1E1E */
+    --secondary-light: #f8f8f8; /* light gray #e5e7eb */
+    --secondary-dark: #727272; /* dark gray */
+    --brand-primary: #f4743b; /* orange */
+    --brand-secondary: #9bc25b; /* green */
+    --brand-secondary-light: #d8e5c3; /* light green */
+    --brand-secondary-light-95: #d8e5c3f6; /* light green */
+    --border-color: #adaaaa; /* gray */
+    --outline-color: #d1d5db; /* light gray */
+    --backdrop-color: #252323cc; /* black with opacity */
+    --error-color: #f01717; /* red */
+  }
+
+  .dark {
+    --primary: #0d0d0d; /* black #1E1E1E */
+    --primary-dark: #eeecec; /* pale white #d9d9d9 */
+    --secondary-light: #7272721c; /*#0d0d0d; dark gray #e5e7eb */
+    --brand-primary: #f58453; /* pale orange */
+    --brand-secondary: #a6c96d; /* pale green */
+    --brand-secondary-light: #3d4d22; /* dark green */
+    --brand-secondary-light-95: #3d4d22f6; /* light green */
+    --border-color: #adaaaa4f;
+    --outline-color: #252323cc; /* light gray */
   }
 
   * {
@@ -29,14 +55,9 @@
   }
 
   body {
-    @apply min-h-screen h-full overflow-y-auto
+    @apply min-h-screen h-full
            font-sans text-base font-normal antialiased
-           text-footerProfileNameColor dark:text-white;
-  }
-
-  h2,
-  h3 {
-    @apply text-footerProfileNameColor dark:text-white;
+           bg-primary text-primary-dark;
   }
 
   h2 {
@@ -54,32 +75,36 @@
   }
 
   button {
-    @apply px-8 py-2 text-base font-medium text-white bg-navSignupButton border border-navSignupButton rounded-lg shadow
-           hover:bg-neutral-300 hover:text-footerProfileNameColor hover:shadow-lg hover:border-neutral-300
-           focus:bg-neutral-300 focus:text-footerProfileNameColor focus:border-neutral-300
-           dark:text-footerProfileNameColor dark:hover:text-white
-           dark:hover:bg-neutral-600  dark:hover:border-neutral-600
-           dark:focus:bg-neutral-600 dark:focus:text-white;
+    @apply px-8 py-2 text-base font-medium text-primary 
+           bg-brand-primary border border-brand-primary rounded-lg shadow
+           hover:bg-neutral-300 hover:text-primary-dark hover:shadow-lg hover:border-neutral-300
+           focus:bg-neutral-300 focus:text-primary-dark focus:border-neutral-300
+           dark:hover:bg-secondary-dark dark:hover:border-secondary-dark
+           dark:focus:bg-secondary-dark;
   }
 
   summary {
-    @apply text-[#101828] font-bold text-lg dark:text-white;
+    @apply font-bold text-lg
+           after:inline-flex after:ml-auto after:content-[url('./assets/images/detailsSummaryButton/orangeButtonPlus.svg')]
+           group-open:after:content-[url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg')];
+  }
+
+  label {
+    @apply font-semibold;
+  }
+
+  input,
+  textarea {
+    @apply w-full bg-secondary-light text-secondary-dark border border-outline-color rounded-lg p-2 
+           focus:outline-none focus:border-primary-dark
+           placeholder-border-color;
+    /* 'w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600
+   dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'; */
   }
 }
 
 @layer components {
   .btn-outline {
-    @apply bg-transparent border border-neutral-300 text-footerProfileNameColor
-           hover:border-neutral-300 dark:text-primary-light;
+    @apply bg-transparent border border-outline-color text-primary-dark;
   }
-}
-
-summary::after {
-  display: inline-flex;
-  margin-left: auto;
-  content: url('./assets/images/detailsSummaryButton/orangeButtonPlus.svg');
-}
-
-details[open] > summary::after {
-  content: url('./assets/images/detailsSummaryButton/orangeButtonMinus.svg');
 }

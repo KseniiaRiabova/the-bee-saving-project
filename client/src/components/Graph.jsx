@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { getColor } from '../utils/getColor';
 import graphData from './graphData';
 
 import {
@@ -14,6 +15,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import ModalResourceLink from './UI/about/ModalResourceLink';
+import useDarkModeStore from '../stores/useDarkModeStore';
 
 ChartJS.register(
   CategoryScale,
@@ -28,28 +30,33 @@ ChartJS.register(
 export default function Graph() {
   const chartRef = useRef(null);
   const [showModal, setShowModal] = useState(null);
+  //Get Dark Mode state to update graph titles in dark mode
+  const { isDarkMode } = useDarkModeStore();
+
+  //Colors for graph
+  const graphColors = {
+    title: getColor('--primary-dark'),
+    ticks: getColor('--secondary-dark'),
+    grid: getColor('--secondary-dark', '33'),
+    labelsBorder: [
+      getColor('--brand-secondary'),
+      getColor('--secondary-dark'),
+      getColor('--brand-primary'),
+    ],
+    labelsBackground: [
+      getColor('--brand-secondary', '53'),
+      getColor('--secondary-dark', '53'),
+      getColor('--brand-primary', '53'),
+    ],
+  };
 
   const hiveData = {
     labels: graphData.map((row) => row.date),
     datasets: [
       {
         data: graphData.map((row) => row.hives),
-        backgroundColor: [
-          // "rgba(54, 162, 235, 0.2)",
-          // "rgba(255, 99, 132, 0.2)",
-          // "rgba(255, 206, 86, 0.2)",
-          '#9BC25B33',
-          '#F4743B33',
-          '#FFCE5633',
-        ],
-        borderColor: [
-          // "rgba(255, 99, 132)",
-          // "rgba(54, 162, 235)",
-          //"rgba(255, 206, 86)",
-          '#9bc25b',
-          '#F4743B',
-          '#FFCE56',
-        ],
+        backgroundColor: graphColors.labelsBackground,
+        borderColor: graphColors.labelsBorder,
         borderWidth: 1,
         tension: 0.4,
         yAxisID: 'hives',
@@ -66,26 +73,41 @@ export default function Graph() {
       date: {
         ticks: {
           stepSize: 1,
-        },
-        type: 'linear',
-        reverse: false,
-        title: {
-          display: true,
-          text: 'Years',
-          color: 'black',
+          color: graphColors.ticks,
           font: {
-            size: 18,
-            weight: 700,
+            size: 14,
             family: 'blinker',
           },
         },
+        type: 'linear',
+        reverse: false,
+        grid: {
+          color: graphColors.grid,
+        },
+        // title: {
+        //   display: true,
+        //   text: 'Years',
+        //   color: titleColor,
+        //   font: {
+        //     size: 18,
+        //     weight: 700,
+        //     family: 'blinker',
+        //   },
+        // },
       },
       hives: {
+        ticks: {
+          color: graphColors.ticks,
+          font: {
+            size: 14,
+            family: 'blinker',
+          },
+        },
         type: 'linear',
         title: {
           display: true,
           text: 'Millions of hives',
-          color: 'black',
+          color: graphColors.title,
           font: {
             size: 18,
             weight: 700,
@@ -93,6 +115,9 @@ export default function Graph() {
           },
         },
         beginAtZero: false,
+        grid: {
+          color: graphColors.grid,
+        },
       },
     },
     plugins: {
@@ -107,7 +132,7 @@ export default function Graph() {
       title: {
         display: true,
         text: 'Millions of hives in the U.S.',
-        color: 'black',
+        color: graphColors.title,
         padding: {
           top: 10,
           bottom: 10,

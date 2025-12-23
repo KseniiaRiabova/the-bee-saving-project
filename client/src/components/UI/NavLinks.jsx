@@ -48,7 +48,7 @@ export const NavLinks = ({ isNavMenuOpen, onLinkClick }) => {
     `p-2.5 rounded-lg hover:text-primary-dark hover:bg-neutral-300 ${
       activeLink === linkName
         ? 'text-brand-primary underline underline-offset-4'
-        : 'dark:text-white'
+        : ''
     } `;
 
   // Determine the base path dynamically (home or dashboard)

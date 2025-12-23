@@ -17,7 +17,7 @@ export const MainHeroLandingSurvey = () => {
         <Image
           src={beeImage}
           alt='Bee image'
-          className='border-2 border-borderColor rounded-full h-24 md:h-28 lg:h-32 dark:border-black'
+          className='border-2 rounded-full h-24 md:h-28 lg:h-32 dark:border-primary'
         />
 
         <div className='flex flex-wrap items-end justify-end md:justify-start gap-2 lg:gap-6 text-end md:text-start'>

@@ -6,11 +6,12 @@ import CancelRequest from './CancelRequest';
 import AcceptRequestCall from './AcceptRequestCall';
 import CompleteRequest from './CompleteRequest';
 // import { BACKEND_URL } from '../configs/envConfig';
-import { ButtonClose } from '../UI/ButtonClose';
 import useRequestStore from '../../stores/useRequestStore';
 
-const customInputStyles =
-  'w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500';
+import Modal from '../UI/modal/Modal';
+import { ModalHeader } from '../UI/modal/ModalHeader';
+import { ModalBody } from '../UI/modal/ModalBody';
+import { ModalFooter } from '../UI/modal/ModalFooter';
 
 function AcceptRequestModal({ request, onClose }) {
   const { updateRequest, cancelRequest, completeRequest } = useRequestStore();
@@ -57,7 +58,12 @@ function AcceptRequestModal({ request, onClose }) {
       setAcceptedRequest(updatedRequest);
     } catch (error) {
       let validationErrors = {};
-      if (error && error.response && error.response.data && error.response.data.error) {
+      if (
+        error &&
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
         validationErrors = error.response.data.error.details;
         setIsEditable(isEditable);
       }
@@ -132,7 +138,7 @@ function AcceptRequestModal({ request, onClose }) {
         ...canceled,
       }));
     } catch (error) {
-      console.error("Failed to cancel the request:", error);
+      console.error('Failed to cancel the request:', error);
     }
   };
 
@@ -145,7 +151,7 @@ function AcceptRequestModal({ request, onClose }) {
         ...completed,
       }));
     } catch (error) {
-      console.error("Failed to complete the request:", error);
+      console.error('Failed to complete the request:', error);
     }
   };
 
@@ -159,23 +165,21 @@ function AcceptRequestModal({ request, onClose }) {
     onChange,
     isEditable,
     error,
-    customInputStyles,
     errorMessage,
   }) => (
-    <div className='flex items-center text-gray-700 mb-1 text-left'>
-      <span className='font-bold mr-2'>{label}:</span>
+    <div className='flex items-center gap-2'>
+      <span className='font-bold'>{label}:</span>
       {isEditable ? (
         <input
           type='text'
           name={name}
           value={value}
           onChange={onChange}
-          className={customInputStyles}
         />
       ) : (
         <span>{value}</span>
       )}
-      {error && <p className='text-red-500 text-center'>{errorMessage}</p>}
+      {error && <p className='text-error-color text-center'>{errorMessage}</p>}
     </div>
   );
   // const renderContactFields = () => {
@@ -202,183 +206,169 @@ function AcceptRequestModal({ request, onClose }) {
   // 	}
   // };
   return (
-    <div className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 bg-gray-500 bg-opacity-75 transition-opacity'>
-      <div className='p-8 w-full max-w-lg max-h-full'>
-        <div className='border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none'>
-          <div className='relative flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t'>
-            <h3>Request Details</h3>
-            <ButtonClose onClose={onClose} />
-          </div>
+    <Modal>
+      <ModalHeader
+        title='Request Details'
+        onClose={onClose}
+      />
 
-          <div className='p-8 flex flex-col '>
-            <div className='text-gray-700 mb-6 text-left'>
-              {renderField({
-                label: 'Title',
-                name: 'title',
-                value: formData.title,
-                onChange: handleInputChange,
-                isEditable: isEditable,
-                error: errors.title,
-                errorMessage: 'errors.title',
-                customInputStyles: customInputStyles,
-              })}
-              {renderField({
-                label: 'Location',
-                name: 'location',
-                value: formData.location,
-                onChange: handleInputChange,
-                isEditable: isEditable,
-                error: errors.location,
-                errorMessage: 'errors.location',
-                customInputStyles: customInputStyles,
-              })}
-              <div className=' text-gray-700 mb-1 text-left'>
-                <span className='font-bold mr-2'>Description: </span>
-                {isEditable ? (
-                  <textarea
-                    name='description'
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className={customInputStyles + ' w-full h-28'}
-                  />
-                ) : (
-                  <>
-                    <span>
-                      {isDescriptionExpanded
-                        ? acceptedRequest?.description
-                        : `${acceptedRequest?.description?.slice(0, 200)}${acceptedRequest?.description?.length > 200
-                          ? '...'
-                          : ''
-                        }`}
-                    </span>
-                    {acceptedRequest?.description?.length > 200 && (
-                      <button
-                        onClick={toggleDescription}
-                        className='underline ml-2'
-                      >
-                        {isDescriptionExpanded ? 'Show Less' : 'Show More'}
-                      </button>
-                    )}
-                  </>
-                )}
-              </div>
+      {/* Content */}
+      <ModalBody>
+        {renderField({
+          label: 'Title',
+          name: 'title',
+          value: formData.title,
+          onChange: handleInputChange,
+          isEditable: isEditable,
+          error: errors.title,
+          errorMessage: 'errors.title',
+        })}
 
-              {renderField({
-                label: 'Latitude',
-                name: 'latitude',
-                value: formData.latitude,
-                onChange: handleInputChange,
-                isEditable: isEditable,
-                error: errors[0],
-                errorMessage: 'Enter valid latitude',
-                customInputStyles: customInputStyles,
-              })}
-              {renderField({
-                label: 'Longitude',
-                name: 'longitude',
-                value: formData.longitude,
-                onChange: handleInputChange,
-                isEditable: isEditable,
-                error: errors[1],
-                errorMessage: 'Enter valid longitude',
-                customInputStyles: customInputStyles,
-              })}
+        {renderField({
+          label: 'Location',
+          name: 'location',
+          value: formData.location,
+          onChange: handleInputChange,
+          isEditable: isEditable,
+          error: errors.location,
+          errorMessage: 'errors.location',
+        })}
 
-              <div className='flex text-gray-700 mb-1 text-left'>
-                <span className='font-bold mr-2'>Contact Number :</span>
-                <span className='grow'>
-                  {isRequestAccepted ? (
-                    <>
-                      {isEditable ? (
-                        <input
-                          type='text'
-                          name='contactNumber'
-                          value={formData.contactNumber}
-                          onChange={handleInputChange}
-                          className={customInputStyles}
-                        />
-                      ) : (
-                        acceptedRequest?.contactNumber ||
-                        '(No contact number provided)'
-                      )}
-                    </>
-                  ) : (
-                    '(Upon Accept)'
-                  )}
-                </span>
-              </div>
-              <div className='text-gray-700 mb-1 text-left'>
-                <span className='font-bold mr-2'>Email :</span>
-                <span>
-                  {isRequestAccepted ? (
-                    <>
-                      {acceptedRequest?.beefinder?.email ||
-                        '(No email provided)'}{' '}
-                    </>
-                  ) : (
-                    '(Upon Accept)'
-                  )}
-                </span>
-              </div>
-            </div>
-            <div className='flex justify-between w-full mb-4'>
-              {!acceptedRequest?.isCompleted ? (
-                <>
-                  <AcceptRequestCall
-                    selectedRequest={acceptedRequest}
-                    onSuccess={handleAcceptSuccess}
-                  />
-                  {isCurrentUserBeekeeper &&
-                    isRequestAccepted &&
-                    !isEditable && (
-                      <CancelRequest
-                        request={acceptedRequest}
-                        onCancel={handleCancelRequest}
-                      />
-                    )}
-                  {isCurrentUserBeekeeper &&
-                    isRequestAccepted &&
-                    !isEditable && (
-                      <CompleteRequest
-                        request={acceptedRequest}
-                        onComplete={handleCompleteRequest}
-                      />
-                    )}
-                  <div className='flex space-x-4'>
-                    {isRequestPostedByUser && (
-                      <button
-                        type='button'
-                        onClick={handleSubmit}
-                      >
-                        {!isEditable ? (
-                          <>
-                            <i className='fas fa-edit mr-2'></i> Edit
-                          </>
-                        ) : (
-                          'Save'
-                        )}
-                      </button>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <div className='flex w-full'>
-                  <span className='text-green-500 font-bold grow'>
-                    Completed ✅
-                  </span>
-                  <button
-                    type='button'
-                    onClick={onClose}
-                  >
-                    Close
-                  </button>
-                </div>
+        <div>
+          <span className='font-bold mr-2'>Description: </span>
+          {isEditable ? (
+            <textarea
+              name='description'
+              value={formData.description}
+              onChange={handleInputChange}
+              className='w-full h-28'
+            />
+          ) : (
+            <>
+              <span>
+                {isDescriptionExpanded
+                  ? acceptedRequest?.description
+                  : `${acceptedRequest?.description?.slice(0, 200)}${
+                      acceptedRequest?.description?.length > 200 ? '...' : ''
+                    }`}
+              </span>
+              {acceptedRequest?.description?.length > 200 && (
+                <button
+                  onClick={toggleDescription}
+                  className='underline ml-2'
+                >
+                  {isDescriptionExpanded ? 'Show Less' : 'Show More'}
+                </button>
               )}
-            </div>
-          </div>
+            </>
+          )}
         </div>
-      </div>
-    </div>
+
+        {renderField({
+          label: 'Latitude',
+          name: 'latitude',
+          value: formData.latitude,
+          onChange: handleInputChange,
+          isEditable: isEditable,
+          error: errors[0],
+          errorMessage: 'Enter valid latitude',
+        })}
+
+        {renderField({
+          label: 'Longitude',
+          name: 'longitude',
+          value: formData.longitude,
+          onChange: handleInputChange,
+          isEditable: isEditable,
+          error: errors[1],
+          errorMessage: 'Enter valid longitude',
+        })}
+
+        <div className='flex gap-2'>
+          <span className='font-bold'>Contact Number:</span>
+          {isRequestAccepted ? (
+            <>
+              {isEditable ? (
+                <input
+                  type='text'
+                  name='contactNumber'
+                  value={formData.contactNumber}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                acceptedRequest?.contactNumber || '(No contact number provided)'
+              )}
+            </>
+          ) : (
+            '(Upon Accept)'
+          )}
+        </div>
+
+        <div className='space-x-2'>
+          <span className='font-bold'>Email:</span>
+          <span>
+            {isRequestAccepted ? (
+              <>{acceptedRequest?.beefinder?.email || '(No email provided)'} </>
+            ) : (
+              '(Upon Accept)'
+            )}
+          </span>
+        </div>
+        {/* </div> */}
+      </ModalBody>
+
+      {/* Buttons */}
+      <ModalFooter>
+        {!acceptedRequest?.isCompleted ? (
+          <>
+            <AcceptRequestCall
+              selectedRequest={acceptedRequest}
+              onSuccess={handleAcceptSuccess}
+            />
+            {isCurrentUserBeekeeper && isRequestAccepted && !isEditable && (
+              <CancelRequest
+                request={acceptedRequest}
+                onCancel={handleCancelRequest}
+              />
+            )}
+            {isCurrentUserBeekeeper && isRequestAccepted && !isEditable && (
+              <CompleteRequest
+                request={acceptedRequest}
+                onComplete={handleCompleteRequest}
+              />
+            )}
+            {isRequestPostedByUser && (
+              <button
+                type='button'
+                onClick={handleSubmit}
+                className={isRequestAccepted ? '' : 'btn-outline'}
+              >
+                {!isEditable ? (
+                  <>
+                    <i className='fas fa-edit mr-1'></i> Edit
+                  </>
+                ) : (
+                  'Save'
+                )}
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            <div className='text-brand-secondary font-bold'>
+              Completed
+              <i class='fa-solid fa-square-check text-lg ml-1'></i>
+            </div>
+            <button
+              type='button'
+              onClick={onClose}
+            >
+              Close
+            </button>
+          </>
+        )}
+      </ModalFooter>
+    </Modal>
   );
 }
 

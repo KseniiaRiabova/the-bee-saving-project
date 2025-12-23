@@ -5,25 +5,7 @@ import { useState } from 'react';
 import AcceptRequestModal from './AcceptRequestModal';
 import useRequestStore from '../../stores/useRequestStore';
 import columns from './requestTableColumns';
-
-const tableCustomStyles = {
-  headRow: {
-    style: {
-      backgroundColor: '#f0f0f2',
-      fontSize: '1rem',
-    },
-  },
-  rows: {
-    style: {
-      fontSize: '1rem',
-    },
-  },
-  pagination: {
-    style: {
-      fontSize: '1rem',
-    },
-  },
-};
+import useDarkModeStore from '../../stores/useDarkModeStore';
 
 export const RequestComponent = ({ fixedHeader, requests }) => {
   const { user } = useAuth0();
@@ -53,6 +35,75 @@ export const RequestComponent = ({ fixedHeader, requests }) => {
     };
     await updateRequest(updatedRequest);
     handleModalClose();
+  };
+
+  //Get Dark Mode state to update table colors in dark mode
+  const { isDarkMode } = useDarkModeStore();
+
+  //Colors for table
+  const colors = {
+    bg: 'var(--secondary-light)',
+    font: isDarkMode ? 'var(--secondary-dark)' : 'var(--primary-dark)',
+    title: 'var(--primary-dark)',
+    border: 'var(--outline-color)',
+    navColor: 'var(--primary)',
+  };
+
+  const tableCustomStyles = {
+    table: {
+      style: {
+        backgroundColor: 'transparent',
+        border: `1px solid ${colors.border}`,
+        color: colors.font,
+      },
+    },
+
+    headRow: {
+      style: {
+        backgroundColor: colors.bg,
+        color: colors.title,
+        fontSize: '1rem',
+      },
+    },
+
+    rows: {
+      style: {
+        backgroundColor: 'transparent',
+        borderColor: `${colors.border} !important`,
+        color: colors.font,
+        fontSize: '1rem',
+      },
+      //Active line hover
+      highlightOnHoverStyle: {
+        backgroundColor: colors.bg,
+        color: colors.font,
+        outline: `1px solid ${colors.border}`,
+        border: 'none',
+        cursor: 'pointer',
+      },
+    },
+
+    pagination: {
+      style: {
+        backgroundColor: colors.bg,
+        color: colors.title,
+        fontSize: '1rem',
+      },
+      pageButtonsStyle: {
+        border: `1px solid ${colors.border}`,
+        backgroundColor: colors.navColor,
+        margin: '0.1rem',
+
+        '&:hover': {
+          cursor: 'pointer',
+        },
+
+        //Button's icon
+        '& svg': {
+          fill: colors.title,
+        },
+      },
+    },
   };
 
   return (
