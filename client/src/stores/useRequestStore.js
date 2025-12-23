@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { BACKEND_URL } from '../components/configs/envConfig';
 
-const useRequestStore = create((set, get) => ({
+const useRequestStore = create((set) => ({
   requests: [],
   activeRequests: 0,
   completedRequests: 0,
@@ -60,9 +60,8 @@ const useRequestStore = create((set, get) => ({
           postalCode: postalCode || '',
           fullAddress:
             fullAddress ||
-            `${street || ''} ${houseNumber || ''}, ${city || ''}, ${
-              country || ''
-            }`.trim(),
+            `${street || ''} ${houseNumber || ''}, ${city || ''}, ${country || ''
+              }`.trim(),
         },
       };
 
