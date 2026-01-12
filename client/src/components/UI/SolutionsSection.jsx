@@ -30,8 +30,13 @@ export const SolutionsSection = () => {
           <AnchorLink
             href='#'
             text='Login to send request'
-            className='text-brand-primary uppercase underline'
+            className='text-brand-primary-bg-light uppercase underline decoration-underline-color-light '
           />
+          {/* <AnchorLink
+            href='#'
+            text='Login to send request'
+            className='text-brand-primary uppercase underline'
+          /> */}
 
           <SolutionsContainer />
         </Container>

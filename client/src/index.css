@@ -25,17 +25,25 @@
     text-rendering: optimizeLegibility;
 
     --primary: #ffffff; /* white */
+    --primary-text-light: #fffefe;
     --primary-dark: #0d0d0d; /* black #1E1E1E */
     --secondary-light: #f8f8f8; /* light gray #e5e7eb */
-    --secondary-dark: #727272; /* dark gray */
+    /* --secondary-dark: #727272;  */
+    /* dark gray */
+    --secondary-dark: #443f3f;
     --brand-primary: #f4743b; /* orange */
+    /* --brand-primary-bg-light: #69280d; */
+    --brand-primary-bg-light: #af4619;
+    --brand-primary-light: #171616;
     --brand-secondary: #9bc25b; /* green */
+    --brand-secondary-text-light: #5f7838; /* green */
     --brand-secondary-light: #d8e5c3; /* light green */
     --brand-secondary-light-95: #d8e5c3f6; /* light green */
     --border-color: #adaaaa; /* gray */
     --outline-color: #d1d5db; /* light gray */
     --backdrop-color: #252323cc; /* black with opacity */
     --error-color: #f01717; /* red */
+    --underline-color-light: #ed6429;
   }
 
   .dark {
@@ -75,13 +83,21 @@
   }
 
   button {
+    @apply px-8 py-2 text-base font-medium text-primary-text-light 
+           bg-brand-primary-bg-light border border-brand-primary rounded-lg shadow
+           hover:bg-neutral-300 hover:text-primary-dark hover:shadow-lg hover:border-neutral-300
+           focus:bg-neutral-300 focus:text-primary-dark focus:border-neutral-300
+           dark:hover:bg-secondary-dark dark:hover:border-secondary-dark
+           dark:focus:bg-secondary-dark;
+  }
+  /* button {
     @apply px-8 py-2 text-base font-medium text-primary 
            bg-brand-primary border border-brand-primary rounded-lg shadow
            hover:bg-neutral-300 hover:text-primary-dark hover:shadow-lg hover:border-neutral-300
            focus:bg-neutral-300 focus:text-primary-dark focus:border-neutral-300
            dark:hover:bg-secondary-dark dark:hover:border-secondary-dark
            dark:focus:bg-secondary-dark;
-  }
+  } */
 
   summary {
     @apply font-bold text-lg
