@@ -6,7 +6,7 @@ const ModalResourceLink = ({ url, handleClick }) => {
   return (
     <Modal>
       {/* Title */}
-      <div className='flex flex-col sm:flex-row items-center gap-0 sm:gap-4 p-5'>
+      <div className='flex flex-col sm:flex-row items-center gap-0 sm:gap-4 p-5 dark:text-secondary-dark'>
         <svg
           className='h-11 w-11 text-brand-primary'
           fill='none'
@@ -25,7 +25,7 @@ const ModalResourceLink = ({ url, handleClick }) => {
       </div>
 
       {/* Content */}
-      <div className='py-10 px-5 space-y-2 border-y border-outline-color text-center sm:text-left'>
+      <div className='py-10 px-5 space-y-2 border-y border-outline-color text-center sm:text-left dark:text-secondary-dark'>
         <p>This link is taking you to the following website</p>
         <p className='text-border-color border rounded-lg text-wrap text-center p-2'>
           {url}
@@ -33,14 +33,14 @@ const ModalResourceLink = ({ url, handleClick }) => {
       </div>
 
       {/* Buttons */}
-      <div className='flex flex-col gap-2 sm:flex-row-reverse p-5'>
+      <div className='flex flex-col gap-2 sm:flex-row-reverse p-5 dark:text-secondary-dark'>
         <Link
           to={`${url}`}
           target='_blank'
         >
           <button
             type='button'
-            className='w-full'
+            className='w-full dark:text-secondary-dark'
             onClick={() => handleClick(null)}
           >
             Visit Site
@@ -48,7 +48,7 @@ const ModalResourceLink = ({ url, handleClick }) => {
         </Link>
         <button
           type='button'
-          className='btn-outline'
+          className='btn-outline dark:text-secondary-dark'
           onClick={() => handleClick(null)}
         >
           Go Back

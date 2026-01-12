@@ -7,7 +7,7 @@ export const ProblemContainter = () => {
   return (
     <section>
       <Container py='firstSection'>
-        <h2 className='text-center mb-5 md:mb-10'>Problem</h2>
+        <h2 className='text-center mb-5 md:mb-10 dark:text-secondary-dark'>Problem</h2>
 
         <div className='flex flex-col gap-8 md:flex-row'>
           <div className='md:w-1/2'>

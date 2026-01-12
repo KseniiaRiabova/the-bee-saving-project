@@ -10,8 +10,8 @@ export const SolutionsSection = () => {
         className='text-center'
       >
         <Container>
-          <h2 className='mb-5 md:mb-10'>Solutions</h2>
-          <div className='space-y-4 mb-4'>
+          <h2 className='mb-5 md:mb-10 dark:text-secondary-dark'>Solutions</h2>
+          <div className='space-y-4 mb-4 dark:text-secondary-dark'>
             <p>
               Bee populations are declining rapidly, but we can help save them
               with simple actions.
@@ -30,7 +30,7 @@ export const SolutionsSection = () => {
           <AnchorLink
             href='#'
             text='Login to send request'
-            className='text-brand-primary-bg-light uppercase underline decoration-underline-color-light '
+            className='text-brand-primary-bg-light uppercase underline decoration-underline-color-light dark:text-brand-primary'
           />
           {/* <AnchorLink
             href='#'

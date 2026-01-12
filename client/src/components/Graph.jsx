@@ -1,123 +1,104 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { getColor } from '../utils/getColor';
 import graphData from './graphData';
-
 import {
   Chart as ChartJS,
   LineElement,
-  CategoryScale, //x-axis
-  LinearScale, // y-axis
+  CategoryScale,
+  LinearScale,
   PointElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { Chart } from 'chart.js';
 import ModalResourceLink from './UI/about/ModalResourceLink';
 import useDarkModeStore from '../stores/useDarkModeStore';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function Graph() {
   const chartRef = useRef(null);
-  const [showModal, setShowModal] = useState(null);
-  //Get Dark Mode state to update graph titles in dark mode
-  const { isDarkMode } = useDarkModeStore();
+  const [showModal, setShowModal] = useState(false);
 
-  //Colors for graph
+  const isDarkMode = useDarkModeStore((state) => state.isDarkMode);
+
   const graphColors = {
-    title: getColor('--primary-dark'),
-    ticks: getColor('--secondary-dark'),
-    grid: getColor('--secondary-dark', '33'),
-    labelsBorder: [
-      getColor('--brand-secondary'),
-      getColor('--secondary-dark'),
-      getColor('--brand-primary'),
-    ],
-    labelsBackground: [
-      getColor('--brand-secondary', '53'),
-      getColor('--secondary-dark', '53'),
-      getColor('--brand-primary', '53'),
-    ],
+    title: getColor(isDarkMode ? '--secondary-dark' : '--primary-dark'),
+    ticks: getColor(isDarkMode ? '--secondary-light' : '--secondary-dark'),
+    grid: getColor(isDarkMode ? '--secondary-light' : '--secondary-dark', '33'),
+    labelsBorder: isDarkMode
+      ? [
+        getColor('--secondary-light'),
+        getColor('--brand-primary', '80'),
+        getColor('--brand-secondary', '80'),
+      ]
+      : [
+        getColor('--brand-secondary'),
+        getColor('--secondary-dark'),
+        getColor('--brand-primary'),
+      ],
+    labelsBackground: isDarkMode
+      ? [
+        getColor('--secondary-light', '70'),
+        getColor('--brand-primary', '70'),
+        getColor('--brand-secondary', '70'),
+      ]
+      : [
+        getColor('--brand-secondary', '53'),
+        getColor('--secondary-dark', '53'),
+        getColor('--brand-primary', '53'),
+      ],
   };
 
   const hiveData = {
-    labels: graphData.map((row) => row.date),
     datasets: [
       {
-        data: graphData.map((row) => row.hives),
+        label: 'Millions of hives',
+        data: graphData.map((row) => ({ x: Number(row.date), y: row.hives })),
         backgroundColor: graphColors.labelsBackground,
         borderColor: graphColors.labelsBorder,
-        borderWidth: 1,
+        borderWidth: 2,
         tension: 0.4,
-        yAxisID: 'hives',
-        xAxisID: 'date',
+        pointRadius: 5,
+        pointHoverRadius: 7,
       },
     ],
   };
 
   const graphOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
-        display: false,
-      },
-      date: {
-        ticks: {
-          stepSize: 1,
-          color: graphColors.ticks,
-          font: {
-            size: 14,
-            family: 'blinker',
-          },
-        },
         type: 'linear',
-        reverse: false,
-        grid: {
-          color: graphColors.grid,
+        title: {
+          display: true,
+          text: 'Years',
+          color: graphColors.title,
+          font: { size: 16, weight: 700, family: 'blinker' },
         },
-        // title: {
-        //   display: true,
-        //   text: 'Years',
-        //   color: titleColor,
-        //   font: {
-        //     size: 18,
-        //     weight: 700,
-        //     family: 'blinker',
-        //   },
-        // },
-      },
-      hives: {
         ticks: {
           color: graphColors.ticks,
-          font: {
-            size: 14,
-            family: 'blinker',
-          },
+          font: { size: 14, family: 'blinker' },
+          stepSize: 1,
         },
+        grid: { color: graphColors.grid },
+      },
+      y: {
         type: 'linear',
         title: {
           display: true,
           text: 'Millions of hives',
           color: graphColors.title,
-          font: {
-            size: 18,
-            weight: 700,
-            family: 'blinker',
-          },
+          font: { size: 16, weight: 700, family: 'blinker' },
         },
+        ticks: {
+          color: graphColors.ticks,
+          font: { size: 14, family: 'blinker' },
+        },
+        grid: { color: graphColors.grid },
         beginAtZero: false,
-        grid: {
-          color: graphColors.grid,
-        },
       },
     },
     plugins: {
@@ -133,29 +114,19 @@ export default function Graph() {
         display: true,
         text: 'Millions of hives in the U.S.',
         color: graphColors.title,
-        padding: {
-          top: 10,
-          bottom: 10,
-        },
-        font: {
-          size: 24,
-          family: 'blinkerbold',
-          // style: "italic",
-        },
+        padding: { top: 10, bottom: 10 },
+        font: { size: 24, family: 'blinkerbold' },
       },
-      datalabels: {
-        anchor: 'right',
-        align: 'end',
-      },
-      legend: {
-        display: false,
-        // title: "hives",
-        // position: "right",
-      },
+      legend: { display: false },
     },
-    responsive: true,
-    maintainAspectRatio: false,
+    onClick: () => setShowModal(true),
   };
+
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.update();
+    }
+  }, [isDarkMode]);
 
   return (
     <div className='w-full max-w-screen-lg mx-auto py-4 h-96'>
@@ -163,7 +134,6 @@ export default function Graph() {
         ref={chartRef}
         data={hiveData}
         options={graphOptions}
-        onClick={() => setShowModal(true)}
         className='hover:cursor-pointer'
       />
       {showModal && (

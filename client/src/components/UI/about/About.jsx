@@ -11,7 +11,7 @@ function About() {
     <section id='about'>
       <Container>
         <div className='flex items-end justify-center sm:justify-between px-10 mb-2'>
-          <h2>
+          <h2 className='dark:text-secondary-dark'>
             Lets
             <span className='text-brand-secondary-text-light block pl-7'>Connect</span>
           </h2>

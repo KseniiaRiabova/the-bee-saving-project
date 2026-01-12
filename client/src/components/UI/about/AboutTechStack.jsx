@@ -12,7 +12,7 @@ function AboutTechStack({ techstack }) {
   };
 
   return (
-    <div className='p-4 md:p-8 md:w-1/3 border border-border-color flex flex-col items-center gap-6 rounded-3xl'>
+    <div className='p-4 md:p-8 md:w-1/3 border border-border-color flex flex-col items-center gap-6 rounded-3xl dark:text-secondary-dark'>
       <h3>Tech Stack</h3>
 
       <div className='grid grid-cols-2 gap-x-8 gap-y-9 md:w-full'>
@@ -30,8 +30,8 @@ function AboutTechStack({ techstack }) {
               <TechIcon
                 id={tech.image}
                 className={`w-full duration-300 hover:scale-105 ${tech.name === 'tailwindcss'
-                    ? 'max-w-60 max-h-16'
-                    : 'max-w-20 xl:max-w-28 max-h-20 xl:max-h-24'
+                  ? 'max-w-60 max-h-16'
+                  : 'max-w-20 xl:max-w-28 max-h-20 xl:max-h-24'
                   }`}
               />
             </a>
