@@ -1,4 +1,5 @@
 import sprite from '../../../assets/images/about/tech-logo.svg?raw';
+import PropTypes from 'prop-types';
 
 export function TechIcon({ id, className }) {
   return (
@@ -10,5 +11,10 @@ export function TechIcon({ id, className }) {
     </>
   );
 }
+
+TechIcon.propTypes = {
+  id: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
 
 export default TechIcon;

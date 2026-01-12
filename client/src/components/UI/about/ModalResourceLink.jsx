@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Modal from '../modal/Modal';
 
 const ModalResourceLink = ({ url, handleClick }) => {
@@ -55,6 +56,11 @@ const ModalResourceLink = ({ url, handleClick }) => {
       </div>
     </Modal>
   );
+};
+
+ModalResourceLink.propTypes = {
+  url: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default ModalResourceLink;
