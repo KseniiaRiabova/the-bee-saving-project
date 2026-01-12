@@ -248,9 +248,8 @@ function AcceptRequestModal({ request, onClose }) {
               <span>
                 {isDescriptionExpanded
                   ? acceptedRequest?.description
-                  : `${acceptedRequest?.description?.slice(0, 200)}${
-                      acceptedRequest?.description?.length > 200 ? '...' : ''
-                    }`}
+                  : `${acceptedRequest?.description?.slice(0, 200)}${acceptedRequest?.description?.length > 200 ? '...' : ''
+                  }`}
               </span>
               {acceptedRequest?.description?.length > 200 && (
                 <button
@@ -357,7 +356,7 @@ function AcceptRequestModal({ request, onClose }) {
           <>
             <div className='text-brand-secondary font-bold'>
               Completed
-              <i class='fa-solid fa-square-check text-lg ml-1'></i>
+              <i className='fa-solid fa-square-check text-lg ml-1'></i>
             </div>
             <button
               type='button'

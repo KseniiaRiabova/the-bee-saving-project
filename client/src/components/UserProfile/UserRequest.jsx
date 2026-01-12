@@ -8,6 +8,13 @@ import PropTypes from 'prop-types';
 export const UserRequest = ({ showModal, setShowModal }) => {
   const { requests } = useRequestStore();
 
+  const sortedRequests = [...requests].sort((a, b) => {
+    if (a.createdAt && b.createdAt) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }
+    return 0;
+  });
+
   return (
     <div className='border border-border-color rounded-lg p-6 md:p-8'>
       <div className='flex flex-col md:flex-row justify-between items-center gap-4 w-full pt-4 pb-8'>
@@ -25,7 +32,7 @@ export const UserRequest = ({ showModal, setShowModal }) => {
       </div>
 
       <RequestComponent
-        requests={requests}
+        requests={sortedRequests}
         fixedHeader
         fixedHeaderScrollHeight='300px'
       />
