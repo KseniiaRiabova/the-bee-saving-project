@@ -129,6 +129,17 @@
     @apply text-secondary-dark;
   }
 
+  /* Dark theme inputs */
+  .dark input,
+  .dark textarea {
+    @apply bg-primary-dark text-secondary-light border border-outline-color;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    @apply text-primary-dark;
+  }
+
   /* =========================
      Leaflet Touch Target Fixes
      Ensures all buttons, markers, popups, and inputs are ≥44px
