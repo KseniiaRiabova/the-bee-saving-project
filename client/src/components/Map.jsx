@@ -1,74 +1,126 @@
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Icon } from 'leaflet';
-import greenBeeIconUrl from '../assets/icons/green-bee.png';
-import redBeeIconUrl from '../assets/icons/red-bee.png';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { Icon, latLngBounds } from 'leaflet';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import greenBeeIconUrl from '../assets/icons/green-bee.png';
+import redBeeIconUrl from '../assets/icons/red-bee.png';
+
+/* =======================
+   Marker Icons
+======================= */
 const greenBeeIcon = new Icon({
   iconUrl: greenBeeIconUrl,
   iconSize: [35, 35],
+  iconAnchor: [17, 35],
 });
 
 const redBeeIcon = new Icon({
   iconUrl: redBeeIconUrl,
   iconSize: [35, 35],
+  iconAnchor: [17, 35],
 });
 
+/* =======================
+   Fit map to markers
+======================= */
+const FitBounds = ({ requests }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    const positions = requests
+      .filter(r => r?.location?.coordinates?.length === 2)
+      .map(r => [
+        r.location.coordinates[1], // latitude
+        r.location.coordinates[0], // longitude
+      ]);
+
+    if (!positions.length) return;
+
+    // Single marker → center & zoom
+    if (positions.length === 1) {
+      map.setView(positions[0], 10, { animate: true });
+      map.panBy([0, 80], { animate: true });
+    }
+    // Multiple markers → fit bounds
+    else {
+      const bounds = latLngBounds(positions);
+      map.fitBounds(bounds, {
+        paddingTopLeft: [40, 520],
+        paddingBottomRight: [40, 40],
+        maxZoom: 12,
+        animate: true,
+      });
+    }
+
+    // Fix resize issues
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+  }, [requests, map]);
+
+  return null;
+};
+
+/* =======================
+   Map Component
+======================= */
 export const Map = ({ requests }) => {
-  if (!Array.isArray(requests)) {
-    return null;
-  }
+  if (!Array.isArray(requests)) return null;
 
   return (
-    <div className='flex justify-center pb-5 md:pb-10'>
+    <div className='pb-5 md:pb-10'>
       <MapContainer
-        className='leaflet-container w-[150rem] h-[32rem] z-0'
+        className='
+          leaflet-container
+          w-full
+          h-[18rem] sm:h-[24rem] md:h-[32rem] lg:h-[36rem]
+          rounded-lg
+          z-0
+        '
         center={[0, 0]}
         zoom={2}
         minZoom={2}
-        // scrollWheelZoom={true}
-        //maxZoom={8}
         maxBounds={[
           [-85, -180],
           [85, 180],
         ]}
-        maxBoundsViscosity={1.0} // Fix position on border
+        maxBoundsViscosity={1.0}
       >
-        {/* <TileLayer
-        // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      /> */}
+        {/* Auto-center map */}
+        <FitBounds requests={requests} />
 
-        {/* light theme */}
+        {/* Light theme */}
         <TileLayer
           className='block dark:hidden'
           url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          attribution='&copy; OSM &copy; CARTO'
         />
 
-        {/* dark theme */}
+        {/* Dark theme */}
         <TileLayer
           className='hidden dark:block'
           url='https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png'
           attribution='&copy; OSM &copy; CARTO'
         />
-        {/* white labels for dark theme*/}
+
+        {/* Labels for dark theme */}
         <TileLayer
           className='hidden dark:block'
           url='https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png'
         />
 
+        {/* Markers */}
         {requests.map((marker) => {
-          if (!marker?.location?.coordinates?.length) return null;
+          const coords = marker?.location?.coordinates;
+
+          if (!coords || coords.length !== 2) return null;
 
           return (
             <Marker
               key={marker.id}
-              position={[
-                marker.location.coordinates[0],
-                marker.location.coordinates[1],
-              ]}
+              position={[coords[1], coords[0]]}
               icon={marker.isActive ? greenBeeIcon : redBeeIcon}
             >
               <Popup>
@@ -77,19 +129,17 @@ export const Map = ({ requests }) => {
                     {marker.location?.country || 'Unknown'}
                   </h3>
                   <p>
-                    <span className='font-bold'>City</span>:
+                    <span className='font-bold'>City:</span>{' '}
                     {marker.location?.city || 'Unknown'}
                   </p>
                   <p>
-                    <span className='font-bold'>Latitude</span>:
-                    {marker.location.coordinates[0]}
+                    <span className='font-bold'>Latitude:</span> {coords[0]}
                   </p>
                   <p>
-                    <span className='font-bold'>Longitude</span>:
-                    {marker.location.coordinates[1]}
+                    <span className='font-bold'>Longitude:</span> {coords[1]}
                   </p>
                   <p>
-                    <span className='font-bold'>Status</span>:
+                    <span className='font-bold'>Status:</span>{' '}
                     {marker.isActive ? 'Found' : 'Saved'}
                   </p>
                 </div>
@@ -102,6 +152,9 @@ export const Map = ({ requests }) => {
   );
 };
 
+/* =======================
+   PropTypes
+======================= */
 Map.propTypes = {
   requests: PropTypes.arrayOf(
     PropTypes.shape({
@@ -112,6 +165,16 @@ Map.propTypes = {
         city: PropTypes.string,
       }).isRequired,
       isActive: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
+};
+
+FitBounds.propTypes = {
+  requests: PropTypes.arrayOf(
+    PropTypes.shape({
+      location: PropTypes.shape({
+        coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+      }).isRequired,
     })
   ).isRequired,
 };
