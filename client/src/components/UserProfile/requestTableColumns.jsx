@@ -48,7 +48,7 @@ export default function requestColumns({
       width: '110px',
       cell: (row) => (
         <Button
-          className='btn-outline text-brand-primary-bg-light px-3 py-1'
+          className='btn-outline text-brand-primary-bg-light px-3 py-1 dark:text-brand-primary'
           // className='btn-outline text-brand-primary px-3 py-1'
           type='button'
           text='Details'
