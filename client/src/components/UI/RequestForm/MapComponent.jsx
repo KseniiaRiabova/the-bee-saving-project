@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Marker, Popup, useMapEvent, useMap } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import L from 'leaflet';
+// import L from 'leaflet';
 
 const MapComponent = ({
   markerPosition,
@@ -76,15 +77,14 @@ const MapComponent = ({
 
       const country = parts.length >= 1 ? parts[parts.length - 1] : '';
       const city = parts.length >= 2 ? parts[parts.length - 2] : '';
-
       const streetInfo = parts.length > 2 ? parts.slice(0, -2).join(', ') : '';
 
       setFormData((prevData) => ({
         ...prevData,
         latitude: lat,
         longitude: lon,
-        city: city,
-        country: country,
+        city,
+        country,
         street: streetInfo,
         fullAddress: location.label,
       }));
@@ -100,7 +100,7 @@ const MapComponent = ({
       map.removeControl(searchControl);
       map.off('geosearch/showlocation');
     };
-  }, [userLocation, map, setMarkerPosition, setFormData]);
+  }, [userLocation, map, setMarkerPosition, setFormData, FetchLocationData]);
 
   return (
     <Marker position={markerPosition}>
@@ -111,6 +111,14 @@ const MapComponent = ({
       </Popup>
     </Marker>
   );
+};
+
+// ✅ PropTypes
+MapComponent.propTypes = {
+  markerPosition: PropTypes.arrayOf(PropTypes.number).isRequired,
+  setMarkerPosition: PropTypes.func.isRequired,
+  FetchLocationData: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default MapComponent;

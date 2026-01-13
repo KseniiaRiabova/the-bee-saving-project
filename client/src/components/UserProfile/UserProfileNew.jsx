@@ -87,7 +87,7 @@ export const UserProfileNew = ({
 
   return (
     <>
-      <div className='flex flex-col items-center gap-4 md:flex-row md:justify-between mb-5 md:mb-10'>
+      <div className='flex flex-col items-center gap-4 md:flex-row md:justify-between mb-5 md:mb-10 dark:text-secondary-dark'>
         <h2>Dashboard</h2>
 
         <div className='flex items-center justify-end gap-3 md:gap-6'>
@@ -155,11 +155,10 @@ export const UserProfileNew = ({
                     />
                     {!(userLoading || profileLoading) && (
                       <Button
-                        className={`btn-outline px-6 ${
-                          !userContactNumber
+                        className={`btn-outline px-6 ${!userContactNumber
                             ? 'opacity-50 cursor-not-allowed'
                             : ''
-                        }`}
+                          }`}
                         type='button'
                         text='Delete Contact Number'
                         onClickHandler={handleDeleteContactNumber}

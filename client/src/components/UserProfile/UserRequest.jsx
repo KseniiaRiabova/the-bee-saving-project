@@ -16,13 +16,13 @@ export const UserRequest = ({ showModal, setShowModal }) => {
   });
 
   return (
-    <div className='border border-border-color rounded-lg p-6 md:p-8'>
+    <div className='border border-border-color rounded-lg p-6 md:p-8 dark:text-secondary-dark'>
       <div className='flex flex-col md:flex-row justify-between items-center gap-4 w-full pt-4 pb-8'>
         <h3>Requests</h3>
         <Input
           type='text'
-          placeholder='Search'
-          className='w-64'
+          placeholder='Search...'
+          className='w-64 text-primary-dark dark:bg-secondary-dark dark:placeholder-primary-dark'
         />
         <Button
           type='button'
