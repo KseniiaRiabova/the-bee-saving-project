@@ -122,7 +122,6 @@ Password:
 - Shimin Chan: [![github][GitHub]](https://github.com/Natkuma01) / [![LinkedIn][LinkedIn]](https://www.linkedin.com/in/natalie-chan-shimin/) 
 
 
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [MongoDB]: https://img.shields.io/badge/MongoDB-%234ea94b.svg?logo=mongodb&logoColor=white
 [mongo-url]: https://www.mongodb.com/
