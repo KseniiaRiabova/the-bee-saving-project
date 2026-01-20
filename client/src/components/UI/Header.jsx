@@ -8,7 +8,7 @@ import navBeeLogo from '../../assets/imgs/nav_bee_logo.png';
 export const Header = ({ action, onClickHandler }) => {
   // const { isAuthenticated } = useAuthStore();
   return (
-    <header className='bg-brand-secondary'>
+    <header className='bg-brand-secondary block relative mb-[-1px]'>
       <Container py='header'>
         <div className='flex items-center justify-between gap-6'>
           {/* <Link to={isAuthenticated ? '/dashboard' : '/home'}> */}
@@ -20,10 +20,7 @@ export const Header = ({ action, onClickHandler }) => {
             />
           </Link>
 
-          <Nav
-            action={action}
-            onClickHandler={onClickHandler}
-          />
+          <Nav action={action} onClickHandler={onClickHandler} />
         </div>
       </Container>
     </header>
