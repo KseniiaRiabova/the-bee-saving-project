@@ -34,7 +34,7 @@ export const UserRequest = ({ showModal: showModalProp, setShowModal: setShowMod
   });
 
   return (
-    <div className='border border-border-color rounded-lg p-6 md:p-8 dark:text-secondary-dark'>
+    <div className='border border-border-color rounded-lg p-6 md:p-8'>
       <div className='flex flex-col md:flex-row justify-between items-center gap-4 w-full pt-4 pb-8'>
         <h3>Requests</h3>
         <Input
@@ -43,8 +43,7 @@ export const UserRequest = ({ showModal: showModalProp, setShowModal: setShowMod
           label="Search Requests"
           placeholder="Search..."
           hideLabel
-          className="w-64 text-primary-dark"
-        // className='w-64 text-primary-dark dark:bg-secondary-dark dark:placeholder-primary-dark'
+          className='w-64 text-primary-dark dark:bg-secondary-dark dark:placeholder-primary-dark'
         />
         <Button
           type='button'

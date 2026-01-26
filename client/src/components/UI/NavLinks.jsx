@@ -46,15 +46,9 @@ export const NavLinks = ({ isNavMenuOpen, onLinkClick }) => {
   // Tailwind helper for styling (orange + underline for hover/focus/active)
   const getLinkClass = (linkName) =>
     `p-2.5 rounded-lg hover:text-primary-dark hover:bg-neutral-300 ${activeLink === linkName
-      ? 'text-brand-primary-light underline decoration-underline-color-light underline-offset-4'
+      ? 'text-brand-primary underline underline-offset-4'
       : ''
     } `;
-  // const getLinkClass = (linkName) =>
-  //   `p-2.5 rounded-lg hover:text-primary-dark hover:bg-neutral-300 ${
-  //     activeLink === linkName
-  //       ? 'text-brand-primary underline underline-offset-4'
-  //       : ''
-  //   } `;
 
   // Determine the base path dynamically (home or dashboard)
   // const currentBasePath = location.pathname.startsWith('/dashboard')

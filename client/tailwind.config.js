@@ -20,16 +20,12 @@ export default {
         borderColor: '#D9D9D9',
 
         primary: 'var(--primary)', //white
-        'primary-text-light': 'var(--primary-text-light)',
         'primary-dark': 'var(--primary-dark)', //black #0D0D0D   #1E1E1E
         'secondary-light': 'var(--secondary-light)', //light gray #e5e7eb
         'secondary-dark': 'var(--secondary-dark)', //dark gray
         'brand-primary': 'var(--brand-primary)', //orange
-        'brand-primary-bg-light': 'var(--brand-primary-bg-light)',
-        'brand-primary-light': 'var(--brand-primary-light)',
         'brand-secondary': 'var(--brand-secondary)', //green
         'brand-secondary-light': 'var(--brand-secondary-light)', // light green
-        'brand-secondary-text-light': 'var(--brand-secondary-text-light)',
         'brand-secondary-light-95': 'var(--brand-secondary-light-95)', // light green
         // 'brand-secondary-light':
         //   'rgb(from var(--brand-secondary-light) r g b / <alpha-value>)',
@@ -37,7 +33,6 @@ export default {
         'outline-color': 'var(--outline-color)', //light gray
         'backdrop-color': 'var(--backdrop-color)', //black with opacity
         'error-color': 'var(--error-color)', //red
-        'underline-color-light': 'var(--underline-color-light)',
       },
 
       keyframes: {

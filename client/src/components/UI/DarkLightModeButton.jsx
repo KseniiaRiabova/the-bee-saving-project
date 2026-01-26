@@ -5,7 +5,7 @@ export const DarkLightModeButton = () => {
 
   return (
     <label
-      className='relative block w-12 h-6 cursor-pointer'
+      className='relative block w-12 h-6'
     >
       <input
         type='checkbox'

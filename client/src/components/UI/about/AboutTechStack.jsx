@@ -12,7 +12,7 @@ function AboutTechStack({ techstack }) {
   };
 
   return (
-    <div className='p-4 md:p-8 md:w-1/3 border border-border-color flex flex-col items-center gap-6 rounded-3xl dark:text-secondary-dark'>
+    <div className='p-4 md:p-8 md:w-1/3 border border-border-color flex flex-col items-center gap-6 rounded-3xl'>
       <h3>Tech Stack</h3>
 
       <div className='grid grid-cols-2 gap-x-8 gap-y-9 md:w-full'>

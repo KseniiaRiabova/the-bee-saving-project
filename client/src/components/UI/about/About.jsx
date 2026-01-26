@@ -11,21 +11,13 @@ function About() {
     <section id='about'>
       <Container>
         <div className='flex items-end justify-center sm:justify-between px-10 mb-2'>
-          <h2 className='dark:text-secondary-dark'>
-            Lets
-            <span className='text-brand-secondary-text-light block pl-7'>Connect</span>
-          </h2>
-
-          <h2 className='hidden sm:block text-brand-secondary-text-light'>Save Bees</h2>
-        </div>
-        {/* <div className='flex items-end justify-center sm:justify-between px-10 mb-2'>
           <h2>
             Lets
             <span className='text-brand-secondary block pl-7'>Connect</span>
           </h2>
 
           <h2 className='hidden sm:block text-brand-secondary'>Save Bees</h2>
-        </div> */}
+        </div>
 
         <div className='flex flex-col md:flex-row justify-between gap-4 lg:gap-8'>
           <AboutUserProfiles profiles={profiles} />

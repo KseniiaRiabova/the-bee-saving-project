@@ -11,7 +11,7 @@ function AboutUserProfiles({ profiles }) {
   };
 
   return (
-    <div className='p-6 lg:p-8 md:w-1/3 space-y-4 border border-border-color rounded-3xl dark:text-secondary-light'>
+    <div className='p-6 lg:p-8 md:w-1/3 space-y-4 border border-border-color rounded-3xl'>
       {profiles.map((profile, index) => (
         <div
           key={index}

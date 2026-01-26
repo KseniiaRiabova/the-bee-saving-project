@@ -8,8 +8,8 @@ export const ButtonClose = ({ onClose }) => {
       aria-label="Close"
     >
       <div className='relative w-2 h-2 flex justify-center items-center'>
-        <div className='absolute h-1 w-4 bg-primary-dark rounded-lg rotate-45 group-hover:bg-secondary-dark group-focus:bg-secondary-dark dark:group-hover:bg-primary-dark dark:group-focus:bg-primary-dark'></div>
-        <div className='absolute h-1 w-4 bg-primary-dark rounded-lg -rotate-45 group-hover:bg-secondary-dark  group-focus:bg-secondary-dark dark:group-hover:bg-primary-dark dark:group-focus:bg-primary-dark'></div>
+        <div className='absolute h-1 w-4 bg-primary-dark rounded-lg -rotate-45 group-hover:bg-primary'></div>
+        <div className='absolute h-1 w-4 bg-primary-dark rounded-lg -rotate-45 group-hover:bg-primary'></div>
       </div>
     </button>
   );
