@@ -25,44 +25,29 @@
     text-rendering: optimizeLegibility;
 
     --primary: #ffffff; /* white */
-    --primary-text-light: #fffefe;
     --primary-dark: #0d0d0d; /* black #1E1E1E */
     --secondary-light: #f8f8f8; /* light gray #e5e7eb */
-    /* --secondary-dark: #727272;  */
-    /* dark gray */
-    --secondary-dark: #443f3f;
+    --secondary-dark: #727272; /* dark gray */
     --brand-primary: #f4743b; /* orange */
-    /* --brand-primary-bg-light: #69280d; */
-    --brand-primary-bg-light: #af4619;
-    --brand-primary-light: #171616;
     --brand-secondary: #9bc25b; /* green */
-    --brand-secondary-text-light: #5f7838; /* green */
     --brand-secondary-light: #d8e5c3; /* light green */
     --brand-secondary-light-95: #d8e5c3f6; /* light green */
     --border-color: #adaaaa; /* gray */
     --outline-color: #d1d5db; /* light gray */
     --backdrop-color: #252323cc; /* black with opacity */
     --error-color: #f01717; /* red */
-    --underline-color-light: #ed6429;
   }
 
   .dark {
     --primary: #0d0d0d; /* black #1E1E1E */
-    /* --primary-dark: #eeecec;  */
-    /* pale white #d9d9d9 */
-    --primary-dark: #3b3b3b;
-    /* --secondary-light: #7272721c;  */
-    /*#0d0d0d; dark gray #e5e7eb */
-    --secondary-light: #dcdbdbff;
-    --secondary-dark: #ffffffcc;
+    --primary-dark: #eeecec; /* pale white #d9d9d9 */
+    --secondary-light: #7272721c; /*#0d0d0d; dark gray #e5e7eb */
     --brand-primary: #f58453; /* pale orange */
     --brand-secondary: #a6c96d; /* pale green */
     --brand-secondary-light: #3d4d22; /* dark green */
     --brand-secondary-light-95: #3d4d22f6; /* light green */
     --border-color: #adaaaa4f;
-    /* --outline-color: #252323cc;  */
-    /* light gray */
-    --outline-color: #929090cc;
+    --outline-color: #252323cc; /* light gray */
   }
 
   * {
@@ -90,21 +75,13 @@
   }
 
   button {
-    @apply px-8 py-2 text-base font-medium text-primary-text-light 
-           bg-brand-primary-bg-light border border-brand-primary rounded-lg shadow
-           hover:bg-neutral-300 hover:text-primary-dark hover:shadow-lg hover:border-neutral-300
-           focus:bg-neutral-300 focus:text-primary-dark focus:border-neutral-300
-           dark:hover:bg-secondary-dark dark:hover:border-secondary-dark
-           dark:focus:bg-secondary-dark dark:hover:text-primary-dark dark:focus:text-primary-dark;
-  }
-  /* button {
     @apply px-8 py-2 text-base font-medium text-primary 
            bg-brand-primary border border-brand-primary rounded-lg shadow
            hover:bg-neutral-300 hover:text-primary-dark hover:shadow-lg hover:border-neutral-300
            focus:bg-neutral-300 focus:text-primary-dark focus:border-neutral-300
            dark:hover:bg-secondary-dark dark:hover:border-secondary-dark
            dark:focus:bg-secondary-dark;
-  } */
+  }
 
   summary {
     @apply font-bold text-lg
@@ -124,23 +101,7 @@
    dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'; */
   }
 
-  input::placeholder,
-  textarea::placeholder {
-    @apply text-secondary-dark;
-  }
-
-  /* Dark theme inputs */
-  .dark input,
-  .dark textarea {
-    @apply bg-primary-dark text-secondary-light border border-outline-color;
-  }
-
-  .dark input::placeholder,
-  .dark textarea::placeholder {
-    @apply text-primary-dark;
-  }
-
-  /* =========================
+   /* =========================
      Leaflet Touch Target Fixes
      Ensures all buttons, markers, popups, and inputs are ≥44px
   ========================= */
