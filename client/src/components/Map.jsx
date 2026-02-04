@@ -142,14 +142,12 @@ export const Map = ({ requests }) => {
           attribution='&copy; OSM &copy; CARTO'
         />
 
-        {/* Light theme */}
         <TileLayer
           className='hidden dark:block'
           url='https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png'
           attribution='&copy; OSM &copy; CARTO'
         />
 
-        {/* Dark theme */}
         <TileLayer
           className='hidden dark:block'
           url='https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png'

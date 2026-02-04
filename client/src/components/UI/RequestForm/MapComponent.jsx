@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Marker, Popup, useMapEvent, useMap } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-// import L from 'leaflet';
 
 const MapComponent = ({
   markerPosition,

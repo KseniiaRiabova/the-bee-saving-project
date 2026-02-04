@@ -43,7 +43,7 @@ export const UserRequest = ({ showModal: showModalProp, setShowModal: setShowMod
           label="Search Requests"
           placeholder="Search..."
           hideLabel
-          className='w-64 text-primary-dark dark:bg-secondary-dark dark:placeholder-primary-dark'
+          className='w-64 text-primary-dark'
         />
         <Button
           type='button'
