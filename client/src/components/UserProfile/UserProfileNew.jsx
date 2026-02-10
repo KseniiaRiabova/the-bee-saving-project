@@ -155,11 +155,10 @@ export const UserProfileNew = ({
                     />
                     {!(userLoading || profileLoading) && (
                       <Button
-                        className={`btn-outline px-6 ${
-                          !userContactNumber
-                            ? 'opacity-50 cursor-not-allowed'
-                            : ''
-                        }`}
+                        className={`btn-outline px-6 ${!userContactNumber
+                          ? 'opacity-50 cursor-not-allowed'
+                          : ''
+                          }`}
                         type='button'
                         text='Delete Contact Number'
                         onClickHandler={handleDeleteContactNumber}

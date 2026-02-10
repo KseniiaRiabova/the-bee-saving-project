@@ -20,8 +20,7 @@ export default function requestColumns({
       selector: (row) =>
         row.isActive
           ? 'Active'
-          : (!row.isCompleted && row.isAccepted ? 'Pending' : 'Completed') ||
-            'Inactive',
+          : (!row.isCompleted && row.isAccepted ? 'Pending' : 'Completed') || 'Inactive',
       sortable: true,
     },
     {

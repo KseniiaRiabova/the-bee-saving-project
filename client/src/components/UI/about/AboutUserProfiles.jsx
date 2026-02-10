@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import ModalResourceLink from './ModalResourceLink';
 
 function AboutUserProfiles({ profiles }) {
@@ -24,12 +25,14 @@ function AboutUserProfiles({ profiles }) {
             <a
               href='#'
               onClick={(e) => handleClick(e, profile.linkedin)}
+              aria-label={`Open ${profile.name}'s LinkedIn profile`}
             >
               <i className='fab fa-linkedin hover:text-footerLinkedinHoverColor' />
             </a>
             <a
               href='#'
               onClick={(e) => handleClick(e, profile.github)}
+              aria-label={`Open ${profile.name}'s GitHub profile`}
             >
               <i className='fab fa-github hover:text-primary-dark' />
             </a>
@@ -45,5 +48,16 @@ function AboutUserProfiles({ profiles }) {
     </div>
   );
 }
+
+AboutUserProfiles.propTypes = {
+  profiles: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      linkedin: PropTypes.string.isRequired,
+      github: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 
 export default AboutUserProfiles;

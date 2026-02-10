@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-export const Input = ({ id, type, label, placeholder, ...attrs }) => {
+export const Input = ({
+  id,
+  type,
+  label,
+  placeholder,
+  hideLabel = false,
+  ...attrs
+}) => {
   const [value, setValue] = useState('');
 
   const handleChange = (event) => {
@@ -10,10 +17,18 @@ export const Input = ({ id, type, label, placeholder, ...attrs }) => {
 
   return (
     <div>
-      <label htmlFor={id}>{label} </label>
+      {label && (
+        <label
+          htmlFor={id}
+          className={hideLabel ? 'sr-only' : undefined}
+        >
+          {label}
+        </label>
+      )}
+
       <input
-        type={type}
         id={id}
+        type={type}
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
@@ -24,8 +39,9 @@ export const Input = ({ id, type, label, placeholder, ...attrs }) => {
 };
 
 Input.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   type: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  hideLabel: PropTypes.bool,
 };

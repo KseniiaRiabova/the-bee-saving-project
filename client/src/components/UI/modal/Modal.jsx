@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 function Modal({ children }) {
   useEffect(() => {
@@ -6,7 +7,7 @@ function Modal({ children }) {
     document.body.style.overflow = 'hidden';
 
     return () => {
-      // Get scroll after closing
+      // Restore scroll after closing
       document.body.style.overflow = '';
     };
   }, []);
@@ -27,5 +28,9 @@ function Modal({ children }) {
     </div>
   );
 }
+
+Modal.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default Modal;

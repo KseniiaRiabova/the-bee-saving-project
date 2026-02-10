@@ -3,7 +3,6 @@ import saveTextLogo from '../../assets/imgs/save_text_logo.png';
 import beesTextLogo from '../../assets/imgs/bees_text_logo.png';
 import { Container } from './Container';
 import { MainHeroLandingSurvey } from './MainHeroLandingSurvey';
-import { SignUpNotification } from '../notifications/SignUpNotification';
 
 function MainLandingHero() {
   return (

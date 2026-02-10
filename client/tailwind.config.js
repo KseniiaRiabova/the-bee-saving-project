@@ -53,5 +53,6 @@ export default {
     },
   },
   darkMode: 'class',
+  // eslint-disable-next-line no-undef
   plugins: [require('tailwind-scrollbar')],
 };

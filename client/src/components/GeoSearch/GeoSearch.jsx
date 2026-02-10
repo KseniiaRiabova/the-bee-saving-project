@@ -1,5 +1,6 @@
 // components/GeoSearch.js
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useMap } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet-geosearch/dist/geosearch.css';
@@ -40,6 +41,10 @@ const GeoSearch = ({ setFormData }) => {
   }, [map, setFormData]);
 
   return null;
+};
+
+GeoSearch.propTypes = {
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default GeoSearch;

@@ -4,13 +4,19 @@ export const DarkLightModeButton = () => {
   const { isDarkMode, toggleDarkMode } = useDarkModeStore();
 
   return (
-    <label className='relative block w-12 h-6'>
+    <label
+      className='relative block w-12 h-6'
+    >
       <input
         type='checkbox'
-        className='sr-only peer'
+        role='switch'
+        aria-label='Toggle dark mode'
+        aria-checked={isDarkMode}
         checked={isDarkMode}
         onChange={toggleDarkMode}
+        className='sr-only peer'
       />
+
       {/* Toggle track */}
       <span className='absolute inset-0 bg-transparent border border-primary-dark rounded-full cursor-pointer'></span>
 

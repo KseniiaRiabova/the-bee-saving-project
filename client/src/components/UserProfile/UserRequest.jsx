@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Button } from '../UI/Button';
 import { RequestFormModal } from '../UI/RequestForm/RequestFormModal';
 import { Input } from '../UI/Input';
@@ -5,8 +6,25 @@ import { RequestComponent } from './RequestTable';
 import useRequestStore from '../../stores/useRequestStore';
 import PropTypes from 'prop-types';
 
-export const UserRequest = ({ showModal, setShowModal }) => {
+export const UserRequest = ({ showModal: showModalProp, setShowModal: setShowModalProp }) => {
   const { requests } = useRequestStore();
+
+  // Modal state: open by default unless user intentionally closed it
+  const [showModal, setShowModal] = useState(() => {
+    const closed = localStorage.getItem('userRequestModalClosed');
+    const stored = localStorage.getItem('userRequestModalOpen');
+
+    if (closed === 'true') return false; // user intentionally closed
+    if (stored === 'true') return true;   // user had it open previously
+    if (showModalProp !== undefined) return showModalProp;
+
+    return true; // default for first-time users
+  });
+
+  // Optional: sync with parent if props are provided
+  useEffect(() => {
+    if (setShowModalProp) setShowModalProp(showModal);
+  }, [showModal, setShowModalProp]);
 
   const sortedRequests = [...requests].sort((a, b) => {
     if (a.createdAt && b.createdAt) {
@@ -20,14 +38,20 @@ export const UserRequest = ({ showModal, setShowModal }) => {
       <div className='flex flex-col md:flex-row justify-between items-center gap-4 w-full pt-4 pb-8'>
         <h3>Requests</h3>
         <Input
+          id="search"
           type='text'
-          placeholder='Search'
+          label="Search Requests"
+          placeholder="Search..."
+          hideLabel
           className='w-64'
         />
         <Button
           type='button'
           text='Create New Request'
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setShowModal(true);
+            localStorage.setItem('userRequestModalClosed', 'false'); // reset intentional close
+          }}
         />
       </div>
 
