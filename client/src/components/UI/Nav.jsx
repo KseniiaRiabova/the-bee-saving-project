@@ -81,7 +81,7 @@ export const Nav = ({ action, onClickHandler }) => {
           >
             <button
               onClick={toggleUserInfo}
-              className='p-0 rounded-full border border-neutral-400 focus:outline-none'
+              className='p-0 rounded-full border border-secondary'
               title='Toggle user info'
             >
               <img
@@ -92,11 +92,11 @@ export const Nav = ({ action, onClickHandler }) => {
             </button>
 
             {showUserInfo && (
-              <div className='absolute top-8 right-[-146px] mt-2 min-w-[340px] w-[280px] p-4 bg-primary dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 rounded-lg shadow-lg z-50 md:right-0'>
-                <div className='font-medium break-words mb-1'>{user.name}</div>
-                <div className='text-sm text-neutral-600 dark:text-neutral-300 break-all mb-3'>
+              <div className='absolute top-10 -right-[146px] min-w-[340px] w-[280px] p-4 bg-primary border border-border-color rounded-lg shadow-lg z-50 md:right-0'>
+                <p className='font-medium break-words mb-1'>{user.name}</p>
+                <p className='text-sm text-secondary-dark break-all mb-3'>
                   {user.email.split('@')[0]}
-                </div>
+                </p>
                 <Button
                   type='button'
                   text='Log Out'

@@ -27,7 +27,7 @@ function AboutUserProfiles({ profiles }) {
               onClick={(e) => handleClick(e, profile.linkedin)}
               aria-label={`Open ${profile.name}'s LinkedIn profile`}
             >
-              <i className='fab fa-linkedin hover:text-footerLinkedinHoverColor' />
+              <i className='fab fa-linkedin hover:text-brand-third' />
             </a>
             <a
               href='#'
@@ -56,7 +56,7 @@ AboutUserProfiles.propTypes = {
       role: PropTypes.string.isRequired,
       linkedin: PropTypes.string.isRequired,
       github: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
 };
 

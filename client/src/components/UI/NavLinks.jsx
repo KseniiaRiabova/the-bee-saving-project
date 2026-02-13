@@ -45,9 +45,10 @@ export const NavLinks = ({ isNavMenuOpen, onLinkClick }) => {
 
   // Tailwind helper for styling (orange + underline for hover/focus/active)
   const getLinkClass = (linkName) =>
-    `p-2.5 rounded-lg hover:text-primary-dark hover:bg-neutral-300 ${activeLink === linkName
-      ? 'text-brand-primary underline underline-offset-4'
-      : ''
+    `p-2.5 hover:rounded-lg hover:bg-brand-secondary-light-95 hover:drop-shadow-none ${
+      activeLink === linkName
+        ? 'text-primary-dark drop-shadow-white underline underline-offset-4'
+        : ''
     } `;
 
   // Determine the base path dynamically (home or dashboard)
@@ -73,8 +74,9 @@ export const NavLinks = ({ isNavMenuOpen, onLinkClick }) => {
 
   return (
     <ul
-      className={`flex items-center gap-5 lg:gap-8 text-lg capitalize${isNavMenuOpen ? ' flex-col' : ''
-        }`}
+      className={`flex items-center gap-5 lg:gap-8 text-lg capitalize${
+        isNavMenuOpen ? ' flex-col' : ''
+      }`}
     >
       {links.map(({ label, path, sectionId, auth }) => {
         if (auth && !isAuthenticated) return null;
