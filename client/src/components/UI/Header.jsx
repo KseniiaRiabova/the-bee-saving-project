@@ -8,7 +8,7 @@ import navBeeLogo from '../../assets/imgs/nav_bee_logo.png';
 export const Header = ({ action, onClickHandler }) => {
   // const { isAuthenticated } = useAuthStore();
   return (
-    <header className='bg-brand-secondary'>
+    <header className='bg-brand-secondary -mb-px'>
       <Container py='header'>
         <div className='flex items-center justify-between gap-6'>
           {/* <Link to={isAuthenticated ? '/dashboard' : '/home'}> */}

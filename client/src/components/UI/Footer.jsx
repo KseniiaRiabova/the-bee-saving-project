@@ -9,7 +9,7 @@ function Footer() {
           <a
             href='https://github.com/chingu-voyages/v50-tier3-team-28'
             target='_blank'
-            className='hover:text-brand-primary'
+            className='hover:text-brand-third'
           >
             Github Project Link - September 2024
           </a>

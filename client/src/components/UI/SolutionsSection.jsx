@@ -30,7 +30,7 @@ export const SolutionsSection = () => {
           <AnchorLink
             href='#'
             text='Login to send request'
-            className='text-brand-primary uppercase underline'
+            className='text-brand-primary text-xl font-bold uppercase underline'
           />
 
           <SolutionsContainer />

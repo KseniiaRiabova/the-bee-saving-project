@@ -9,24 +9,17 @@ export default {
     },
     extend: {
       colors: {
-        footerTextColor: '#9bc25b',
-        footerSubscribeBg: '#ff5722',
-        footerBoxColor: '#727272',
-        footerProfileNameColor: '#000000',
-        footerBackgroundColor: '#f9f9f9',
-        footerLinkedinHoverColor: '#0072B1',
-        navSignupButton: '#F4743B',
-        navSignupButtonWhite: '#ffffff',
-        borderColor: '#D9D9D9',
-
         primary: 'var(--primary)', //white
-        'primary-dark': 'var(--primary-dark)', //black #0D0D0D   #1E1E1E
+        'primary-dark': 'var(--primary-dark)', //black
+        secondary: 'var(--secondary)', //gray
         'secondary-light': 'var(--secondary-light)', //light gray #e5e7eb
         'secondary-dark': 'var(--secondary-dark)', //dark gray
         'brand-primary': 'var(--brand-primary)', //orange
         'brand-secondary': 'var(--brand-secondary)', //green
+        'brand-secondary-dark': 'var(--brand-secondary-dark)', //dark green
         'brand-secondary-light': 'var(--brand-secondary-light)', // light green
         'brand-secondary-light-95': 'var(--brand-secondary-light-95)', // light green
+        'brand-third': 'var( --brand-third)', // blue
         // 'brand-secondary-light':
         //   'rgb(from var(--brand-secondary-light) r g b / <alpha-value>)',
         'border-color': 'var(--border-color)', //gray
@@ -49,6 +42,10 @@ export default {
       animation: {
         'fade-in': 'fade-in 0.3s ease-in forwards',
         // 'fade-out': 'fade-out 0.3s ease-out forwards',
+      },
+
+      dropShadow: {
+        white: '0 0 8px rgba(255, 255, 255, 1)',
       },
     },
   },

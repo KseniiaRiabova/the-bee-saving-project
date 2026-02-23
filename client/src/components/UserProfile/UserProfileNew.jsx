@@ -55,7 +55,7 @@ export const UserProfileNew = ({
 
     if (
       confirm(
-        `Are you sure you want to delete your contact number - ${userContactNumber}?`
+        `Are you sure you want to delete your contact number - ${userContactNumber}?`,
       )
     ) {
       sendDeleteRequestOfUserContactNumber();
@@ -95,7 +95,7 @@ export const UserProfileNew = ({
             <p className='font-medium'>
               {email ? email.split('@')[0] : 'Loading...'}
             </p>
-            <p className='text-sm text-secondary-dark dark:text-neutral-300'>
+            <p className='text-sm text-secondary-dark'>
               {email || 'Loading...'}
             </p>
           </div>
@@ -155,10 +155,11 @@ export const UserProfileNew = ({
                     />
                     {!(userLoading || profileLoading) && (
                       <Button
-                        className={`btn-outline px-6 ${!userContactNumber
-                          ? 'opacity-50 cursor-not-allowed'
-                          : ''
-                          }`}
+                        className={`btn-outline px-6 ${
+                          !userContactNumber
+                            ? 'opacity-50 cursor-not-allowed'
+                            : ''
+                        }`}
                         type='button'
                         text='Delete Contact Number'
                         onClickHandler={handleDeleteContactNumber}

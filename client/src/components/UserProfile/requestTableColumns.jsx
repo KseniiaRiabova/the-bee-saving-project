@@ -20,7 +20,8 @@ export default function requestColumns({
       selector: (row) =>
         row.isActive
           ? 'Active'
-          : (!row.isCompleted && row.isAccepted ? 'Pending' : 'Completed') || 'Inactive',
+          : (!row.isCompleted && row.isAccepted ? 'Pending' : 'Completed') ||
+            'Inactive',
       sortable: true,
     },
     {
@@ -47,7 +48,7 @@ export default function requestColumns({
       width: '110px',
       cell: (row) => (
         <Button
-          className='btn-outline text-brand-primary px-3 py-1'
+          className='btn-outline text-secondary-dark border-brand-primary px-3 py-1'
           type='button'
           text='Details'
           onClick={() => handleDetailsClick(row)}

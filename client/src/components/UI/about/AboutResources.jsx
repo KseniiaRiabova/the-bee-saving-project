@@ -19,9 +19,9 @@ function AboutResources({ resourcesData }) {
           <li key={index}>
             <a
               href={resource.url}
-              className='underline underline-offset-4 text-secondary-dark hover:text-brand-primary'
+              className='underline underline-offset-4 text-secondary-dark hover:text-brand-third'
               onClick={(e) => handleClick(index, e)}
-              aria-haspopup="dialog"
+              aria-haspopup='dialog'
               aria-expanded={modalIndex === index}
             >
               {resource.name}
@@ -45,7 +45,7 @@ AboutResources.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
 };
 

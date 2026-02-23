@@ -8,7 +8,7 @@ function MainLandingHero() {
   return (
     <section className='bg-brand-secondary'>
       <Container
-        className='flex flex-col min-h-[calc(100vh-112px)] md:min-h-[calc(100vh-128px)]'
+        className='flex flex-col min-h-[calc(100vh-111px)] md:min-h-[calc(100vh-127px)]'
         py='hero'
       >
         {/* Hero image */}

@@ -5,6 +5,7 @@ export const BurgerMenu = ({ onChangeHandler, isOpen }) => {
     <>
       <button
         className='absolute right-6 p-0 space-y-1.5 bg-transparent shadow-none border-none md:hidden z-50 hover:bg-transparent hover:shadow-none focus:bg-transparent'
+        aria-label='Main menu'
         onClick={onChangeHandler}
       >
         <div
